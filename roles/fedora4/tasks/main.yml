@@ -1,0 +1,74 @@
+---
+# Setup fedora4
+
+- name: Install Java 1.8 (OpenJDK)
+  yum: name="java-1.8.0-openjdk" state=present
+
+- name: Install python postgresql module
+  yum: name="python-psycopg2" state=present
+
+- name: Create the Fedora 4 database
+  postgresql_db: name=fcrepo state=present
+  become: yes
+  become_user: postgres
+
+- name: Add Fedora 4 database user
+  postgresql_user: db=fcrepo name=fcrepo password={{ fedora4_postgresqldatabase_user_password }} priv=ALL state=present
+  become: yes
+  become_user: postgres
+
+- name: Allow fedora4 user to connect to postgresl using password auth
+  blockinfile:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    insertafter: "^# TYPE  DATABASE        USER            ADDRESS                 METHOD"
+    marker: "# {mark} Ansible Managed - Allow fedora4 user to connect using md5 auth"
+    marker_begin: "Begin"
+    marker_end: "End"
+    block: |
+      host    fcrepo          fcrepo          127.0.0.1/32            md5
+  notify: restart postgresql
+
+- name: Run handlers to restasrt postgresql if needed
+  meta: flush_handlers
+
+- name: Install tomcat servlet container
+  yum: name="tomcat" state=present
+
+- name: Install the tomcat host manager and admin applications
+  yum: name="tomcat-admin-webapps" state=present
+
+- name: Set setsebool nis_enabled on
+  command: /usr/sbin/setsebool -P nis_enabled on
+  changed_when: False
+
+- name: Overwrite the tomcat users file
+  copy:
+    src: tomcat-users.xml
+    dest: /etc/tomcat/tomcat-users.xml
+    owner: root
+    group: tomcat
+    mode: u=r,g=r,o=
+  notify: restart tomcat
+
+- name: Make fedora4 data directory
+  file: owner=tomcat group=tomcat state=directory path=/var/fedora4/data
+
+- name: Create the fedora4 tomcat conf file
+  template:
+    src: fedora4.conf
+    dest: /etc/tomcat/conf.d/
+    owner: tomcat
+    group: tomcat
+  notify: restart tomcat
+
+- name: Move the fedora4 warfile
+  copy:
+    src: fcrepo-webapp-4.7.5.war
+    dest: /usr/share/tomcat/webapps/fcrepo.war
+    owner: root
+    group: tomcat
+    mode: u=r,g=r,o=r
+
+- name: Start and enable the tomcat service
+  service: name=tomcat state=started enabled=yes
+

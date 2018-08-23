@@ -1,0 +1,4 @@
+---
+# Variables for Redhat-family distributions of Linux. 
+postgresql-server-package: postgresql-server
+postgresql-contrib-package: postgresql-contrib

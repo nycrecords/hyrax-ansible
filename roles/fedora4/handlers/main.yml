@@ -1,0 +1,8 @@
+---
+#Handlers
+
+- name: restart tomcat
+  service: name=tomcat state=restarted
+
+- name: restart postgresql
+  service: name=postgresql state=restarted

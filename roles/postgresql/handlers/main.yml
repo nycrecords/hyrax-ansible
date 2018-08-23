@@ -1,0 +1,5 @@
+---
+# Handlers
+
+- name: reload postgresql
+  service: name="psql" state=reload

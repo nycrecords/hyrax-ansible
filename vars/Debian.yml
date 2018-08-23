@@ -1,0 +1,4 @@
+---
+# Variables for Debian-family distributions of Linux.
+postgresql-server-package: postgresql
+postgresql-contrib-package: postgresql-contrib
