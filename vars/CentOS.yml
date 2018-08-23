@@ -1,4 +1,4 @@
 ---
 # Variables for CentOS.
-postgresql-server-package: postgresql-server
-postgresql-contrib-package: postgresql-contrib
+postgresql_server_package: postgresql-server
+postgresql_contrib_package: postgresql-contrib

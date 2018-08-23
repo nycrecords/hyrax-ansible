@@ -3,12 +3,12 @@
 
 - name: Install PostgreSQL server 
   package: 
-    name: "{{ postgresql-server-package }}"
+    name: "{{ postgresql_server_package }}"
     state: present
 
 - name: Install PostgreSQL contrib
   package: 
-    name: "{{ postgresql-contrib-package }}" 
+    name: "{{ postgresql_contrib_package }}" 
     state: present
 
 - name: Run initdb

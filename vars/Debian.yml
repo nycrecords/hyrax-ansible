@@ -1,4 +1,4 @@
 ---
 # Variables for Debian.
-postgresql-server-package: postgresql
-postgresql-contrib-package: postgresql-contrib
+postgresql_server_package: postgresql
+postgresql_contrib_package: postgresql-contrib
