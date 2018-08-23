@@ -1,4 +1,4 @@
 ---
-# Variables for Debian.
+# Variables for Ubuntu.
 postgresql-server-package: postgresql
 postgresql-contrib-package: postgresql-contrib
