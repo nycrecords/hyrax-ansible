@@ -3,28 +3,28 @@
 
 - name: Ensure the backups directory exists.
   file:
-    path: "{{ backups_directory }}"
+    path: "{{ hyrax_backups_directory }}"
     state: directory
     owner: root
     group: root
 
 - name: Ensure the daily backup directory exists.
   file:
-    path: "{{ backups_directory}}/daily"
+    path: "{{ hyrax_backups_directory}}/daily"
     state: directory
     owner: root
     group: root
 
 - name: Ensure the weekly backup directory exists.
   file:
-    path: "{{ backups_directory}}/weekly"
+    path: "{{ hyrax_backups_directory}}/weekly"
     state: directory
     owner: root
     group: root
 
 - name: Ensure the monthly backup directory exists.
   file:
-    path: "{{ backups_directory}}/monthly"
+    path: "{{ hyrax_backups_directory}}/monthly"
     state: directory
     owner: root
     group: root
