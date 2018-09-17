@@ -43,10 +43,9 @@ and per-distribution variable files to provide different variables for different
 ## Software versions
 
 Most software in the provided roles is installed using yum or apt from the default distribution repositories.
-The software version will depend on the distribution and release.
+The software version will depend on the distribution and release. For example, version 7 or 8 of Tomcat might be installed.
 
 However, some software is installed at a specific version:
 
 * Java 1.8 (OpenJDK)
 * Fedora Repository 4.7.5
-* Tomcat 7
