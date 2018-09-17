@@ -41,15 +41,15 @@
       host    fcrepo          fcrepo          127.0.0.1/32            md5
   notify: restart postgresql
 
-- name: Run handlers to restart postgresql if needed
+- name: Run handlers to restart PostgreSQL if needed
   meta: flush_handlers
 
-- name: Install tomcat servlet container
+- name: Install Tomcat servlet container
   package:
     name: "{{ tomcat_package }}"
     state: present
 
-- name: Install the tomcat host manager and admin applications
+- name: Install the Tomcat host manager and admin applications
   package:
     name: "{{ tomcat_admin_package }}"
     state: present
@@ -59,7 +59,7 @@
   changed_when: False
   when: ansible_os_family == "RedHat"
 
-- name: Overwrite the tomcat users file
+- name: Overwrite the Tomcat users file
   template:
     src: tomcat-users.xml
     dest: /etc/tomcat/tomcat-users.xml
@@ -68,14 +68,14 @@
     mode: u=r,g=r,o=
   notify: restart tomcat
 
-- name: Make fedora4 data directory
+- name: Make Fedora 4 data directory
   file:
     owner: tomcat
     group: tomcat
     state: directory
     path: /var/fedora4/data
 
-- name: Create the fedora4 tomcat conf file
+- name: Create the Fedora 4 tomcat conf file
   template:
     src: fedora4.conf
     dest: /etc/tomcat/conf.d/
@@ -83,7 +83,7 @@
     group: tomcat
   notify: restart tomcat
 
-- name: Move the fedora4 warfile
+- name: Move the Fedora 4 warfile
   copy:
     src: fcrepo-webapp-4.7.5.war
     dest: /usr/share/tomcat/webapps/fcrepo.war
@@ -91,7 +91,7 @@
     group: tomcat
     mode: u=r,g=r,o=r
 
-- name: Start and enable the tomcat service
+- name: Start and enable the Tomcat service
   service:
     name: tomcat
     state: started

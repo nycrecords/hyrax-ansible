@@ -1,25 +1,25 @@
 ---
-#Install PostgreSQL 
+#Install PostgreSQL
 
-- name: Install PostgreSQL server 
-  package: 
+- name: Install PostgreSQL server
+  package:
     name: "{{ postgresql_server_package }}"
     state: present
 
 - name: Install PostgreSQL contrib
-  package: 
-    name: "{{ postgresql_contrib_package }}" 
+  package:
+    name: "{{ postgresql_contrib_package }}"
     state: present
 
 - name: Run initdb
-  command: /bin/postgresql-setup initdb 
+  command: /bin/postgresql-setup initdb
   args:
     creates: /var/lib/pgsql/initdb.log
   when: ansible_os_family == "RedHat"
 
-- name: Start the postgreSQL service
-  service: 
-    name: "postgresql" 
-    enabled: true 
+- name: Start the PostgreSQL service
+  service:
+    name: "postgresql"
+    enabled: true
     state: started
 
