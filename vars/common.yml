@@ -1,3 +1,5 @@
 ---
 # Common variables for all hosts
 hyrax_backups_directory: /var/backups
+fedora4_postgresqldatabase_user_password: insecure_password
+tomcat_user_password: insecure_password

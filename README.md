@@ -38,8 +38,7 @@ vars_files:
 
 and per-distribution variable files to provide different variables for different distributions.
 
-**Secure**: Variables which should be different per-host and stored securely using Ansible Vaults or a tool like Hashicorp Vault.
-
+**Secure**: Variables which should be different per-host and stored securely using Ansible Vaults or a tool like Hashicorp Vault. The test playbook insecurely puts these variables in `vars/common.yml`.
 
 ## Software versions
 
