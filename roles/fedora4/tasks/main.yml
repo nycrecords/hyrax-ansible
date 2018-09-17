@@ -37,8 +37,6 @@
     path: /var/lib/pgsql/data/pg_hba.conf
     insertafter: "^# TYPE  DATABASE        USER            ADDRESS                 METHOD"
     marker: "# {mark} Ansible Managed - Allow fedora4 user to connect using md5 auth"
-    marker_begin: "Begin"
-    marker_end: "End"
     block: |
       host    fcrepo          fcrepo          127.0.0.1/32            md5
   notify: restart postgresql
