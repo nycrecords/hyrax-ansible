@@ -27,8 +27,11 @@ This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Va
 |`tomcat_admin_package` | The name used by the `package` module when installing the tomcat manager webapps. Per-Distro |
 |`tomcat_fedora4_conf_path` | The path for the configuration file which sets JAVA_OPTS for Fedora4. Per-Distro |
 |`tomcat_fedora4_war_path` | The path at which the fedora4 war file will be copied. Per-Distro |
+|`tomcat_group` | The primary group for the tomcat service user. Per-Distro |
 |`tomcat_package` | The name used by the `package` module when installing tomcat. Per-Distro |
+|`tomcat_service_name` | The name of the tomcat service. Per-Distro |
 |`tomcat_user_password` | The password used to build the tomcat-users.xml file. Secure |
+|`tomcat_user` | The user which runs the tomcat service. Per-Distro |
 |`tomcat_users_conf_path` | The path for tomcat-users.xml. Per-Distro |
 
 **Per-Distro**: Different value for different OSs. The test playbook uses

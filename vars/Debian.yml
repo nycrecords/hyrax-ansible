@@ -7,5 +7,8 @@ python_psycopg2_package: python-psycopg2
 tomcat_admin_package: tomcat8-admin
 tomcat_fedora4_conf_path: /usr/share/tomcat8/bin/setenv.sh
 tomcat_fedora4_war_path: /var/lib/tomcat7/webapps/fcrepo.war
+tomcat_group: tomcat8
 tomcat_package: tomcat8
+tomcat_service_name: tomcat8
+tomcat_user: tomcat8
 tomcat_users_conf_path: /etc/tomcat8/tomcat-users.xml

@@ -72,14 +72,14 @@
     src: tomcat-users.xml
     dest: "{{ tomcat_users_conf_path }}"
     owner: root
-    group: tomcat
+    group: "{{ tomcat_group }}"
     mode: u=r,g=r,o=
   notify: restart tomcat
 
 - name: Make Fedora 4 data directory
   file:
-    owner: tomcat
-    group: tomcat
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
     state: directory
     path: /var/fedora4/data
 
@@ -87,8 +87,8 @@
   template:
     src: fedora4.conf
     dest: "{{ tomcat_fedora4_conf_path }}"
-    owner: tomcat
-    group: tomcat
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
     mode: u=rx,g=,o=
   notify: restart tomcat
 
@@ -97,11 +97,11 @@
     src: fcrepo-webapp-4.7.5.war
     dest: "{{ tomcat_fedora4_war_path }}"
     owner: root
-    group: tomcat
+    group: "{{ tomcat_group }}"
     mode: u=r,g=r,o=r
 
 - name: Start and enable the Tomcat service
   service:
-    name: tomcat
+    name: "{{ tomcat_service_name }}"
     state: started
     enabled: yes
