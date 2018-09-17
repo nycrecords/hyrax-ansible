@@ -32,9 +32,17 @@
   vars:
     ansible_ssh_pipelining: true
 
+- name: Get the location of the pg_hba.conf file
+  shell: psql -t -P format=unaligned -c 'show hba_file'
+  become: yes
+  become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
+  register: hba_file
+
 - name: Allow fedora4 user to connect to postgresl using password auth
   blockinfile:
-    path: /var/lib/pgsql/data/pg_hba.conf
+    path: "{{ hba_file.stdout }}"
     insertafter: "^# TYPE  DATABASE        USER            ADDRESS                 METHOD"
     marker: "# {mark} Ansible Managed - Allow fedora4 user to connect using md5 auth"
     block: |
@@ -96,4 +104,3 @@
     name: tomcat
     state: started
     enabled: yes
-
