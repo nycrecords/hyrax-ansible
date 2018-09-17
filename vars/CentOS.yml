@@ -2,3 +2,7 @@
 # Variables for CentOS.
 postgresql_server_package: postgresql-server
 postgresql_contrib_package: postgresql-contrib
+java_openjdk_package: java-1.8.0-openjdk
+python_psycopg2_package: python-psycopg2
+tomcat_package_name: tomcat
+tomcat_admin_package: tomcat-admin-webapps

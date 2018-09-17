@@ -1,19 +1,30 @@
 ---
-# Setup fedora4
+# Setup Tomcat and Fedora4
 
 - name: Install Java 1.8 (OpenJDK)
-  yum: name="java-1.8.0-openjdk" state=present
+  package:
+    name: "{{ java_openjdk_package }}"
+    state: present
 
 - name: Install python postgresql module
-  yum: name="python-psycopg2" state=present
+  package:
+    name: "{{ python_psycopg2_package }}"
+    state: present
 
 - name: Create the Fedora 4 database
-  postgresql_db: name=fcrepo state=present
+  postgresql_db:
+    name: fcrepo
+    state: present
   become: yes
   become_user: postgres
 
 - name: Add Fedora 4 database user
-  postgresql_user: db=fcrepo name=fcrepo password={{ fedora4_postgresqldatabase_user_password }} priv=ALL state=present
+  postgresql_user:
+    db: fcrepo
+    name: fcrepo
+    password: "{{ fedora4_postgresqldatabase_user_password }}"
+    priv: ALL
+    state: present
   become: yes
   become_user: postgres
 
@@ -28,21 +39,26 @@
       host    fcrepo          fcrepo          127.0.0.1/32            md5
   notify: restart postgresql
 
-- name: Run handlers to restasrt postgresql if needed
+- name: Run handlers to restart postgresql if needed
   meta: flush_handlers
 
 - name: Install tomcat servlet container
-  yum: name="tomcat" state=present
+  package:
+    name: "{{ tomcat_package }}"
+    state: present
 
 - name: Install the tomcat host manager and admin applications
-  yum: name="tomcat-admin-webapps" state=present
+  package:
+    name: "{{ tomcat_admin_package }}"
+    state: present
 
 - name: Set setsebool nis_enabled on
   command: /usr/sbin/setsebool -P nis_enabled on
   changed_when: False
+  when: ansible_os_family == "RedHat"
 
 - name: Overwrite the tomcat users file
-  copy:
+  template:
     src: tomcat-users.xml
     dest: /etc/tomcat/tomcat-users.xml
     owner: root
@@ -51,7 +67,11 @@
   notify: restart tomcat
 
 - name: Make fedora4 data directory
-  file: owner=tomcat group=tomcat state=directory path=/var/fedora4/data
+  file:
+    owner: tomcat
+    group: tomcat
+    state: directory
+    path: /var/fedora4/data
 
 - name: Create the fedora4 tomcat conf file
   template:
@@ -70,5 +90,8 @@
     mode: u=r,g=r,o=r
 
 - name: Start and enable the tomcat service
-  service: name=tomcat state=started enabled=yes
+  service:
+    name: tomcat
+    state: started
+    enabled: yes
 

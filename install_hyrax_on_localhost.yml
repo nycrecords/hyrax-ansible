@@ -9,4 +9,5 @@
     - "vars/common.yml"
     - "vars/{{ ansible_distribution }}.yml"
   roles:
-    - postgresql 
+    - postgresql
+    - fedora4

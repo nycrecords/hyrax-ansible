@@ -2,3 +2,7 @@
 # Variables for Ubuntu.
 postgresql_server_package: postgresql
 postgresql_contrib_package: postgresql-contrib
+java_openjdk_package: openjdk-8-jdk
+python_psycopg2_package: python-psycopg2
+tomcat_package_name: tomcat7
+tomcat_admin_package: tomcat7-admin
