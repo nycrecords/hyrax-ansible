@@ -17,6 +17,8 @@
     state: present
   become: yes
   become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: Add Fedora 4 database user
   postgresql_user:
@@ -27,6 +29,8 @@
     state: present
   become: yes
   become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: Allow fedora4 user to connect to postgresl using password auth
   blockinfile:
