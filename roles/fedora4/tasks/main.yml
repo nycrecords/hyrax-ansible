@@ -43,6 +43,7 @@
   vars:
     ansible_ssh_pipelining: true
   register: hba_file
+  changed_when: false
 
 - name: Allow fedora4 user to connect to postgresl using password auth
   blockinfile:
@@ -68,7 +69,7 @@
 
 - name: Set setsebool nis_enabled on
   command: /usr/sbin/setsebool -P nis_enabled on
-  changed_when: False
+  changed_when: false
   when: ansible_os_family == "RedHat"
 
 - name: Overwrite the Tomcat users file
