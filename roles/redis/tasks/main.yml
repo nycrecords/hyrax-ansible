@@ -1,0 +1,19 @@
+---
+# Install Redis
+
+- name: Enable EPEL repository
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Install Redis
+  package:
+    name: "{{ redis_package }}"
+    state: present
+
+- name: Enable Redis service
+  service:
+    name: redis
+    state: started
+    enabled: yes

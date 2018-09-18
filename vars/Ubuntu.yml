@@ -4,6 +4,7 @@ java_openjdk_package: openjdk-8-jdk
 postgresql_contrib_package: postgresql-contrib
 postgresql_server_package: postgresql
 python_psycopg2_package: python-psycopg2
+redis_package: redis-server
 tomcat_admin_package: tomcat8-admin
 tomcat_fedora4_conf_path: /usr/share/tomcat8/bin/setenv.sh
 tomcat_fedora4_war_path: /var/lib/tomcat8/webapps/fcrepo.war

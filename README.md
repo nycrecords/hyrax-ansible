@@ -21,9 +21,10 @@ This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Va
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
-|`postgresql_contrib_package` | The name used by the `package` module when installing postgresql's additional features. Per-Distro |
-|`postgresql_server_package` | The name used by the `package` module when installing the postgresql server. Per-Distro |
+|`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
+|`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
 |`python_psycopg2_package` | The name used by the `package` module when installing the Python Postgresql library (used by Ansible). Per-Distro |
+|`redis_package` | The name used by the `package` module when installing Redis. Per-Distro |
 |`tomcat_admin_package` | The name used by the `package` module when installing the tomcat manager webapps. Per-Distro |
 |`tomcat_fedora4_conf_path` | The path for the configuration file which sets JAVA_OPTS for Fedora4. Per-Distro |
 |`tomcat_fedora4_war_path` | The path at which the fedora4 war file will be copied. Per-Distro |
