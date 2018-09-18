@@ -1,8 +1,12 @@
 ---
-#Handlers
+# Handlers
 
 - name: restart tomcat
-  service: name=tomcat state=restarted
+  service:
+    name: "{{ tomcat_service_name }}"
+    state: restarted
 
 - name: restart postgresql
-  service: name=postgresql state=restarted
+  service:
+    name: postgresql
+    state: restarted

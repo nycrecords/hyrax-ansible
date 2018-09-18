@@ -2,4 +2,7 @@
 # Handlers
 
 - name: reload postgresql
-  service: name="psql" state=reload
+  service:
+    name: postgresql
+    state: reloaded
+
