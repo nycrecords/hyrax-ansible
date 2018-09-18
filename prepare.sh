@@ -58,7 +58,7 @@ check_command_exists(){
 prepare_fedora4_role() {
   if [ ! -f $FEDORA4_WAR_FILE_LOCATION ]; then
     echo "$FEDORA4_WAR_FILE does not exist in the expected location, downloading from $FEDORA4_DOWNLOAD_URL"
-    curl -L $FEDORA4_DOWNLOAD_URL --output $FEDORA4_WAR_FILE_LOCATION
+    curl --silent --show-error -L $FEDORA4_DOWNLOAD_URL --output $FEDORA4_WAR_FILE_LOCATION
   fi
   check_hash_match $FEDORA4_WAR_FILE_LOCATION $FEDORA4_MD5_HASH
 }
