@@ -1,0 +1,65 @@
+---
+# Install Nginx
+
+- name: Add Nginx gpg key [CentOS]
+  rpm_key:
+    state: present
+    key: https://nginx.org/keys/nginx_signing.key
+  when: ansible_distribution == "CentOS"
+
+- name: Add Nginx gpg key [Debian/Ubuntu]
+  apt_key:
+    state: present
+    url: https://nginx.org/keys/nginx_signing.key
+  when: ansible_os_family == "Debian"
+
+- name: Add Nginx repository configuration [CentOS]
+  template:
+    backup: no
+    dest: /etc/yum.repos.d/
+    mode: 0444
+    owner: root
+    group: root
+    src: nginx.repo
+  when: ansible_distribution == "CentOS"
+
+- name: Add Nginx repository configuration [Debian/Ubuntu]
+  blockinfile:
+    path: /etc/apt/sources.list
+    marker: "# {mark} Ansible Managed - Add Nginx repository"
+    block: |
+      deb http://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
+      deb-src http://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
+  notify: update apt cache
+  when: ansible_os_family == "Debian"
+
+- name: Install Nginx
+  package:
+    name: nginx
+    state: present
+
+- name: Overwrite nginx.conf
+  copy:
+    backup: no
+    dest: /etc/nginx/
+    mode: 0444
+    owner: root
+    group: root
+    src: nginx.conf
+    force: yes
+
+- name: Overwrite default config
+  copy:
+    backup: no
+    dest: /etc/nginx/conf.d/
+    mode: 0444
+    owner: root
+    group: root
+    src: default.conf
+    force: yes
+
+- name: Start nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: started

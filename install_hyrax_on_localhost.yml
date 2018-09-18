@@ -12,3 +12,4 @@
     - postgresql
     - fedora4
     - redis
+    - nginx

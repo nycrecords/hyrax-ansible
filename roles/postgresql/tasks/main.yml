@@ -15,7 +15,7 @@
   command: /bin/postgresql-setup initdb
   args:
     creates: /var/lib/pgsql/initdb.log
-  when: ansible_os_family == "RedHat"
+  when: ansible_distribution == "CentOS"
 
 - name: Start the PostgreSQL service
   service:
