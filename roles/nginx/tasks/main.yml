@@ -1,6 +1,12 @@
 ---
 # Install Nginx
 
+- name: Add python-urllib3 package so that https key add succeeds [CentOS]
+  package:
+    name: python-urllib3
+    state: present
+  when: ansible_distribution == "CentOS"
+
 - name: Add Nginx gpg key [CentOS]
   rpm_key:
     state: present
