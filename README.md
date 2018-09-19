@@ -12,7 +12,7 @@ This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Va
 
 `prepare.sh` is a shell script which downloads or complies the necessary executables. Run this before running the playbook.
 
-`hyrax.yml` is a test playbook which runs the provided roles against localhost.
+`install_hyrax_on_localhost.yml` is a test playbook which runs the provided roles against localhost.
 
 ## Variables
 
