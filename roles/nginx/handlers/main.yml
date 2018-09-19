@@ -5,3 +5,8 @@
   apt:
     update_cache: yes
 
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+
