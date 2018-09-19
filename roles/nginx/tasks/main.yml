@@ -44,25 +44,17 @@
     name: nginx
     state: present
 
-- name: Overwrite nginx.conf
-  copy:
-    backup: no
-    dest: /etc/nginx/
-    mode: 0444
-    owner: root
-    group: root
-    src: nginx.conf
-    force: yes
+- name: Delete default config [CentOS]
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  when: ansible_distribution == "CentOS"
 
-- name: Overwrite default config
-  copy:
-    backup: no
-    dest: /etc/nginx/conf.d/
-    mode: 0444
-    owner: root
-    group: root
-    src: default.conf
-    force: yes
+- name: Delete symbolic link to default config [Debian/Ubuntu]
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  when: ansible_os_family == "Debian"
 
 - name: Start nginx
   service:
