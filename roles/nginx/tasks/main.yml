@@ -41,7 +41,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Copy Apt preferences file for Nginx repositories [Debian/Ubuntu]
-  template:
+  copy:
     src: nginx.pref
     dest: /etc/apt/preferences.d/nginx.pref
     backup: no
