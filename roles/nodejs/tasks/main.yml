@@ -25,6 +25,20 @@
   notify: update apt cache
   when: ansible_os_family == "Debian"
 
+- name: Copy Apt preferences file for Nginx repositories [Debian/Ubuntu]
+  template:
+    src: nodesource.pref
+    dest: /etc/apt/preferences.d/nodesource.pref
+    backup: no
+    mode: 0444
+    owner: root
+    group: root
+  notify: update apt cache
+  when: ansible_os_family == "Debian"
+
+- name: Run handlers to update package manager caches
+  meta: flush_handlers
+
 - name: Install Node.js
   package:
     name: nodejs

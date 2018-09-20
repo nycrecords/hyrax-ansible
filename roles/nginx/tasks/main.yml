@@ -34,6 +34,20 @@
   notify: update apt cache
   when: ansible_os_family == "Debian"
 
+- name: Copy Apt preferences file for Nginx repositories [Debian/Ubuntu]
+  template:
+    src: nginx.pref
+    dest: /etc/apt/preferences.d/nginx.pref
+    backup: no
+    mode: 0444
+    owner: root
+    group: root
+  notify: update apt cache
+  when: ansible_os_family == "Debian"
+
+- name: Run handlers to update package manager caches
+  meta: flush_handlers
+
 - name: Install Nginx
   package:
     name: nginx
