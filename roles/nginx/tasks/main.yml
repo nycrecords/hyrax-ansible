@@ -15,21 +15,22 @@
 
 - name: Add Nginx repository configuration [CentOS]
   template:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
     backup: no
-    dest: /etc/yum.repos.d/
     mode: 0444
     owner: root
     group: root
-    src: nginx.repo
   when: ansible_distribution == "CentOS"
 
 - name: Add Nginx repository configuration [Debian/Ubuntu]
-  blockinfile:
-    path: /etc/apt/sources.list
-    marker: "# {mark} Ansible Managed - Add Nginx repository"
-    block: |
-      deb http://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
-      deb-src http://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
+  template:
+    src: nginx.list
+    dest: /etc/apt/sources.list.d/nginx.list
+    backup: no
+    mode: 0444
+    owner: root
+    group: root
   notify: update apt cache
   when: ansible_os_family == "Debian"
 
