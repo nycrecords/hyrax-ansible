@@ -1,0 +1,31 @@
+---
+# Install NodeJS
+
+- name: Add NodeSource gpg key [Debian/Ubuntu]
+  apt_key:
+    state: present
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  when: ansible_os_family == "Debian"
+
+- name: Add NodeSource repository configuration [CentOS]
+  yum:
+    name: "https://rpm.nodesource.com/pub_10.x/el/{{ ansible_distribution_major_version }}/{{ ansible_machine }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm"
+    state: present
+    disable_gpg_check: yes
+  when: ansible_distribution == "CentOS"
+
+- name: Add NodeSource repository configuration [Debian/Ubuntu]
+  template:
+    src: nodesource.list
+    dest: /etc/apt/sources.list.d/nodesource.list
+    backup: no
+    mode: 0444
+    owner: root
+    group: root
+  notify: update apt cache
+  when: ansible_os_family == "Debian"
+
+- name: Install Node.js
+  package:
+    name: nodejs
+    state: present

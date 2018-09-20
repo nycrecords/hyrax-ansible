@@ -82,8 +82,11 @@ The software version will depend on the distribution and release. For example, v
 
 However, some software is installed at a specific version:
 
-* Java 1.8 (OpenJDK)
-* Fedora Repository 4.7.5
-* Solr 7.4.0
+* Java v1.8 (OpenJDK)
+* Fedora Repository v4.7.5
+* Solr v7.4.0
+* Node.js v10.x
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
+Node.js is installed using the NodeSource repositories. 
+
