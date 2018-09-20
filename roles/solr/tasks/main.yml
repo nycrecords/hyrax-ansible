@@ -112,16 +112,9 @@
     group: root
     mode: u=rX,g=rX,o=rX
 
-- name: Reload systemd daemons
-  command: systemctl daemon-reload
-  changed_when: False
-
 - name: Start Solr
-  service:
+  systemd:
+    daemon_reload: yes
     name: solr
     state: started
     enabled: true
-
-- name: Set setsebool httpd_execmem on
-  command: /usr/sbin/setsebool -P httpd_execmem on
-  changed_when: False

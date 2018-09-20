@@ -37,7 +37,7 @@
     ansible_ssh_pipelining: true
 
 - name: Get the location of the pg_hba.conf file
-  shell: psql -t -P format=unaligned -c 'show hba_file'
+  command: psql -t -P format=unaligned -c 'show hba_file'
   become: yes
   become_user: postgres
   vars:
