@@ -13,3 +13,4 @@
     - fedora4
     - redis
     - nginx
+    - solr
