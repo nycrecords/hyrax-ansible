@@ -1,0 +1,13 @@
+[Unit]
+Description=Apache Solr
+After=syslog.target network.target remote-fs.target nss-lookup.target
+[Service]
+EnvironmentFile=/var/solr/solr.in.sh
+PIDFile=/var/solr/solr-8983.pid
+ExecStart=/opt/solr/bin/solr start
+User=solr
+ExecReload=/opt/solr/bin/solr reload
+ExecStop=/opt/solr/bin/solr stop
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

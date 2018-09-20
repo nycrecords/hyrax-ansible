@@ -56,5 +56,6 @@ However, some software is installed at a specific version:
 
 * Java 1.8 (OpenJDK)
 * Fedora Repository 4.7.5
+* Solr 7.4.0
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.

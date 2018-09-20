@@ -1,0 +1,127 @@
+---
+# Setup solr
+
+- name: Install Java 1.8 (OpenJDK)
+  package:
+    name: "{{ java_openjdk_package }}"
+    state: present
+
+- name: Install rsync
+  package:
+    name: rsync
+    state: present
+
+- name: Install unzip
+  package:
+    name: unzip
+    state: present
+
+- name: Install lsof
+  package:
+    name: lsof
+    state: present
+
+- name: Unarchive Solr tar file
+  unarchive:
+    dest: /opt/
+    src: solr-7.4.0.tgz
+    creates: /opt/solr-7.4.0/
+
+- name: Change Solr files ownership and perms
+  file:
+    path: /opt/solr-7.4.0
+    owner: root
+    group: root
+    recurse: yes
+    mode: u=rwX,g=rX,o=rX
+
+- name: Make symbolic link
+  file:
+    src: /opt/solr-7.4.0
+    dest: /opt/solr
+    state: link
+    owner: root
+    group: root
+
+- name: Make solr user
+  user:
+    name: solr
+    system: yes
+    shell: /sbin/nologin
+    comment: "Apache Solr"
+
+- name: Make Solr var dir
+  file:
+    path: /var/solr
+    state: directory
+    owner: solr
+    group: solr
+    mode: u=rwX,g=rX,o=rX
+
+- name: Make Solr logs dir
+  file:
+    path: /var/log/solr
+    state: directory
+    owner: solr
+    group: solr
+    mode: u=rwX,g=rX,o=rX
+
+- name: Make Solr data dir
+  file:
+    path: /var/solr/data
+    state: directory
+    owner: solr
+    group: solr
+    mode: u=rwX,g=rX,o=rX
+
+- name: Copy solr.xml
+  copy:
+    src: solr.xml
+    dest: /var/solr/data/
+    force: no
+    owner: root
+    group: solr
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Copy solr.in.sh
+  copy:
+    src: solr.in.sh
+    dest: /var/solr/
+    force: yes
+    owner: root
+    group: solr
+    mode: u=rwx,g=rwx,o=rx
+  notify: restart solr
+
+- name: Copy log4j.properties
+  copy:
+    src: log4j.properties
+    dest: /var/solr/
+    force: yes
+    owner: root
+    group: solr
+    mode: u=rwx,g=rwx,o=rX
+  notify: restart solr
+
+- name: Copy solr.service
+  copy:
+    src: solr.service
+    dest: /etc/systemd/system/
+    force: yes
+    owner: root
+    group: root
+    mode: u=rX,g=rX,o=rX
+
+- name: Reload systemd daemons
+  command: systemctl daemon-reload
+  changed_when: False
+
+- name: Start Solr
+  service:
+    name: solr
+    state: started
+    enabled: true
+
+- name: Set setsebool httpd_execmem on
+  command: /usr/sbin/setsebool -P httpd_execmem on
+  changed_when: False
