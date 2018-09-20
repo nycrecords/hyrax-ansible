@@ -1,6 +1,12 @@
 ---
 # Install Nginx
 
+- name: Install apt-transport-https [Debian/Ubuntu]
+  package:
+    name: apt-transport-https
+    state: present
+  when: ansible_os_family == "Debian"
+
 - name: Add Nginx gpg key [CentOS]
   rpm_key:
     state: present

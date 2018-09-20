@@ -1,5 +1,11 @@
 ---
-# Install NodeJS
+# Install Node.js
+
+- name: Install apt-transport-https [Debian/Ubuntu]
+  package:
+    name: apt-transport-https
+    state: present
+  when: ansible_os_family == "Debian"
 
 - name: Add NodeSource gpg key [Debian/Ubuntu]
   apt_key:

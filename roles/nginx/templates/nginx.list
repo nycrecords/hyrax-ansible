@@ -1,2 +1,2 @@
-deb http://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
-deb-src http://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
+deb https://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
+deb-src https://nginx.org/packages/{{ ansible_distribution | lower }}/ {{ ansible_lsb.codename }} nginx
