@@ -6,19 +6,9 @@
     name: "{{ java_openjdk_package }}"
     state: present
 
-- name: Install rsync
-  package:
-    name: rsync
-    state: present
-
 - name: Install unzip
   package:
     name: unzip
-    state: present
-
-- name: Install lsof
-  package:
-    name: lsof
     state: present
 
 - name: Unarchive Solr tar file
