@@ -1,18 +1,46 @@
 STATUS: PRE-ALPHA
 
 # hyrax-ansible
-Ansible playbook for configuring a production-ready Hyrax IR.
+Ansible playbook for configuring a Hyrax IR.
 
 It is hoped that this script will be a starting point for teams running Hyrax-based IRs in production.
 The idea is similar to https://github.com/Islandora-Devops/claw-playbook
 
-All services are installed on one machine. For very large deployments, you might want to edit these roles so that services are deployed on different machines.
+All roles assume services (Nginx, Fedora 4, PostgreSQL) are installed on one machine and communicate using UNIX sockets or the loopback interface. For large deployments, you'll want to edit these roles so that services are deployed on different machines and that communication between them is encrypted.
 
 This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Vagrantfile is available at https://github.com/cu-library/hyrax-ansible-testvagrants.
 
 `prepare.sh` is a shell script which downloads or complies the necessary executables. Run this before running the playbook.
 
 `install_hyrax_on_localhost.yml` is a test playbook which runs the provided roles against localhost.
+
+What does production-ready mean? A production ready instance of Hyrax should be secure. It should be regularly backed-up. It should be easy to update. Finally, it should have good performance.
+
+## Security
+
+INCOMPLETE
+
+The services running within the VM should ensure data is protected from unauthorized access and modification. If one were to gain access to a nonprivileged Linux user account, one should not be able to access or modify any IR data. *Currently, this is not true of these roles. Some services are available to any Linux user.*
+
+Attacks like remote code execution, XSS, SQL injection should be mitigated. Remote users should not be able to read or alter the filesystem in unexpected ways. *These roles still need a more thorough review against these types of attacks.*
+
+## Backups
+
+INCOMPLETE
+
+Fedora 4, PostgreSQL, and the Hyrax user files (derivatives, logs, etc) should be backed up regularly. These roles will add cron jobs for backing up data to `hyrax_backups_directory`. It is up to local system administrators to copy that data to tape or to services like OLRC.
+
+## Updates
+
+INCOMPLETE
+
+Where possible, it should be easy to keep a production server up-to-date. This means these roles should utilize well-known package repositories and package management tools when possible. Roles should be as idempotent and 'low impact' as possible, to encourage system administrators to run them regularly. Local modifications to community code should be minimal.
+
+## Performance
+
+INCOMPLETE
+
+These roles should install Hyrax so that it has good performance (max 500ms for most requests) on a "medium sized" server (4 core, 4GB RAM) when being used for typical workloads (documents and images, some multimedia, less than 10,000 digital objects). Community recommended software versions and configuration should be used.
 
 ## Variables
 
