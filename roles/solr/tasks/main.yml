@@ -107,6 +107,10 @@
     group: root
     mode: u=rX,g=rX,o=rX
 
+- name: Ensure systemd daemons are reloaded
+  command: systemctl daemon-reload
+  changed_when: False
+
 - name: Start Solr
   systemd:
     daemon_reload: yes
