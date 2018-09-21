@@ -7,6 +7,6 @@ hyrax_backups_directory: /var/backups
 ruby_checksum: sha1:93fafd57a724974b951957c522cdc4478a6bdc2e
 ruby_version: 2.5.1
 solr_checksum: sha1:18ac829bcda555de3ff679a0ccd4e263ed9d49a8
-solr_mirror: https://mirror.csclub.uwaterloo.ca
+solr_mirror: https://mirror.csclub.uwaterloo.ca/apache # No trailing slash!
 solr_version: 7.4.0
 tomcat_user_password: insecure_password
