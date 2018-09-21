@@ -86,7 +86,7 @@
     force: no
     owner: root
     group: solr
-    mode: u=rwX,g=rwX,o=rX
+    mode: u=rw,g=rw,o=r
 
 - name: Copy solr.in.sh
   copy:
@@ -105,7 +105,7 @@
     force: yes
     owner: root
     group: solr
-    mode: u=rwx,g=rwx,o=rX
+    mode: u=rwx,g=rwx,o=r
   notify: restart solr
 
 - name: Copy solr.service
@@ -115,7 +115,7 @@
     force: yes
     owner: root
     group: root
-    mode: u=rX,g=rX,o=rX
+    mode: u=r,g=r,o=r
 
 - name: Ensure systemd daemons are reloaded
   command: systemctl daemon-reload
