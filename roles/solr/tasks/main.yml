@@ -1,6 +1,11 @@
 ---
 # Setup solr
 
+- name: Install lsof
+  package:
+    name: lsof
+    state: present
+
 - name: Install Java 1.8 (OpenJDK)
   package:
     name: "{{ java_openjdk_package }}"
