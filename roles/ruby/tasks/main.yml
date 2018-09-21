@@ -6,50 +6,35 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - gcc-c++
+    - gcc
     - patch
-    - readline
-    - readline-devel
-    - zlib
-    - zlib-devel
-    - libyaml-devel
-    - libffi-devel
-    - openssl-devel
-    - make
+    - curl
     - bzip2
-    - autoconf
-    - automake
-    - libtool
-    - bison
-    - sqlite-devel
-    - bind-utils
+    - tar
 
-- name: Download Ruby tarball file
+- name: Download ruby-install tarball
   get_url:
-    url: "https://cache.ruby-lang.org/pub/ruby/{{ ruby_version | truncate(3, True, '') }}/ruby-{{ ruby_version }}.tar.gz"
-    dest: "/tmp/ruby-{{ ruby_version }}.tar.gz"
+    url: https://github.com/postmodern/ruby-install/archive/v0.7.0.tar.gz
+    dest: /tmp/ruby-install-0.7.0.tar.gz
     owner: root
     group: root
     mode: u=r,g=r,o=
-    checksum: "{{ ruby_checksum }}"
+    checksum: sha1:7c034d39e16910eddf9c4036feca1d8150fa5135
 
-- name: Unarchive ruby source into temp directory
+- name: Unarchive ruby-install into temp directory
   unarchive:
     remote_src: yes
-    src: "/tmp/ruby-{{ ruby_version }}.tar.gz"
+    src: /tmp/ruby-install-0.7.0.tar.gz
     dest: /tmp
-    creates: /tmp/ruby-{{ ruby_version }}
+    creates: /tmp/ruby-install-0.7.0
+
+- name: Install ruby-install
+  command: make install
+  args:
+    chdir: /tmp/ruby-install-0.7.0
+    creates: /usr/local/bin/ruby-install
 
 - name: Install ruby
-  shell: ./configure && make && make install
+  command: ruby-install ruby {{ ruby_version }} --sha1 {{ ruby_sha1_checksum }}
   args:
     chdir: /tmp/ruby-{{ ruby_version }}
-    creates: /usr/local/bin/ruby
-
-- name: Add ruby installation directory to sudo path
-  copy:
-    src: addusrlocalbintopath
-    dest: /etc/sudoers.d/addusrlocalbintopath
-    owner: root
-    group: root
-    mode: "u=r,g=r,o=r"

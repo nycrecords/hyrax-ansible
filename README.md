@@ -53,7 +53,7 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
 |`python_psycopg2_package` | The name used by the `package` module when installing the Python Postgresql library (used by Ansible). Per-Distro |
 |`redis_package` | The name used by the `package` module when installing Redis. Per-Distro |
-|`ruby_checksum` | Verify the ruby-{{ ruby_version }}.tar.gz file, used by `get_url` module. Format: <algorithm>:<checksum> |
+|`ruby_checksum` | Verify the ruby-{{ ruby_version }}.tar.gz file, used by `get_url` module. Format: <checksum> |
 |`ruby_version` | The version of Ruby to download and install. |
 |`solr_checksum` | Verify the solr-{{ solr_version }}.tgz file, used by `get_url` module. Format: <algorithm>:<checksum>
 |`solr_mirror` | The mirror to use when downloading Solr. |
