@@ -10,5 +10,6 @@ ExecReload=/opt/solr/bin/solr reload
 ExecStop=/opt/solr/bin/solr stop
 PrivateTmp=true
 LimitNOFILE=65536
+LimitNPROC=65536
 [Install]
 WantedBy=multi-user.target
