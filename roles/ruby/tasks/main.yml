@@ -11,6 +11,7 @@
     - curl
     - bzip2
     - tar
+    - make
 
 - name: Download ruby-install tarball
   get_url:
