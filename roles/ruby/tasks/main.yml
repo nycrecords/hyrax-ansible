@@ -36,6 +36,8 @@
 
 - name: Install ruby
   command: /usr/local/bin/ruby-install ruby {{ ruby_version }} --sha1 {{ ruby_tarbz2_sha1_checksum }}
+  args:
+    creates: /opt/rubies/ruby-{{ ruby_version }}/bin/ruby
 
 - name: Download chruby tarball
   get_url:
