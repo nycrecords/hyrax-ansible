@@ -61,8 +61,8 @@
     chdir: /tmp/chruby-0.3.9
     creates: /usr/local/bin/chruby-exec
 
-- name: Add chruby globally
-  copy:
+- name: Add chruby globally and set default ruby
+  template:
     src: chruby.sh
     dest: /etc/profile.d/chruby.sh
     force: yes
