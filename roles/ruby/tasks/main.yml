@@ -1,0 +1,55 @@
+---
+# Install Ruby
+
+- name: Install required packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc-c++
+    - patch
+    - readline
+    - readline-devel
+    - zlib
+    - zlib-devel
+    - libyaml-devel
+    - libffi-devel
+    - openssl-devel
+    - make
+    - bzip2
+    - autoconf
+    - automake
+    - libtool
+    - bison
+    - sqlite-devel
+    - bind-utils
+
+- name: Download Ruby tarball file
+  get_url:
+    url: "https://cache.ruby-lang.org/pub/ruby/{{ ruby_version | truncate(3, True, '') }}/ruby-{{ ruby_version }}.tar.gz"
+    dest: "/tmp/ruby-{{ ruby_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ ruby_checksum }}"
+
+- name: Unarchive ruby source into temp directory
+  unarchive:
+    remote_src: yes
+    src: "/tmp/ruby-{{ ruby_version }}.tar.gz"
+    dest: /tmp
+    creates: /tmp/ruby-{{ ruby_version }}
+
+- name: Install ruby
+  shell: ./configure && make && make install
+  args:
+    chdir: /tmp/ruby-{{ ruby_version }}
+    creates: /usr/local/bin/ruby
+
+- name: Add ruby installation directory to sudo path
+  copy:
+    src: addusrlocalbintopath
+    dest: /etc/sudoers.d/addusrlocalbintopath
+    owner: root
+    group: root
+    mode: "u=r,g=r,o=r"

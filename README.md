@@ -10,8 +10,6 @@ All roles assume services (Nginx, Fedora 4, PostgreSQL) are installed on one mac
 
 This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Vagrantfile is available at https://github.com/cu-library/hyrax-ansible-testvagrants.
 
-`prepare.sh` is a shell script which downloads or complies the necessary executables. Run this before running the playbook.
-
 `install_hyrax_on_localhost.yml` is a test playbook which runs the provided roles against localhost.
 
 What does production-ready mean? A production ready instance of Hyrax should be secure. It should be regularly backed-up. It should be easy to update. Finally, it should have good performance.
@@ -46,13 +44,20 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 
 |Variable|Notes|
 |---|---|
+|`fedora4_checksum` | Verify the fcrepo-webapp-{{ fedora4_version }}.war file, used by `get_url` module. Format: <algorithm>:<checksum> |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
+|`fedora4_version` | The version of Fedora 4 to download. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
 |`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
 |`python_psycopg2_package` | The name used by the `package` module when installing the Python Postgresql library (used by Ansible). Per-Distro |
 |`redis_package` | The name used by the `package` module when installing Redis. Per-Distro |
+|`ruby_checksum` | Verify the ruby-{{ ruby_version }}.tar.gz file, used by `get_url` module. Format: <algorithm>:<checksum> |
+|`ruby_version` | The version of Ruby to download and install. |
+|`solr_checksum` | Verify the solr-{{ solr_version }}.tgz file, used by `get_url` module. Format: <algorithm>:<checksum>
+|`solr_mirror` | The mirror to use when downloading Solr. |
+|`solr_version` | The version of Solr to download. |
 |`tomcat_admin_package` | The name used by the `package` module when installing the tomcat manager webapps. Per-Distro |
 |`tomcat_fedora4_conf_path` | The path for the configuration file which sets JAVA_OPTS for Fedora4. Per-Distro |
 |`tomcat_fedora4_war_path` | The path at which the fedora4 war file will be copied. Per-Distro |
@@ -83,10 +88,11 @@ The software version will depend on the distribution and release. For example, v
 However, some software is installed at a specific version:
 
 * Java v1.8 (OpenJDK)
-* Fedora Repository v4.7.5
-* Solr v7.4.0
+* Fedora Repository v4.7.5 (Set using `fedora4_version` variable.)
+* Solr v7.4.0 (Set using `solr_version` variable.)
 * Node.js v10.x
+* Ruby 2.5.1 (Set using `ruby_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
-Node.js is installed using the NodeSource repositories. 
+Node.js is installed using the NodeSource repositories.
 

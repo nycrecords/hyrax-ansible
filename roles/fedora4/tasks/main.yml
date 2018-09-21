@@ -97,13 +97,14 @@
     mode: u=rx,g=,o=
   notify: restart tomcat
 
-- name: Move the Fedora 4 warfile
-  copy:
-    src: fcrepo-webapp-4.7.5.war
+- name: Download the Fedora 4 warfile
+  get_url:
+    url: "https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-{{ fedora4_version }}/fcrepo-webapp-{{ fedora4_version }}.war"
     dest: "{{ tomcat_fedora4_war_path }}"
     owner: root
     group: "{{ tomcat_group }}"
     mode: u=r,g=r,o=r
+    checksum: "{{ fedora4_checksum }}"
 
 - name: Start and enable the Tomcat service
   service:

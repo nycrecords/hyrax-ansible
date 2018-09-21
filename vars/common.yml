@@ -1,5 +1,12 @@
 ---
 # Common variables for all hosts
-hyrax_backups_directory: /var/backups
+fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
 fedora4_postgresqldatabase_user_password: insecure_password
+fedora4_version: 4.7.5
+hyrax_backups_directory: /var/backups
+ruby_checksum: sha1:93fafd57a724974b951957c522cdc4478a6bdc2e
+ruby_version: 2.5.1
+solr_checksum: sha1:18ac829bcda555de3ff679a0ccd4e263ed9d49a8
+solr_mirror: https://mirror.csclub.uwaterloo.ca
+solr_version: 7.4.0
 tomcat_user_password: insecure_password
