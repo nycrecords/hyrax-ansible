@@ -35,9 +35,7 @@
     creates: /usr/local/bin/ruby-install
 
 - name: Install ruby
-  command: ruby-install ruby {{ ruby_version }} --sha1 {{ ruby_sha1_checksum }}
-  args:
-    chdir: /usr/local/bin/
+  command: /usr/local/bin/ruby-install ruby {{ ruby_version }} --sha1 {{ ruby_sha1_checksum }}
 
 - name: Download chruby tarball
   get_url:
