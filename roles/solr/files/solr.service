@@ -9,6 +9,8 @@ User=solr
 ExecReload=/opt/solr/bin/solr reload
 ExecStop=/opt/solr/bin/solr stop
 PrivateTmp=true
+RestartSec=5
+Restart=on-failure
 LimitNOFILE=65536
 LimitNPROC=65536
 [Install]
