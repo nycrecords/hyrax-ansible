@@ -4,6 +4,8 @@ fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
 fedora4_postgresqldatabase_user_password: insecure_password
 fedora4_version: 4.7.5
 hyrax_backups_directory: /var/backups
+nasm_version: 2.13.03
+nasm_checksum: sha1:2a3f4682651d7672f4c6f0abc784eedc9f9a859e
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361
 ruby_version: 2.5.1
 solr_checksum: sha1:029a9f7670b6cb8a31afd3ce000d4b163347c6aa

@@ -48,8 +48,12 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`fedora4_version` | The version of Fedora 4 to download. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
+|`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
+|`nasm_checksum` | Verify the nasm-{{ nasm_version }}.tar.bz2 file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`nasm_version` | The version of NASM to download. |
 |`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
+|`postgresql_devel_package` | The name used by the `package` module when installing the Postgresql C headers and other development libraries. Per-Distro |
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
 |`python_psycopg2_package` | The name used by the `package` module when installing the Python Postgresql library (used by Ansible). Per-Distro |
 |`redis_package` | The name used by the `package` module when installing Redis. Per-Distro |
@@ -67,6 +71,7 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`tomcat_user_password` | The password used to build the tomcat-users.xml file. Secure |
 |`tomcat_user` | The user which runs the tomcat service. Per-Distro |
 |`tomcat_users_conf_path` | The path for tomcat-users.xml. Per-Distro |
+
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 
@@ -92,6 +97,10 @@ However, some software is installed at a specific version:
 * Solr v7.5.0 (Set using `solr_version` variable.)
 * Node.js v10.x
 * Ruby 2.5.1 (Set using `ruby_version` variable.)
+
+FFmpeg is built with:
+
+* NASM 2.13.03 (Set using `nasm_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.

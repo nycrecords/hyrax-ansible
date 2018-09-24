@@ -1,0 +1,91 @@
+---
+# Download and compile FFmpeg
+
+- name: Install packages for ffmpeg building [CentOS]
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - autoconf
+    - automake
+    - bzip2
+    - cmake
+    - freetype-devel
+    - gcc
+    - gcc-c++
+    - git
+    - libtool
+    - make
+    - mercurial
+    - pkgconfig
+    - zlib-devel
+
+- name: Install packages for ffmpeg building [Debian/Ubuntu]
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - autoconf
+    - automake
+    - build-essential
+    - cmake
+    - git-core
+    - libass-dev
+    - libfreetype6-dev
+    - libsdl2-dev
+    - libtool
+    - libva-dev
+    - libvdpau-dev
+    - libvorbis-dev
+    - libxcb1-dev
+    - libxcb-shm0-dev
+    - libxcb-xfixes0-dev
+    - pkg-config
+    - texinfo
+    - wget
+    - zlib1g-dev
+
+- name: Make ffpmeg sources temporary directory
+  file:
+    path: /tmp/ffpmeg_sources
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Make ffpmeg sources build directory
+  file:
+    path: /tmp/ffpmeg_build
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Make ffpmeg binaries temporary directory
+  file:
+    path: /tmp/ffpmeg_bin
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Download NASM sources
+  get_url:
+    url: "https://www.nasm.us/pub/nasm/releasebuilds/{{ nasm_version }}/nasm-{{ nasm_version }}.tar.bz2"
+    dest: "/tmp/ffpmeg_sources/nasm-{{ nasm_version }}.tar.bz2"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ nasm_checksum }}"
+
+- name: Unarchive NASM sources
+  unarchive:
+    remote_src: yes
+    src: "/tmp/ffpmeg_sources/nasm-{{ nasm_version }}.tar.bz2"
+    dest: /tmp/ffpmeg_sources/
+    creates: "/tmp/ffpmeg_sources/nasm-{{ nasm_version }}"
+
+- name: Run autogen.sh in NASM sources directory
+  command: /tmp/ffpmeg_sources/nasm-{{ nasm_version }}/autogen.sh
+  args:
+    chdir: /tmp/ffpmeg_sources/nasm-{{ nasm_version }}

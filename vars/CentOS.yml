@@ -1,7 +1,9 @@
 ---
 # Variables for CentOS.
+imagemagick_package: ImageMagick
 java_openjdk_package: java-1.8.0-openjdk
 postgresql_contrib_package: postgresql-contrib
+postgresql_devel_package: postgresql-devel
 postgresql_server_package: postgresql-server
 python_psycopg2_package: python-psycopg2
 redis_package: redis

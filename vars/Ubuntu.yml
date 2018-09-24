@@ -1,7 +1,9 @@
 ---
 # Variables for Ubuntu.
+imagemagick_package: imagemagick
 java_openjdk_package: openjdk-8-jdk
 postgresql_contrib_package: postgresql-contrib
+postgresql_devel_package: postgresql-all
 postgresql_server_package: postgresql
 python_psycopg2_package: python-psycopg2
 redis_package: redis-server
