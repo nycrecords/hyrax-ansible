@@ -6,7 +6,7 @@ fedora4_version: 4.7.5
 hyrax_backups_directory: /var/backups
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361
 ruby_version: 2.5.1
-solr_checksum: sha1:18ac829bcda555de3ff679a0ccd4e263ed9d49a8
+solr_checksum: sha1:029a9f7670b6cb8a31afd3ce000d4b163347c6aa
 solr_mirror: https://mirror.csclub.uwaterloo.ca/apache # No trailing slash!
 solr_version: 7.5.0
 tomcat_user_password: insecure_password
