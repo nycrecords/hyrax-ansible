@@ -19,6 +19,7 @@
     - mercurial
     - pkgconfig
     - zlib-devel
+  when: ansible_distribution == "CentOS"
 
 - name: Install packages for ffmpeg building [Debian/Ubuntu]
   package:
@@ -44,6 +45,7 @@
     - texinfo
     - wget
     - zlib1g-dev
+  when: ansible_os_family == "Debian"
 
 - name: Make ffpmeg sources temporary directory
   file:
