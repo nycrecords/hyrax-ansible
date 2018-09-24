@@ -89,7 +89,7 @@ However, some software is installed at a specific version:
 
 * Java v1.8 (OpenJDK)
 * Fedora Repository v4.7.5 (Set using `fedora4_version` variable.)
-* Solr v7.4.0 (Set using `solr_version` variable.)
+* Solr v7.5.0 (Set using `solr_version` variable.)
 * Node.js v10.x
 * Ruby 2.5.1 (Set using `ruby_version` variable.)
 
