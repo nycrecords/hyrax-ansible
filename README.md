@@ -47,6 +47,7 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`fedora4_checksum` | Verify the fcrepo-webapp-{{ fedora4_version }}.war file, used by `get_url` module. Format: <algorithm>:<checksum> |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`fedora4_version` | The version of Fedora 4 to download. |
+|`ffmpeg_compile_dir` | The directory where ffmpeg sources will be downloaded, unarchived, and compiled. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |

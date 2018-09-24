@@ -47,25 +47,25 @@
     - zlib1g-dev
   when: ansible_os_family == "Debian"
 
-- name: Make ffpmeg sources temporary directory
+- name: Make ffmpeg sources temporary directory
   file:
-    path: /tmp/ffpmeg_sources
+    path: "{{ ffmpeg_compile_dir }}/sources"
     state: directory
     owner: root
     group: root
     mode: u=rwX,g=rwX,o=rX
 
-- name: Make ffpmeg sources build directory
+- name: Make ffmpeg sources build directory
   file:
-    path: /tmp/ffpmeg_build
+    path: "{{ ffmpeg_compile_dir }}/build"
     state: directory
     owner: root
     group: root
     mode: u=rwX,g=rwX,o=rX
 
-- name: Make ffpmeg binaries temporary directory
+- name: Make ffmpeg binaries temporary directory
   file:
-    path: /tmp/ffpmeg_bin
+    path: "{{ ffmpeg_compile_dir }}/bin"
     state: directory
     owner: root
     group: root
@@ -74,7 +74,7 @@
 - name: Download NASM sources
   get_url:
     url: "https://www.nasm.us/pub/nasm/releasebuilds/{{ nasm_version }}/nasm-{{ nasm_version }}.tar.bz2"
-    dest: "/tmp/ffpmeg_sources/nasm-{{ nasm_version }}.tar.bz2"
+    dest: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}.tar.bz2"
     owner: root
     group: root
     mode: u=r,g=r,o=
@@ -83,11 +83,35 @@
 - name: Unarchive NASM sources
   unarchive:
     remote_src: yes
-    src: "/tmp/ffpmeg_sources/nasm-{{ nasm_version }}.tar.bz2"
-    dest: /tmp/ffpmeg_sources/
-    creates: "/tmp/ffpmeg_sources/nasm-{{ nasm_version }}"
+    src: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}.tar.bz2"
+    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+
+- name: Modifiy autogen.sh to write a flag file if it has run
+  lineinfile:
+    path: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/autogen.sh"
+    line: touch flag_autogen_run
 
 - name: Run autogen.sh in NASM sources directory
-  command: /tmp/ffpmeg_sources/nasm-{{ nasm_version }}/autogen.sh
+  command: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/autogen.sh"
   args:
-    chdir: /tmp/ffpmeg_sources/nasm-{{ nasm_version }}
+    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/flag_autogen_run"
+
+- name: Run configure in NASM sources directory
+  command: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/"
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/config.status"
+
+- name: Run make in NASM sources directory
+  command: "make"
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/libnasm.a"
+
+- name: Run make in NASM sources directory
+  command: "make install"
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/bin/nasm"
