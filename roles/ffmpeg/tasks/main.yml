@@ -277,8 +277,18 @@
     group: root
     creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}"
 
+# TODO: What does this create?
 - name: Run autoreconf in fdk-aac source directory
   command: autoreconf -fiv
   args:
     chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}"
-    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/x265.a"
+    #creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}"
+
+# TODO: What does this create?
+#- name: Run configure in fdk-aac source directory
+#  command: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared"
+#  args:
+#    chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}"
+#    #creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/config.h"
+#  environment:
+#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
