@@ -113,12 +113,13 @@
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/libnasm.a"
+  register: nasm_make
 
 - name: Run make install in NASM sources directory
   command: make install
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/bin/nasm"
+  when: nasm_make.changed
 
 # Yasm
 
@@ -151,12 +152,13 @@
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/libyasm.a"
+  register: yasm_make
 
 - name: Run make install in Yasm sources directory
   command: make install
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/bin/yasm"
+  when: yasm_make.changed
 
 # libx264
 
@@ -194,14 +196,15 @@
     creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/libx264.a"
   environment:
     PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+  register: libx264_make
 
 - name: Run make install in libx264 sources directory
   command: make install
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/bin/x264"
   environment:
     PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+  when: libx264_make.changed
 
 # libx265
 
@@ -227,5 +230,14 @@
   command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_compile_dir }}/build' -DENABLE_SHARED=off {{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/source"
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
+    creates: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux/x265_config.h"
   environment:
     PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+
+- name: Run make in libx265 sources directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
+  environment:
+    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+  register: libx265_make
