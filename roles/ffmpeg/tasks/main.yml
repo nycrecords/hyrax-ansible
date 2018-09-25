@@ -87,6 +87,8 @@
     remote_src: yes
     src: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}.tar.bz2"
     dest: "{{ ffmpeg_compile_dir }}/sources/"
+    owner: root
+    group: root
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
 
 - name: Modifiy autogen.sh to write a flag file if it has run
@@ -134,20 +136,44 @@
     remote_src: yes
     src: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}.tar.gz"
     dest: "{{ ffmpeg_compile_dir }}/sources/"
+    owner: root
+    group: root
     creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
 
 - name: Run configure in Yasm sources directory
   command: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/"
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/config.status"
 
-#- name: Run make in Yasm sources directory
-#  command: make
-#  args:
-#    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
-#
-#- name: Run make in NASM sources directory
-#  command: make install
-#  args:
-#    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
-#    creates: "{{ ffmpeg_compile_dir }}/bin/yasm"
+- name: Run make in Yasm sources directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/libyasm.a"
+
+- name: Run make in Yasm sources directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/bin/yasm"
+
+# libx264
+
+- name: Download libx264 sources
+  get_url:
+    url: "ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-{{ libx264_version }}.tar.bz2"
+    dest: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ libx264_checksum }}"
+
+- name: Unarchive libx264 sources
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    owner: root
+    group: root
+
