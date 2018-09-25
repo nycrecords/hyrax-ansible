@@ -221,3 +221,11 @@
     dest: "{{ ffmpeg_compile_dir }}/sources/"
     owner: root
     group: root
+    creates: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}"
+
+- name: Run cmake on libx265
+  command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_compile_dir }}/build' -DENABLE_SHARED=off {{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/source"
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
+  environment:
+    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
