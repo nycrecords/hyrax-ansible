@@ -71,6 +71,8 @@
     group: root
     mode: u=rwX,g=rwX,o=rX
 
+# NASM
+
 - name: Download NASM sources
   get_url:
     url: "https://www.nasm.us/pub/nasm/releasebuilds/{{ nasm_version }}/nasm-{{ nasm_version }}.tar.bz2"
@@ -105,13 +107,47 @@
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/config.status"
 
 - name: Run make in NASM sources directory
-  command: "make"
+  command: make
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/libnasm.a"
 
 - name: Run make in NASM sources directory
-  command: "make install"
+  command: make install
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/bin/nasm"
+
+# Yasm
+
+- name: Download Yasm sources
+  get_url:
+    url: "https://www.tortall.net/projects/yasm/releases/yasm-{{ yasm_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ yasm_checksum }}"
+
+- name: Unarchive Yasm sources
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+
+- name: Run configure in Yasm sources directory
+  command: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/"
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+
+#- name: Run make in Yasm sources directory
+#  command: make
+#  args:
+#    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+#
+#- name: Run make in NASM sources directory
+#  command: make install
+#  args:
+#    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+#    creates: "{{ ffmpeg_compile_dir }}/bin/yasm"

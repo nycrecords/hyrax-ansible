@@ -13,3 +13,5 @@ solr_checksum: sha1:029a9f7670b6cb8a31afd3ce000d4b163347c6aa
 solr_mirror: https://mirror.csclub.uwaterloo.ca/apache # No trailing slash!
 solr_version: 7.5.0
 tomcat_user_password: insecure_password
+yasm_version: 1.3.0
+yasm_checksum: sha1:b7574e9f0826bedef975d64d3825f75fbaeef55e
