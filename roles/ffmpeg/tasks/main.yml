@@ -47,25 +47,31 @@
     - zlib1g-dev
   when: ansible_os_family == "Debian"
 
-- name: Make ffmpeg sources temporary directory
+- name: Assign facts for the ffmpeg source, build, and binaries directories.
+  set_fact:
+    ffmpeg_source_dir: "{{ ffmpeg_compile_dir }}/source"
+    ffmpeg_build_dir: "{{ ffmpeg_compile_dir }}/build"
+    ffmpeg_bin_dir: "{{ ffmpeg_compile_dir }}/bin"
+
+- name: Make ffmpeg source directory
   file:
-    path: "{{ ffmpeg_compile_dir }}/sources"
+    path: "{{ ffmpeg_source_dir }}"
     state: directory
     owner: root
     group: root
     mode: u=rwX,g=rwX,o=rX
 
-- name: Make ffmpeg sources build directory
+- name: Make ffmpeg build directory
   file:
-    path: "{{ ffmpeg_compile_dir }}/build"
+    path: "{{ ffmpeg_build_dir }}"
     state: directory
     owner: root
     group: root
     mode: u=rwX,g=rwX,o=rX
 
-- name: Make ffmpeg binaries temporary directory
+- name: Make ffmpeg binaries directory
   file:
-    path: "{{ ffmpeg_compile_dir }}/bin"
+    path: "{{ ffmpeg_bin_dir }}"
     state: directory
     owner: root
     group: root
@@ -73,199 +79,206 @@
 
 # NASM
 
-- name: Download NASM sources
+- name: Download NASM source
   get_url:
     url: "https://www.nasm.us/pub/nasm/releasebuilds/{{ nasm_version }}/nasm-{{ nasm_version }}.tar.bz2"
-    dest: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}.tar.bz2"
+    dest: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}.tar.bz2"
     owner: root
     group: root
     mode: u=r,g=r,o=
     checksum: "{{ nasm_checksum }}"
 
-- name: Unarchive NASM sources
+- name: Unarchive NASM source
   unarchive:
     remote_src: yes
-    src: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}.tar.bz2"
-    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    src: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}.tar.bz2"
+    dest: "{{ ffmpeg_source_dir }}"
     owner: root
     group: root
-    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}"
 
 - name: Modifiy autogen.sh to write a flag file if it has run
   lineinfile:
-    path: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/autogen.sh"
+    path: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}/autogen.sh"
     line: touch flag_autogen_run
 
-- name: Run autogen.sh in NASM sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/autogen.sh"
+- name: Run autogen.sh in NASM source directory
+  command: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}/autogen.sh"
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/flag_autogen_run"
+    chdir: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}/flag_autogen_run"
 
-- name: Run configure in NASM sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build --bindir={{ ffmpeg_compile_dir }}/bin"
+- name: Run configure in NASM source directory
+  command: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }}"
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/config.status"
+    chdir: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}/config.status"
 
-- name: Run make in NASM sources directory
+- name: Run make in NASM source directory
   command: make
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/libnasm.a"
+    chdir: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}/libnasm.a"
   register: nasm_make
 
-- name: Run make install in NASM sources directory
+- name: Run make install in NASM source directory
   command: make install
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
+    chdir: "{{ ffmpeg_source_dir }}/nasm-{{ nasm_version }}"
   when: nasm_make.changed
 
 # Yasm
 
-- name: Download Yasm sources
+- name: Download Yasm source
   get_url:
     url: "https://www.tortall.net/projects/yasm/releases/yasm-{{ yasm_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}.tar.gz"
     owner: root
     group: root
     mode: u=r,g=r,o=
     checksum: "{{ yasm_checksum }}"
 
-- name: Unarchive Yasm sources
+- name: Unarchive Yasm source
   unarchive:
     remote_src: yes
-    src: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    src: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
     owner: root
     group: root
-    creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}"
 
-- name: Run configure in Yasm sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build --bindir={{ ffmpeg_compile_dir }}/bin"
+- name: Run configure in Yasm source directory
+  command: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }}"
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/config.status"
+    chdir: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}/config.status"
 
-- name: Run make in Yasm sources directory
+- name: Run make in Yasm source directory
   command: make
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/libyasm.a"
+    chdir: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}"
+    creates: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}/libyasm.a"
   register: yasm_make
 
-- name: Run make install in Yasm sources directory
+- name: Run make install in Yasm source directory
   command: make install
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
+    chdir: "{{ ffmpeg_source_dir }}/yasm-{{ yasm_version }}"
   when: yasm_make.changed
 
-# libx264
+# x264
 
-- name: Download libx264 sources
+- name: Download x264 source
   get_url:
-    url: "ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-{{ libx264_version }}.tar.bz2"
-    dest: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}.tar.gz"
+    url: "ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-{{ x264_version }}.tar.bz2"
+    dest: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}.tar.gz"
     owner: root
     group: root
     mode: u=r,g=r,o=
-    checksum: "{{ libx264_checksum }}"
+    checksum: "{{ x264_checksum }}"
 
-- name: Unarchive libx264 sources
+- name: Unarchive x264 source
   unarchive:
     remote_src: yes
-    src: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    src: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
     owner: root
     group: root
-    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
+    creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
 
-- name: Run configure in libx264 sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build --bindir={{ ffmpeg_compile_dir }}/bin --enable-static --enable-pic"
+- name: Run configure in x264 source directory
+  command: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --enable-static --enable-pic"
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/config.h"
+    chdir: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
+    creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/config.h"
   environment:
-    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
-    PKG_CONFIG_PATH: "{{ ffmpeg_compile_dir }}/build/lib/pkgconfig"
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+    PKG_CONFIG_PATH: "{{ ffmpeg_build_dir }}/lib/pkgconfig"
 
-- name: Run make in libx264 sources directory
+- name: Run make in x264 source directory
   command: make
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/libx264.a"
+    chdir: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
+    creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/x264.a"
   environment:
-    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
-  register: libx264_make
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: x264_make
 
-- name: Run make install in libx264 sources directory
+- name: Run make install in x264 source directory
   command: make install
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
+    chdir: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
   environment:
-    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
-  when: libx264_make.changed
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: x264_make.changed
 
-# libx265
+# x265
 
-- name: Download libx265 sources
+- name: Download x265 source
   get_url:
-    url: "https://bitbucket.org/multicoreware/x265/downloads/x265_{{ libx265_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}.tar.gz"
+    url: "https://bitbucket.org/multicoreware/x265/downloads/x265_{{ x265_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}.tar.gz"
     owner: root
     group: root
     mode: u=r,g=r,o=
-    checksum: "{{ libx265_checksum }}"
+    checksum: "{{ x265_checksum }}"
 
-- name: Unarchive libx265 sources
+- name: Unarchive x265 source
   unarchive:
     remote_src: yes
-    src: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    src: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
     owner: root
     group: root
-    creates: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}"
+    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}"
 
-- name: Run cmake on libx265
-  command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_compile_dir }}/build' -DENABLE_SHARED=off {{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/source"
+- name: Run cmake for x265
+  command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}' -DEXECUTABLE_OUTPUT_PATH='{{ ffmpeg_bin_dir }}' -DENABLE_SHARED=off {{ ffmpeg_source_dir }}/x265_{{ x265_version }}/source"
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
-    creates: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux/x265_config.h"
+    chdir: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux"
+    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/x265_config.h"
   environment:
-    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
-- name: Run make in libx265 sources directory
+- name: Run make in x265 source directory
   command: make
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
-    creates: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux/libx265.a"
+    chdir: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux"
+    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/x265.a"
   environment:
-    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
-  register: libx265_make
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: x265_make
 
-- name: Run make install in libx265 sources directory
+- name: Run make install in x265 source directory
   command: make install
   args:
-    chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
+    chdir: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux"
   environment:
-    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
-  when: libx265_make.changed
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: x265_make.changed
 
-# libfdk-aac
+# fdk-aac
 
-- name: Download libfdk-aac sources
+- name: Download fdk-aac source
   get_url:
-    url: "https://github.com/mstorsjo/fdk-aac/archive/v{{ libfdk-aac_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/libfdk-aac_{{ libfdk-aac_version }}.tar.gz"
+    url: "https://github.com/mstorsjo/fdk-aac/archive/v{{ fdk-aac_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/fdk-aac_{{ fdk-aac_version }}.tar.gz"
     owner: root
     group: root
     mode: u=r,g=r,o=
-    checksum: "{{ libfdk-aac_checksum }}"
+    checksum: "{{ fdk-aac_checksum }}"
 
-- name: Unarchive libfdk-aac sources
+- name: Unarchive fdk-aac source
   unarchive:
     remote_src: yes
-    src: "{{ ffmpeg_compile_dir }}/sources/libfdk-aac_{{ libfdk-aac_version }}.tar.gz"
-    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    src: "{{ ffmpeg_source_dir }}/fdk-aac_{{ fdk-aac_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
     owner: root
     group: root
+    creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}"
+
+- name: Run autoreconf in fdk-aac source directory
+  command: autoreconf -fiv
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk-aac_version }}"
+    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/x265.a"
