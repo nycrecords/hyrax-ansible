@@ -176,4 +176,13 @@
     dest: "{{ ffmpeg_compile_dir }}/sources/"
     owner: root
     group: root
+    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
 
+- name: Run configure in libx264 sources directory
+  command: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/ --enable-static --enable-pic"
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/config.status"
+  environment:
+    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+    PKG_CONFIG_PATH: "{{ ffmpeg_compile_dir }}/build/lib/pkgconfig"
