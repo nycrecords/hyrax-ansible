@@ -51,8 +51,12 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
+|`libx264_checksum` | Verify the x264-snapshot-{{ libx264_version }}.tar.bz2 file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`libx264_version` | The version of libx264 to download. Used to build FFMpeg. |
+|`libx265_checksum` | Verify the x265_{{ libx265_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`libx265_version` | The version of libx265 to download. Used to build FFMpeg. |
 |`nasm_checksum` | Verify the nasm-{{ nasm_version }}.tar.bz2 file, used by `get_url`. Format: <algorithm>:<checksum> |
-|`nasm_version` | The version of NASM to download. |
+|`nasm_version` | The version of NASM to download. Used to build FFMpeg. |
 |`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
 |`postgresql_devel_package` | The name used by the `package` module when installing the Postgresql C headers and other development libraries. Per-Distro |
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
@@ -72,6 +76,8 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`tomcat_user_password` | The password used to build the tomcat-users.xml file. Secure |
 |`tomcat_user` | The user which runs the tomcat service. Per-Distro |
 |`tomcat_users_conf_path` | The path for tomcat-users.xml. Per-Distro |
+|`yasm_checksum` | Verify the yasm-{{ yasm_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`yasm_version` | The version of Yasm to download. Used to build FFMpeg. |
 
 
 **Per-Distro**: Different value for different OSs. The test playbook uses

@@ -7,6 +7,8 @@ ffmpeg_compile_dir: /opt/ffmpeg # No trailing slash!
 hyrax_backups_directory: /var/backups # No trailing slash!
 libx264_checksum: sha1:137e3a4a76b08e553a95f3a0411f30346fc955da
 libx264_version: 20180924-2245-stable
+libx265_checksum: md5:b68dcd4e8a495e53e53034a11fec5eb9
+libx265_version: 2.8
 nasm_checksum: sha1:2a3f4682651d7672f4c6f0abc784eedc9f9a859e
 nasm_version: 2.13.03
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361

@@ -103,7 +103,7 @@
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/flag_autogen_run"
 
 - name: Run configure in NASM sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/"
+  command: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build --bindir={{ ffmpeg_compile_dir }}/bin"
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/config.status"
@@ -141,7 +141,7 @@
     creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
 
 - name: Run configure in Yasm sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/"
+  command: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build --bindir={{ ffmpeg_compile_dir }}/bin"
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/config.status"
@@ -179,7 +179,7 @@
     creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
 
 - name: Run configure in libx264 sources directory
-  command: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/ --enable-static --enable-pic"
+  command: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build --bindir={{ ffmpeg_compile_dir }}/bin --enable-static --enable-pic"
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/config.h"
@@ -203,3 +203,21 @@
   environment:
     PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
 
+# libx265
+
+- name: Download libx265 sources
+  get_url:
+    url: "https://bitbucket.org/multicoreware/x265/downloads/x265_{{ libx265_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ libx265_checksum }}"
+
+- name: Unarchive libx265 sources
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    owner: root
+    group: root
