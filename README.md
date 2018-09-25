@@ -51,6 +51,8 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
+|`libfdk-aac_checksum` | Verify the libfdk-aac {{ libfdk-aac_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`libfdk-aac_version` | The version of libfdk-aac to download. Used to build FFMpeg. |
 |`libx264_checksum` | Verify the x264-snapshot-{{ libx264_version }}.tar.bz2 file, used by `get_url`. Format: <algorithm>:<checksum> |
 |`libx264_version` | The version of libx264 to download. Used to build FFMpeg. |
 |`libx265_checksum` | Verify the x265_{{ libx265_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
@@ -78,7 +80,6 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`tomcat_users_conf_path` | The path for tomcat-users.xml. Per-Distro |
 |`yasm_checksum` | Verify the yasm-{{ yasm_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
 |`yasm_version` | The version of Yasm to download. Used to build FFMpeg. |
-
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 

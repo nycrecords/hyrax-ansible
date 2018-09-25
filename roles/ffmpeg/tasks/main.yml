@@ -238,6 +238,34 @@
   command: make
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
+    creates: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux/libx265.a"
   environment:
     PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
   register: libx265_make
+
+- name: Run make install in libx265 sources directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/x265_{{ libx265_version }}/build/linux"
+  environment:
+    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+  when: libx265_make.changed
+
+# libfdk-aac
+
+- name: Download libfdk-aac sources
+  get_url:
+    url: "https://github.com/mstorsjo/fdk-aac/archive/v{{ libfdk-aac_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/libfdk-aac_{{ libfdk-aac_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ libfdk-aac_checksum }}"
+
+- name: Unarchive libfdk-aac sources
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_compile_dir }}/sources/libfdk-aac_{{ libfdk-aac_version }}.tar.gz"
+    dest: "{{ ffmpeg_compile_dir }}/sources/"
+    owner: root
+    group: root
