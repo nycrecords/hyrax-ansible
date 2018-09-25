@@ -114,7 +114,7 @@
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}/libnasm.a"
 
-- name: Run make in NASM sources directory
+- name: Run make install in NASM sources directory
   command: make install
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/nasm-{{ nasm_version }}"
@@ -152,7 +152,7 @@
     chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
     creates: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}/libyasm.a"
 
-- name: Run make in Yasm sources directory
+- name: Run make install in Yasm sources directory
   command: make install
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/yasm-{{ yasm_version }}"
@@ -182,7 +182,24 @@
   command: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/configure --prefix={{ ffmpeg_compile_dir }}/build/ --bindir={{ ffmpeg_compile_dir }}/bin/ --enable-static --enable-pic"
   args:
     chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
-    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/config.status"
+    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/config.h"
   environment:
     PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
     PKG_CONFIG_PATH: "{{ ffmpeg_compile_dir }}/build/lib/pkgconfig"
+
+- name: Run make in libx264 sources directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}/libx264.a"
+  environment:
+    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+
+- name: Run make install in libx264 sources directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_compile_dir }}/sources/x264-snapshot-{{ libx264_version }}"
+    creates: "{{ ffmpeg_compile_dir }}/bin/x264"
+  environment:
+    PATH: "{{ ffmpeg_compile_dir }}/bin:{{ ansible_env.PATH }}"
+
