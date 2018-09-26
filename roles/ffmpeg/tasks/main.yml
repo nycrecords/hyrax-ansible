@@ -338,19 +338,19 @@
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
-#- name: Run make in mp3lame source directory
-#  command: make
-#  args:
-#    chdir: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}"
-#    #creates: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}/libx264.a"
-#  environment:
-#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
-#  register: mp3lame_make
+- name: Run make in mp3lame source directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}"
+    creates: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}/libmp3lame/libmp3lame.la"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: mp3lame_make
 
-#- name: Run make install in mp3lame source directory
-#  command: make install
-#  args:
-#    chdir: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}"
-#  environment:
-#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
-#  when: mp3lame_make.changed
+- name: Run make install in mp3lame source directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: mp3lame_make.changed
