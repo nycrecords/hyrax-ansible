@@ -286,7 +286,7 @@
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
 - name: Run configure in fdk-aac source directory
-  command: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared"
+  command: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/configure --prefix={{ ffmpeg_build_dir }} --disable-shared"
   args:
     chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
     creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/config.status"
@@ -309,3 +309,48 @@
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   when: fdk_aac_make.changed
+
+# mp3lame
+
+- name: Download mp3lame source
+  get_url:
+    url: "https://sourceforge.net/projects/lame/files/lame/{{ mp3lame_version }}/lame-{{ mp3lame_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ mp3lame_checksum }}"
+
+- name: Unarchive mp3lame source
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
+    owner: root
+    group: root
+    creates: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}"
+
+#- name: Run configure in mp3lame source directory
+#  command: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared --enable-nasm"
+#  args:
+#    chdir: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}"
+#    #creates: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}/config.h"
+#  environment:
+#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+
+#- name: Run make in mp3lame source directory
+#  command: make
+#  args:
+#    chdir: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}"
+#    #creates: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}/libx264.a"
+#  environment:
+#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+#  register: mp3lame_make
+#
+#- name: Run make install in mp3lame source directory
+#  command: make install
+#  args:
+#    chdir: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}"
+#  environment:
+#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+#  when: mp3lame_make.changed

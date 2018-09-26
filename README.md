@@ -80,6 +80,8 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`x265_version` | The version of x265 to download. Used to build FFMpeg. |
 |`yasm_checksum` | Verify the yasm-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`yasm_version` | The version of Yasm to download. Used to build FFMpeg. |
+|`mp3lame_checksum` | Verify the lame-`{{ mp3lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`mp3lame_version` | The version of mp3lame to download. Used to build FFMpeg. |
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 

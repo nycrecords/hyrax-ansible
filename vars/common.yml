@@ -7,6 +7,8 @@ fedora4_postgresqldatabase_user_password: insecure_password
 fedora4_version: 4.7.5
 ffmpeg_compile_dir: /opt/ffmpeg # No trailing slash!
 hyrax_backups_directory: /var/backups # No trailing slash!
+mp3lame_checksum: sha1:64c53b1a4d493237cef5e74944912cd9f98e618d
+mp3lame_version: 3.100
 nasm_checksum: sha1:2a3f4682651d7672f4c6f0abc784eedc9f9a859e
 nasm_version: 2.13.03
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361
