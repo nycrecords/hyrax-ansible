@@ -44,8 +44,8 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 
 |Variable|Notes|
 |---|---|
-|`fdk-aac_checksum` | Verify the libfdk-aac `{{ libfdk-aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`fdk-aac_version` | The version of libfdk-aac to download. Used to build FFMpeg. |
+|`fdk_aac_checksum` | Verify the fdk-aac `{{ fdk_aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`fdk_aac_version` | The version of fdk-aac to download. Used to build FFMpeg. |
 |`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`fedora4_version` | The version of Fedora 4 to download. |
@@ -112,7 +112,7 @@ FFmpeg is built with:
 * Yasm 1.3.0 (Set using `yasm_version` variable.)
 * x264: 20180924-2245-stable (Set using `x264_version` variable.)
 * x265: 2.8 (Set using `x265_version` variable.)
-* fdk-aac: 0.1.6 (Set using `fdk-aac_version` variable.)
+* fdk-aac: 0.1.6 (Set using `fdk_aac_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.

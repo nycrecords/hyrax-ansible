@@ -1,7 +1,7 @@
 ---
 # Common variables for all hosts
-fdk-aac_checksum: sha1:cc40945953781447f36616714741cec4ebb1f253
-fdk-aac_version: 0.1.6
+fdk_aac_checksum: sha1:cc40945953781447f36616714741cec4ebb1f253
+fdk_aac_version: 0.1.6
 fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
 fedora4_postgresqldatabase_user_password: insecure_password
 fedora4_version: 4.7.5
