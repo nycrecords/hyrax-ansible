@@ -342,7 +342,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}"
-    creates: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}/liblame/liblame.la"
+    creates: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}/libmp3lame/libmp3lame.la"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: lame_make
@@ -432,7 +432,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/libogg-{{ libogg_version }}"
-    creates: "{{ ffmpeg_source_dir }}/libogg-{{ libogg_version }}/libogg.la"
+    creates: "{{ ffmpeg_source_dir }}/libogg-{{ libogg_version }}/src/libogg.la"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: libogg_make
@@ -477,7 +477,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}"
-    creates: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}/libvorbis.la"
+    creates: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}/lib/libvorbis.la"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: libvorbis_make
