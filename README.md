@@ -53,8 +53,12 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
-|`mp3lame_checksum` | Verify the lame-`{{ mp3lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`mp3lame_version` | The version of mp3lame to download. Used to build FFMpeg. |
+|`lame_checksum` | Verify the lame-`{{ lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`lame_version` | The version of lame to download. Used to build FFMpeg. |
+|`libogg_checksum` | Verify the libogg-`{{ libogg_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`libogg_version` | The version of libogg  to download. Used to build FFMpeg. |
+|`libvorbis_checksum` | Verify the libvorbis-`{{ libvorbis_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`libvorbis_version` | The version of libvorbis  to download. Used to build FFMpeg. |
 |`nasm_checksum` | Verify the nasm-`{{ nasm_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`nasm_version` | The version of NASM to download. Used to build FFMpeg. |
 |`opus_checksum` | Verify the opus-`{{ opus_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
@@ -117,6 +121,10 @@ FFmpeg is built with:
 * x264: 20180924-2245-stable (Set using `x264_version` variable.)
 * x265: 2.8 (Set using `x265_version` variable.)
 * fdk-aac: 0.1.6 (Set using `fdk_aac_version` variable.)
+* lame: 3.100 (Set using `lame_version` variable.)
+* opus: 1.2.1 (Set using `opus_version` variable.)
+* libogg: 1.3.3 (Set using `libogg_version` variable.)
+* libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.
