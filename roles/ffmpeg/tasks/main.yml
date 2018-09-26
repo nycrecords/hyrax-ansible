@@ -379,7 +379,7 @@
   command: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}/configure --prefix={{ ffmpeg_build_dir }} --disable-shared"
   args:
     chdir: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}"
-    #creates: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}/config.h"
+    creates: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}/config.h"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
@@ -387,7 +387,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}"
-    #creates: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}/libopus.a"
+    creates: "{{ ffmpeg_source_dir }}/opus-{{ opus_version }}/libopus.la"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: opus_make
