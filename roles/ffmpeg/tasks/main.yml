@@ -331,10 +331,10 @@
     creates: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}"
 
 - name: Run configure in mp3lame source directory
-  command: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared --enable-nasm"
+  command: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared --enable-nasm"
   args:
-    chdir: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}"
-    #creates: "{{ ffmpeg_source_dir }}/mp3lame-{{ mp3lame_version }}/config.h"
+    chdir: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}"
+    #creates: "{{ ffmpeg_source_dir }}/lame-{{ mp3lame_version }}/config.h"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
