@@ -44,25 +44,25 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 
 |Variable|Notes|
 |---|---|
-|`fdk-aac_checksum` | Verify the libfdk-aac {{ libfdk-aac_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`fdk-aac_checksum` | Verify the libfdk-aac `{{ libfdk-aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`fdk-aac_version` | The version of libfdk-aac to download. Used to build FFMpeg. |
-|`fedora4_checksum` | Verify the fcrepo-webapp-{{ fedora4_version }}.war file, used by `get_url` module. Format: <algorithm>:<checksum> |
+|`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`fedora4_version` | The version of Fedora 4 to download. |
 |`ffmpeg_compile_dir` | The directory where ffmpeg sources will be downloaded, unarchived, and compiled. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
-|`nasm_checksum` | Verify the nasm-{{ nasm_version }}.tar.bz2 file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`nasm_checksum` | Verify the nasm-`{{ nasm_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`nasm_version` | The version of NASM to download. Used to build FFMpeg. |
 |`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
 |`postgresql_devel_package` | The name used by the `package` module when installing the Postgresql C headers and other development libraries. Per-Distro |
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
 |`python_psycopg2_package` | The name used by the `package` module when installing the Python Postgresql library (used by Ansible). Per-Distro |
 |`redis_package` | The name used by the `package` module when installing Redis. Per-Distro |
-|`ruby_tarbz2_sha1_checksum` | Verify the ruby-{{ ruby_version }}.tar.bz2 file, used by `ruby-install`. Format: <checksum> |
+|`ruby_tarbz2_sha1_checksum` | Verify the ruby-`{{ ruby_version }`.tar.bz2 file, used by `ruby-install`. Format: `<checksum>` |
 |`ruby_version` | The version of Ruby to download and install. |
-|`solr_checksum` | Verify the solr-{{ solr_version }}.tgz file, used by `get_url` module. Format: <algorithm>:<checksum>
+|`solr_checksum` | Verify the solr-`{{ solr_version }}`.tgz file, used by `get_url` module. Format: `<algorithm>:<checksum>`
 |`solr_mirror` | The mirror to use when downloading Solr. |
 |`solr_version` | The version of Solr to download. |
 |`tomcat_admin_package` | The name used by the `package` module when installing the tomcat manager webapps. Per-Distro |
@@ -74,11 +74,11 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`tomcat_user_password` | The password used to build the tomcat-users.xml file. Secure |
 |`tomcat_user` | The user which runs the tomcat service. Per-Distro |
 |`tomcat_users_conf_path` | The path for tomcat-users.xml. Per-Distro |
-|`x264_checksum` | Verify the x264-snapshot-{{ x264_version }}.tar.bz2 file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`x264_checksum` | Verify the x264-snapshot-`{{ x264_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`x264_version` | The version of x264 to download. Used to build FFMpeg. |
-|`x265_checksum` | Verify the x265_{{ x265_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`x265_checksum` | Verify the x265_`{{ x265_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`x265_version` | The version of x265 to download. Used to build FFMpeg. |
-|`yasm_checksum` | Verify the yasm-{{ yasm_version }}.tar.gz file, used by `get_url`. Format: <algorithm>:<checksum> |
+|`yasm_checksum` | Verify the yasm-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`yasm_version` | The version of Yasm to download. Used to build FFMpeg. |
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
@@ -109,6 +109,10 @@ However, some software is installed at a specific version:
 FFmpeg is built with:
 
 * NASM 2.13.03 (Set using `nasm_version` variable.)
+* Yasm 1.3.0 (Set using `yasm_version` variable.)
+* x264: 20180924-2245-stable (Set using `x264_version` variable.)
+* x265: 2.8 (Set using `x265_version` variable.)
+* fdk-aac: 0.1.6 (Set using `fdk-aac_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.
