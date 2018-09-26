@@ -11,6 +11,8 @@ mp3lame_checksum: sha1:64c53b1a4d493237cef5e74944912cd9f98e618d
 mp3lame_version: "3.100"
 nasm_checksum: sha1:2a3f4682651d7672f4c6f0abc784eedc9f9a859e
 nasm_version: "2.13.03"
+opus_checksum: sha1:35d108ca9d6a8d05e52d06c5421a5f95b39fdac9
+opus_version: "1.2.1"
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361
 ruby_version: "2.5.1"
 solr_checksum: sha1:029a9f7670b6cb8a31afd3ce000d4b163347c6aa

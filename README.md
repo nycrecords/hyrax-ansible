@@ -53,8 +53,12 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
+|`mp3lame_checksum` | Verify the lame-`{{ mp3lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`mp3lame_version` | The version of mp3lame to download. Used to build FFMpeg. |
 |`nasm_checksum` | Verify the nasm-`{{ nasm_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`nasm_version` | The version of NASM to download. Used to build FFMpeg. |
+|`opus_checksum` | Verify the opus-`{{ opus_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`opus_version` | The version of opus to download. Used to build FFMpeg. |
 |`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
 |`postgresql_devel_package` | The name used by the `package` module when installing the Postgresql C headers and other development libraries. Per-Distro |
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
@@ -80,8 +84,6 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`x265_version` | The version of x265 to download. Used to build FFMpeg. |
 |`yasm_checksum` | Verify the yasm-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`yasm_version` | The version of Yasm to download. Used to build FFMpeg. |
-|`mp3lame_checksum` | Verify the lame-`{{ mp3lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`mp3lame_version` | The version of mp3lame to download. Used to build FFMpeg. |
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 
