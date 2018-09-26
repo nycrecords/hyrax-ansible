@@ -289,6 +289,23 @@
   command: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared"
   args:
     chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
-    #creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/config.h"
+    creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/config.status"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+
+- name: Run make in fdk-aac source directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
+    creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/libfdk-aac.la"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: fdk_aac_make
+
+- name: Run make install in fdk-aac source directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: fdk_aac_make.changed
