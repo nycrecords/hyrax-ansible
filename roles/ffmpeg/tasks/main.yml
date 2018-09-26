@@ -59,7 +59,7 @@
     state: directory
     owner: root
     group: root
-    mode: u=rwX,g=rwX,o=rX
+    mode: u=rwX,g=rX,o=rX
 
 - name: Make ffmpeg build directory
   file:
@@ -67,7 +67,7 @@
     state: directory
     owner: root
     group: root
-    mode: u=rwX,g=rwX,o=rX
+    mode: u=rwX,g=rX,o=rX
 
 - name: Make ffmpeg binaries directory
   file:
@@ -75,7 +75,7 @@
     state: directory
     owner: root
     group: root
-    mode: u=rwX,g=rwX,o=rX
+    mode: u=rwX,g=rX,o=rX
 
 # NASM
 
@@ -199,7 +199,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
-    creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/x264.a"
+    creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/libx264.a"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: x264_make
@@ -244,7 +244,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux"
-    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/x265.a"
+    creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/libx265.a"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: x265_make
@@ -262,7 +262,7 @@
 - name: Download fdk-aac source
   get_url:
     url: "https://github.com/mstorsjo/fdk-aac/archive/v{{ fdk_aac_version }}.tar.gz"
-    dest: "{{ ffmpeg_source_dir }}/fdk-aac_{{ fdk_aac_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}.tar.gz"
     owner: root
     group: root
     mode: u=r,g=r,o=
@@ -271,24 +271,24 @@
 - name: Unarchive fdk-aac source
   unarchive:
     remote_src: yes
-    src: "{{ ffmpeg_source_dir }}/fdk-aac_{{ fdk_aac_version }}.tar.gz"
+    src: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}.tar.gz"
     dest: "{{ ffmpeg_source_dir }}/"
     owner: root
     group: root
     creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
 
-# TODO: What does this create?
 - name: Run autoreconf in fdk-aac source directory
   command: autoreconf -fiv
   args:
     chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
-    #creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
+    creates: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/configure"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
-# TODO: What does this create?
-#- name: Run configure in fdk-aac source directory
-#  command: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared"
-#  args:
-#    chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
-#    #creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/config.h"
-#  environment:
-#    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+- name: Run configure in fdk-aac source directory
+  command: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared"
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/fdk-aac-{{ fdk_aac_version }}"
+    #creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/config.h"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
