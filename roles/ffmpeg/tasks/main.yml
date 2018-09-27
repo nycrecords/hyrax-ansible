@@ -516,3 +516,11 @@
     owner: root
     group: root
     creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}/README.md"
+
+- name: Run cmake for aom
+  command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}' -DENABLE_SHARED=off -DENABLE_NASM=on {{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+    #creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
