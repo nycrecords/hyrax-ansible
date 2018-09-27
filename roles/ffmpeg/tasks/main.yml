@@ -499,7 +499,6 @@
     owner: root
     group: root
     mode: u=r,g=r,o=
-    checksum: "{{ aom_checksum }}"
 
 - name: Unarchive aom source
   unarchive:
