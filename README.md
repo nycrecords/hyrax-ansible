@@ -44,7 +44,9 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 
 |Variable|Notes|
 |---|---|
-|`fdk_aac_checksum` | Verify the fdk-aac `{{ fdk_aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`aom_checksum` | Verify the v`{{ aom_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`aom_version` | The version of aom to download. Used to build FFMpeg. |
+|`fdk_aac_checksum` | Verify the fdk-aac-`{{ fdk_aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`fdk_aac_version` | The version of fdk-aac to download. Used to build FFMpeg. |
 |`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
@@ -125,6 +127,7 @@ FFmpeg is built with:
 * opus: 1.2.1 (Set using `opus_version` variable.)
 * libogg: 1.3.3 (Set using `libogg_version` variable.)
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
+* aom: 1.0.0 (Set using `aom_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.
