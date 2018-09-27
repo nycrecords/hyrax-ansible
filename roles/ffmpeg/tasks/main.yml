@@ -500,11 +500,19 @@
     group: root
     mode: u=r,g=r,o=
 
+- name: Create directory for unarchived aom source
+  file:
+    path: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rX,o=rX
+
 - name: Unarchive aom source
   unarchive:
     remote_src: yes
     src: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}.tar.gz"
-    dest: "{{ ffmpeg_source_dir }}/"
+    dest: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
     owner: root
     group: root
-#    creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+    creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}/README.md"
