@@ -123,6 +123,7 @@ However, some software is installed at a specific version:
 * Solr v7.5.0 (Set using `solr_version` variable.)
 * Node.js v10.x
 * Ruby 2.5.1 (Set using `ruby_version` variable.)
+* FFmpeg 4.0.2 (Set using `ffmpeg_version` variable.)
 
 FFmpeg is built with:
 
@@ -138,6 +139,7 @@ FFmpeg is built with:
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
 * cmake: 3.12.2 (Set using `cmake_version` variable.)
 * libvpx: 1.7.9 (Set using `libvpx_version` variable.)
+* libass: 0.14.0 (Set using `libass_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.

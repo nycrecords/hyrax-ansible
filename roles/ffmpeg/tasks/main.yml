@@ -649,7 +649,7 @@
 
 - name: Download libass source
   get_url:
-    url: "https://github.com/libass/libass/archive/v{{ libass_version }}.tar.gz"
+    url: "https://github.com/libass/libass/archive/{{ libass_version }}.tar.gz"
     dest: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}.tar.gz"
     owner: root
     group: root
