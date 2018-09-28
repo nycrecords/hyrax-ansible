@@ -11,6 +11,7 @@
     - bzip2
     - cmake
     - freetype-devel
+    - fribidi-devel
     - gcc
     - gcc-c++
     - git
@@ -32,13 +33,14 @@
     - cmake
     - git-core
     - libfreetype6-dev
+    - libfribidi-dev
     - libsdl2-dev
     - libtool
     - libva-dev
     - libvdpau-dev
-    - libxcb1-dev
     - libxcb-shm0-dev
     - libxcb-xfixes0-dev
+    - libxcb1-dev
     - pkg-config
     - texinfo
     - wget
