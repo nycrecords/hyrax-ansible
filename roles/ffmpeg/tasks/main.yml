@@ -765,7 +765,7 @@
         fdk_aac_make.changed or
         lame_make.changed or
         opus_make.changed or
-        ogg_make.changed or
+        libogg_make.changed or
         vorbis_make.changed or
         aom_make.changed or
         libvpx_make.changed or
