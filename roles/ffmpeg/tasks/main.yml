@@ -82,7 +82,7 @@
 
 - name: Download cmake binary
   get_url:
-    url: "https://cmake.org/files/v{{ cmake_version.split(".")[0] }}.{{ cmake_version.split(".")[1] }}/cmake-{{ cmake_version }}-Linux-x86_64.tar.gz"
+    url: "https://cmake.org/files/v{{ cmake_version.split('.')[0] }}.{{ cmake_version.split('.')[1] }}/cmake-{{ cmake_version }}-Linux-x86_64.tar.gz"
     dest: "{{ ffmpeg_bin_download_dir }}/cmake-{{ cmake_version }}-Linux-x86_64.tar.gz"
     owner: root
     group: root
