@@ -667,6 +667,7 @@
 
 - name: Run configure in libass source directory
   command: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/configure --prefix={{ ffmpeg_build_dir }}"
+  args:
     chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
     creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/config.h"
   environment:
