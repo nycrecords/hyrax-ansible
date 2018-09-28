@@ -566,7 +566,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
-    #creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
+    creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build/libaom.a"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: aom_make
@@ -578,3 +578,48 @@
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   when: aom_make.changed
+
+# libvpx
+
+- name: Download libvpx source
+  get_url:
+    url: "https://github.com/webmproject/libvpx/archive/v{{ libvpx_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ libvpx_checksum }}"
+
+- name: Unarchive libvpx source
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
+    owner: root
+    group: root
+    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
+
+- name: Run configure in libvpx source directory
+  command: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/configure --prefix={{ ffmpeg_build_dir }} --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm"
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
+    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/config.h"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+
+- name: Run make in libvpx source directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
+    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/libvpx.la"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: libvpx_make
+
+- name: Run make libvpx in libvpx source directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: libvpx_make.changed

@@ -44,11 +44,11 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 
 |Variable|Notes|
 |---|---|
-|`aom_version` | The version of aom to download. Used to build FFMpeg. |
+|`aom_version` | The version of aom to download. Used to build FFmpeg. |
 |`cmake_checksum` | Verify the cmake-`{{ cmake_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`cmake_version` | The version of cmake to download. Used to build aom library for FFMpeg. |
+|`cmake_version` | The version of cmake to download. Used to build aom library for FFmpeg. |
 |`fdk_aac_checksum` | Verify the fdk-aac-`{{ fdk_aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`fdk_aac_version` | The version of fdk-aac to download. Used to build FFMpeg. |
+|`fdk_aac_version` | The version of fdk-aac to download. Used to build FFmpeg. |
 |`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`fedora4_version` | The version of Fedora 4 to download. |
@@ -57,15 +57,17 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
 |`lame_checksum` | Verify the lame-`{{ lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`lame_version` | The version of lame to download. Used to build FFMpeg. |
+|`lame_version` | The version of lame to download. Used to build FFmpeg. |
 |`libogg_checksum` | Verify the libogg-`{{ libogg_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`libogg_version` | The version of libogg  to download. Used to build FFMpeg. |
+|`libogg_version` | The version of libogg  to download. Used to build FFmpeg. |
 |`libvorbis_checksum` | Verify the libvorbis-`{{ libvorbis_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`libvorbis_version` | The version of libvorbis  to download. Used to build FFMpeg. |
+|`libvorbis_version` | The version of libvorbis  to download. Used to build FFmpeg. |
+|`libvpx_checksum` | Verify the libvpx-`{{ libvpx_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`libvpx_version` | The version of libvpx to download. Used to build FFmpeg. |
 |`nasm_checksum` | Verify the nasm-`{{ nasm_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`nasm_version` | The version of NASM to download. Used to build FFMpeg. |
+|`nasm_version` | The version of NASM to download. Used to build FFmpeg. |
 |`opus_checksum` | Verify the opus-`{{ opus_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`opus_version` | The version of opus to download. Used to build FFMpeg. |
+|`opus_version` | The version of opus to download. Used to build FFmpeg. |
 |`postgresql_contrib_package` | The name used by the `package` module when installing Postgresql's additional features. Per-Distro |
 |`postgresql_devel_package` | The name used by the `package` module when installing the Postgresql C headers and other development libraries. Per-Distro |
 |`postgresql_server_package` | The name used by the `package` module when installing the Postgresql server. Per-Distro |
@@ -86,11 +88,11 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`tomcat_user` | The user which runs the tomcat service. Per-Distro |
 |`tomcat_users_conf_path` | The path for tomcat-users.xml. Per-Distro |
 |`x264_checksum` | Verify the x264-snapshot-`{{ x264_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`x264_version` | The version of x264 to download. Used to build FFMpeg. |
+|`x264_version` | The version of x264 to download. Used to build FFmpeg. |
 |`x265_checksum` | Verify the x265_`{{ x265_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`x265_version` | The version of x265 to download. Used to build FFMpeg. |
+|`x265_version` | The version of x265 to download. Used to build FFmpeg. |
 |`yasm_checksum` | Verify the yasm-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
-|`yasm_version` | The version of Yasm to download. Used to build FFMpeg. |
+|`yasm_version` | The version of Yasm to download. Used to build FFmpeg. |
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 
@@ -130,6 +132,7 @@ FFmpeg is built with:
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
 * cmake: 3.12.2 (Set using `cmake_version` variable.)
+* libvpx: 1.7.9 (Set using `libvpx_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.
