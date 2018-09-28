@@ -78,6 +78,14 @@
     group: root
     mode: u=rwX,g=rX,o=rX
 
+- name: Make ffmpeg binaries downloads directory
+  file:
+    path: "{{ ffmpeg_bin_download_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rX,o=rX
+
 # cmake
 
 - name: Download cmake binary
