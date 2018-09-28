@@ -558,6 +558,23 @@
   command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}' -DENABLE_SHARED=off -DENABLE_NASM=on {{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
   args:
     chdir: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
-    #creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+    creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build/Makefile"
   environment:
     PATH: "{{ ffmpeg_cmake_dir }}/cmake-{{ cmake_version }}-Linux-x86_64/bin:{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+
+- name: Run make in aom build directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
+    #creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: aom_make
+
+- name: Run make install in aom build directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: aom_make.changed
