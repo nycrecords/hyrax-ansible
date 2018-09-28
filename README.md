@@ -52,12 +52,16 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` |
 |`fedora4_postgresqldatabase_user_password` | The password used by fedora4 to connect to Postgresql. Secure |
 |`fedora4_version` | The version of Fedora 4 to download. |
+|`ffmpeg_checksum` | Verify the ffmpeg-`{{ ffmpeg_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`ffmpeg_compile_dir` | The directory where ffmpeg sources will be downloaded, unarchived, and compiled. |
+|`ffmpeg_version` | The version of FFmpeg to download. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
 |`lame_checksum` | Verify the lame-`{{ lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`lame_version` | The version of lame to download. Used to build FFmpeg. |
+|`libass_checksum` | Verify the libass-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`libass_version` | The version of libass to download. Used to build FFmpeg. |
 |`libogg_checksum` | Verify the libogg-`{{ libogg_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`libogg_version` | The version of libogg  to download. Used to build FFmpeg. |
 |`libvorbis_checksum` | Verify the libvorbis-`{{ libvorbis_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
@@ -93,6 +97,7 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`x265_version` | The version of x265 to download. Used to build FFmpeg. |
 |`yasm_checksum` | Verify the yasm-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`yasm_version` | The version of Yasm to download. Used to build FFmpeg. |
+
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 

@@ -31,13 +31,11 @@
     - build-essential
     - cmake
     - git-core
-    - libass-dev
     - libfreetype6-dev
     - libsdl2-dev
     - libtool
     - libva-dev
     - libvdpau-dev
-    - libvorbis-dev
     - libxcb1-dev
     - libxcb-shm0-dev
     - libxcb-xfixes0-dev
@@ -216,7 +214,11 @@
     creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
 
 - name: Run configure in x264 source directory
-  command: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --enable-static --enable-pic"
+  command: >
+    {{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/configure
+      --prefix={{ ffmpeg_build_dir }}
+      --bindir={{ ffmpeg_bin_dir }}
+      --enable-static --enable-pic
   args:
     chdir: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}"
     creates: "{{ ffmpeg_source_dir }}/x264-snapshot-{{ x264_version }}/config.h"
@@ -262,7 +264,12 @@
     creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}"
 
 - name: Run cmake for x265
-  command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}' -DEXECUTABLE_OUTPUT_PATH='{{ ffmpeg_bin_dir }}' -DENABLE_SHARED=off {{ ffmpeg_source_dir }}/x265_{{ x265_version }}/source"
+  command: >
+    cmake -G 'Unix Makefiles'
+      -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}'
+      -DEXECUTABLE_OUTPUT_PATH='{{ ffmpeg_bin_dir }}'
+      -DENABLE_SHARED=off
+      {{ ffmpeg_source_dir }}/x265_{{ x265_version }}/source
   args:
     chdir: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux"
     creates: "{{ ffmpeg_source_dir }}/x265_{{ x265_version }}/build/linux/x265_config.h"
@@ -360,7 +367,12 @@
     creates: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}"
 
 - name: Run configure in lame source directory
-  command: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --disable-shared --enable-nasm"
+  command: >
+    {{ ffmpeg_source_dir }}/lame-{{ lame_version }}/configure
+      --prefix={{ ffmpeg_build_dir }}
+      --bindir={{ ffmpeg_bin_dir }}
+      --disable-shared
+      --enable-nasm
   args:
     chdir: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}"
     creates: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}/config.h"
@@ -495,7 +507,11 @@
     creates: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}"
 
 - name: Run configure in libvorbis source directory
-  command: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}/configure --prefix={{ ffmpeg_build_dir }} --with-ogg={{ ffmpeg_build_dir }} --disable-shared"
+  command: >
+    {{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}/configure
+      --prefix={{ ffmpeg_build_dir }}
+      --with-ogg={{ ffmpeg_build_dir }}
+      --disable-shared
   args:
     chdir: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}"
     creates: "{{ ffmpeg_source_dir }}/libvorbis-{{ libvorbis_version }}/config.h"
@@ -555,7 +571,12 @@
     mode: u=rwX,g=rX,o=rX
 
 - name: Run cmake for aom
-  command: "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}' -DENABLE_SHARED=off -DENABLE_NASM=on {{ ffmpeg_source_dir }}/aom_{{ aom_version }}"
+  command: >
+    cmake -G 'Unix Makefiles'
+      -DCMAKE_INSTALL_PREFIX='{{ ffmpeg_build_dir }}'
+      -DENABLE_SHARED=off
+      -DENABLE_NASM=on
+      {{ ffmpeg_source_dir }}/aom_{{ aom_version }}
   args:
     chdir: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build"
     creates: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}_build/Makefile"
@@ -603,7 +624,7 @@
   command: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/configure --prefix={{ ffmpeg_build_dir }} --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm"
   args:
     chdir: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
-    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/config.h"
+    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/config.log"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
@@ -611,15 +632,124 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
-    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/libvpx.la"
+    creates: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}/libvpx.a"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: libvpx_make
 
-- name: Run make libvpx in libvpx source directory
+- name: Run make install in libvpx source directory
   command: make install
   args:
     chdir: "{{ ffmpeg_source_dir }}/libvpx-{{ libvpx_version }}"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   when: libvpx_make.changed
+
+# libass
+
+- name: Download libass source
+  get_url:
+    url: "https://github.com/libass/libass/archive/v{{ libass_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ libass_checksum }}"
+
+- name: Unarchive libass source
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}.tar.gz"
+    dest: "{{ ffmpeg_source_dir }}/"
+    owner: root
+    group: root
+    creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
+
+- name: Run configure in libass source directory
+  command: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/configure --prefix={{ ffmpeg_build_dir }}"
+    chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
+    creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/config.h"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+
+- name: Run make in libass source directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
+    creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/libass.la"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: libass_make
+
+- name: Run make install in libass source directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: libass_make.changed
+
+# FFmpeg
+
+- name: Download ffmpeg source
+  get_url:
+    url: "https://ffmpeg.org/releases/ffmpeg-{{ ffmpeg_version }}.tar.bz2"
+    dest: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}.tar.bz2"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ ffmpeg_checksum }}"
+
+- name: Unarchive ffmpeg source
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}.tar.bz2"
+    dest: "{{ ffmpeg_source_dir }}/"
+    owner: root
+    group: root
+    creates: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}"
+
+- name: Run configure in ffmpeg source directory
+  command: >
+    {{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}/configure
+      --prefix={{ ffmpeg_build_dir }}
+      --pkg-config-flags="--static"
+      --extra-cflags="-I{{ ffmpeg_build_dir }}/include"
+      --extra-ldflags="-L{{ ffmpeg_build_dir }}/lib"
+      --extra-libs="-lpthread -lm"
+      --bindir="{{ ffmpeg_bin_dir }}"
+      --enable-gpl
+      --enable-libaom
+      --enable-libass
+      --enable-libfdk-aac
+      --enable-libfreetype
+      --enable-libmp3lame
+      --enable-libopus
+      --enable-libvorbis
+      --enable-libvpx
+      --enable-libx264
+      --enable-libx265
+      --enable-nonfree
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}"
+    creates: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}/config.h"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+    PKG_CONFIG_PATH: "{{ ffmpeg_build_dir }}/lib/pkgconfig"
+
+- name: Run make in ffmpeg source directory
+  command: make
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}"
+    #creates: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}/libass.la" TODO
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  register: ffmpeg_make
+
+- name: Run make install in ffmpeg source directory
+  command: make install
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+  when: ffmpeg_make.changed
