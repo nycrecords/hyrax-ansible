@@ -1,6 +1,8 @@
 ---
 # Common variables for all hosts
 aom_version: "1.0.0"
+cmake_checksum: sha256:5bd6e37590b929e26e67fbbff1278e77858ab40430f103ea20a9928435e64662
+cmake_version: "3.12.2"
 fdk_aac_checksum: sha1:cc40945953781447f36616714741cec4ebb1f253
 fdk_aac_version: "0.1.6"
 fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c

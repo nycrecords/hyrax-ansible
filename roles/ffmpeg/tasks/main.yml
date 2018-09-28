@@ -52,6 +52,7 @@
     ffmpeg_source_dir: "{{ ffmpeg_compile_dir }}/source"
     ffmpeg_build_dir: "{{ ffmpeg_compile_dir }}/build"
     ffmpeg_bin_dir: "{{ ffmpeg_compile_dir }}/bin"
+    ffmpeg_bin_download_dir: "{{ ffmpeg_compile_dir }}/bin_download"
 
 - name: Make ffmpeg source directory
   file:
@@ -76,6 +77,35 @@
     owner: root
     group: root
     mode: u=rwX,g=rX,o=rX
+
+# cmake
+
+- name: Download cmake binary
+  get_url:
+    url: "https://cmake.org/files/v{{ cmake_version.split(".")[0] }}.{{ cmake_version.split(".")[1] }}/cmake-{{ cmake_version }}-Linux-x86_64.tar.gz"
+    dest: "{{ ffmpeg_bin_download_dir }}/cmake-{{ cmake_version }}-Linux-x86_64.tar.gz"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ cmake_checksum }}"
+
+- name: Unarchive cmake binary
+  unarchive:
+    remote_src: yes
+    src: "{{ ffmpeg_bin_download_dir }}/cmake-{{ cmake_version }}-Linux-x86_64.tar.gz"
+    dest: "{{ ffmpeg_bin_download_dir }}"
+    owner: root
+    group: root
+    creates: "{{ ffmpeg_bin_download_dir }}/cmake-{{ cmake_version }}-Linux-x86_64"
+
+- name: Copy cmake binary to ffmpeg bin
+  copy:
+    src: "{{ ffmpeg_bin_download_dir }}/cmake-{{ cmake_version }}-Linux-x86_64/bin/cmake"
+    dest: "{{ ffmpeg_bin_dir }}"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
 
 # NASM
 

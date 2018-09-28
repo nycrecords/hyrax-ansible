@@ -45,6 +45,8 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |Variable|Notes|
 |---|---|
 |`aom_version` | The version of aom to download. Used to build FFMpeg. |
+|`cmake_checksum` | Verify the cmake-`{{ cmake_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`cmake_version` | The version of cmake to download. Used to build aom library for FFMpeg. |
 |`fdk_aac_checksum` | Verify the fdk-aac-`{{ fdk_aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`fdk_aac_version` | The version of fdk-aac to download. Used to build FFMpeg. |
 |`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` |
@@ -127,6 +129,7 @@ FFmpeg is built with:
 * libogg: 1.3.3 (Set using `libogg_version` variable.)
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
+* cmake: 3.12.2 (Set using `cmake_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
 Node.js is installed using the NodeSource repositories.
