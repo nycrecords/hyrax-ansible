@@ -720,6 +720,7 @@
     dest: "{{ ffmpeg_source_dir }}/"
     owner: root
     group: root
+    mode: u=rwX,g=rX,o=rX
     creates: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}"
 
 - name: Run configure in ffmpeg source directory
@@ -731,6 +732,7 @@
       --extra-ldflags="-L{{ ffmpeg_build_dir }}/lib"
       --extra-libs="-lpthread -lm"
       --bindir="{{ ffmpeg_bin_dir }}"
+      --disable-shared
       --enable-gpl
       --enable-libaom
       --enable-libass
@@ -749,15 +751,26 @@
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
     PKG_CONFIG_PATH: "{{ ffmpeg_build_dir }}/lib/pkgconfig"
+  register: ffmpeg_config
 
 - name: Run make in ffmpeg source directory
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}"
-    #creates: "{{ ffmpeg_source_dir }}/ffmpeg-{{ ffmpeg_version }}/libass.la" TODO
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: ffmpeg_make
+  when: x264_make.changed or
+        x265_make.changed or
+        fdk_aac_make.changed or
+        lame_make.changed or
+        opus_make.changed or
+        ogg_make.changed or
+        vorbis_make.changed or
+        aom_make.changed or
+        libvpx_make.changed or
+        libass_make.changed or
+        ffmpeg_config.changed
 
 - name: Run make install in ffmpeg source directory
   command: make install
