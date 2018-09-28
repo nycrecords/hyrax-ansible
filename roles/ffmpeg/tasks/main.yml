@@ -665,6 +665,14 @@
     group: root
     creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
 
+- name: Run autoreconf in libass source directory
+  command: autoreconf -fiv
+  args:
+    chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
+    creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/configure"
+  environment:
+    PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
+
 - name: Run configure in libass source directory
   command: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/configure --prefix={{ ffmpeg_build_dir }}"
   args:
