@@ -9,11 +9,4 @@
     - "vars/common.yml"
     - "vars/{{ ansible_distribution }}.yml"
   roles:
-    - postgresql
-    - fedora4
-    - redis
-    - nginx
-    - solr
-    - nodejs
-    - ruby
-    - ffmpeg
+    - hyrax
