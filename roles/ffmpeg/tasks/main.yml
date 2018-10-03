@@ -678,7 +678,7 @@
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
 
 - name: Run configure in libass source directory
-  command: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/configure --prefix={{ ffmpeg_build_dir }}"
+  command: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/configure --prefix={{ ffmpeg_build_dir }} --bindir={{ ffmpeg_bin_dir }} --enable-static --disable-shared"
   args:
     chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
     creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/config.h"
