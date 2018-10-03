@@ -19,7 +19,7 @@
 - name: Download Solr tarball file
   get_url:
     url: "{{ solr_mirror }}/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz"
-    dest: "/tmp/solr-{{ solr_version }}.tgz"
+    dest: "/opt/solr-{{ solr_version }}.tgz"
     owner: root
     group: root
     mode: u=r,g=r,o=
@@ -29,20 +29,20 @@
   unarchive:
     remote_src: yes
     dest: /opt/
-    src: "/tmp/solr-{{ solr_version }}.tgz"
+    src: "/opt/solr-{{ solr_version }}.tgz"
     creates: "/opt/solr-{{ solr_version }}/"
 
 - name: Change Solr files ownership and perms
   file:
-    path: /opt/solr-{{ solr_version }}
+    path: "/opt/solr-{{ solr_version }}"
     owner: root
     group: root
     recurse: yes
     mode: u=rwX,g=rX,o=rX
 
-- name: Make symbolic link
+- name: Make symbolic link for Solr
   file:
-    src: /opt/solr-{{ solr_version }}
+    src: "/opt/solr-{{ solr_version }}"
     dest: /opt/solr
     state: link
     owner: root

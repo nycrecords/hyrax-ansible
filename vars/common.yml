@@ -11,7 +11,12 @@ fedora4_version: "4.7.5"
 ffmpeg_checksum: sha1:7b9deb74b4fcc665c5187dcd057b678e754b43d2
 ffmpeg_compile_dir: /opt/ffmpeg # No trailing slash!
 ffmpeg_version: "4.0.2"
+fits_checksum: sha1:9c1b020afdd2e9a65a62128fa5ec6a6f86f77de9
+fits_version: "1.3.0"
 hyrax_backups_directory: /var/backups # No trailing slash!
+hyrax_postgresqldatabase_user_password: insecure_password
+hyrax_secret_key_base: insecure_key_base
+hyrax_version: "2.3.3"
 lame_checksum: sha1:64c53b1a4d493237cef5e74944912cd9f98e618d
 lame_version: "3.100"
 libass_checksum: sha1:aec905e8b1db9a9762f90ec11037807fcfe714d1
@@ -26,6 +31,7 @@ nasm_checksum: sha1:2a3f4682651d7672f4c6f0abc784eedc9f9a859e
 nasm_version: "2.13.03"
 opus_checksum: sha1:35d108ca9d6a8d05e52d06c5421a5f95b39fdac9
 opus_version: "1.2.1"
+rails_version: "5.1.6"
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361
 ruby_version: "2.5.1"
 solr_checksum: sha1:029a9f7670b6cb8a31afd3ce000d4b163347c6aa

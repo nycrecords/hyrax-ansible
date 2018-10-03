@@ -55,7 +55,11 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`ffmpeg_checksum` | Verify the ffmpeg-`{{ ffmpeg_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`ffmpeg_compile_dir` | The directory where ffmpeg sources will be downloaded, unarchived, and compiled. |
 |`ffmpeg_version` | The version of FFmpeg to download. |
+|`fits_checksum` | Verify the fits-`{{ fits_version }}`.zip file, used by `get_url`. Format: `<algorithm>:<checksum>` |
+|`fits_version` | The version of FITS to download. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
+|`hyrax_postgresqldatabase_user_password` | The password used by hyrax to connect to Postgresql. Secure |
+|`hyrax_secret_key_base` | The secret used by Rails for sessions etc. Secure |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
 |`lame_checksum` | Verify the lame-`{{ lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
@@ -124,6 +128,8 @@ However, some software is installed at a specific version:
 * Node.js v10.x
 * Ruby 2.5.1 (Set using `ruby_version` variable.)
 * FFmpeg 4.0.2 (Set using `ffmpeg_version` variable.)
+* Rails 5.1.6 (Set using `rails_version` variable.)
+* Hyrax 2.3.3 (Set using `hyrax_version` variable.)
 
 FFmpeg is built with:
 

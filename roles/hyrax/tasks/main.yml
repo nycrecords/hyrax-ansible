@@ -1,0 +1,394 @@
+---
+# Configure Hyrax
+
+- name: Install ImageMagick
+  packge:
+    name: "{{ imagemagick_package }}"
+    state: present
+
+- name: Install LibreOffice
+  package:
+    name: libreoffice
+    state: present
+
+- name: Install postgresql devel package
+  package:
+    name: "{{ postgresql_devel_package }}"
+    state: present
+
+- name: Download FITS
+  get_url:
+    url: "https://projects.iq.harvard.edu/files/fits/files/fits-{{ fits_version }}.zip"
+    dest: "/opt/fits-{{ fits_version }}.zip"
+    owner: root
+    group: root
+    mode: u=r,g=r,o=
+    checksum: "{{ fits_checksum }}"
+
+- name: Create FITS directory
+  file:
+    path: "/opt/fits-{{ fits_version }}"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rX,o=rX
+
+- name: Unarchive FITS zip
+  unarchive:
+    remote_src: yes
+    dest: "/opt/fits-{{ fits_version }}"
+    src: "/opt/fits-{{ fits_version }}.zip"
+    creates: "/opt/fits-{{ fits_version }}/README.md"
+
+- name: Change FITS files ownership and perms
+  file:
+    path: "/opt/fits-{{ fits_version }}"
+    owner: root
+    group: root
+    recurse: yes
+    mode: u=rwX,g=rX,o=rX
+
+- name: Make symbolic link for FITS
+  file:
+    src: "/opt/fits-{{ fits_version }}"
+    dest: /opt/fits
+    state: link
+    owner: root
+    group: root
+
+- name: Make fits.sh executable
+  file:
+    path: "/opt/fits/fits-{{ fits_version }}/fits.sh"
+    mode: u=rx,g=rx,o=rx
+
+- name: Create the hyrax user
+  user:
+    name: hyrax
+    system: yes
+    home: /var/www/hyrax
+    create_home: no
+    shell: /sbin/nologin
+
+- name: Create the puma user
+  user:
+    name: puma
+    system: yes
+    home: /var/www/hyrax
+    create_home: no
+    shell: /sbin/nologin
+
+- name: Create the Hyrax parent directory
+  file:
+    path: /var/www/hyrax
+    state: directory
+    owner: hyrax
+    group: puma
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Gem install rails
+  command: "gem install rails --version={{ rails_version }}"
+  args:
+    creates: /usr/local/bin/rails
+
+- name: Create the Hyrax project
+  shell: rails new hyrax-root --skip-bundle
+  args:
+    chdir: /var/www/hyrax
+    creates: /var/www/hyrax/hyrax-root/Gemfile
+  become: yes
+  become_user: hyrax
+  environment:
+    RAILS_ENV: production
+
+- name: Use local path for bundle
+  command: bundle config --local path vendor/bundle
+  args:
+   chdir: /var/www/hyrax/hyrax-root
+   creates: /var/www/hyrax/hyrax-root/.bundle/config
+  become: yes
+  become_user: hyrax
+
+- name: Add Hyrax to Gemfile
+  command: "bundle add hyrax --version={{ hyrax_version }}"
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  changed_when: False
+
+- name: Add pg to Gemfile
+  command: bundle add pg --version="~> 1.0"
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  changed_when: False
+
+- name: Add sidekiq to Gemfile
+  command: bundle add sidekiq --version="~> 5.1"
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  changed_when: False
+
+- name: Add hydra-role-management to Gemfile
+  command: bundle add hydra-role-management --version="~> 1.0"
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  changed_when: False
+
+- name: Create the Hyrax database
+  postgresql_db:
+    name: hyrax
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Add Fedora 4 database user
+  postgresql_user:
+    db: hyrax
+    name: hyrax
+    password: "{{ hyrax_postgresqldatabase_user_password }}"
+    priv: ALL
+    state: present
+  become: yes
+  become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
+
+- name: Get the location of the pg_hba.conf file
+  command: psql -t -P format=unaligned -c 'show hba_file'
+  become: yes
+  become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
+  register: hba_file
+  changed_when: false
+
+- name: Allow hyrax user to connect to postgresl using password auth
+  blockinfile:
+    path: "{{ hba_file.stdout }}"
+    insertafter: "^# TYPE  DATABASE        USER            ADDRESS                 METHOD"
+    marker: "# {mark} Ansible Managed - Allow hyrax user to connect using md5 auth"
+    block: |
+      host    hyrax           hyrax           127.0.0.1/32            md5
+  notify: restart postgresql
+
+- name: Run handlers to restart postgresql if needed
+  meta: flush_handlers
+
+- name: Copy database.yml configuration
+  copy:
+    src: database.yml
+    dest: /var/www/hyrax/hyrax-root/config/database.yml
+    owner: hyrax
+    group: puma
+    mode: u=r,g=r,o=
+
+- name: Run rails generate roles
+  command: bundle exec rails generate roles
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+
+- name: Run rails generate hyrax:install
+  command: bundle exec rails generate hyrax:install -f
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+
+- name: Run rails generate hyrax:riiif
+  command: bundle exec rails generate hyrax:riiif
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+    creates: /var/www/hyrax/hyrax-root/config/initializers/riiif.rb
+  become: yes
+  become_user: hyrax
+
+- name: Insure log file is created and writeable
+  file:
+    path: /var/www/hyrax/hyrax-root/log/production.log
+    state: touch
+    owner: hyrax
+    group: puma
+    mode: u=rw,g=rw,o=
+  changed_when: False
+
+- name: Copy puma.rb configuration
+  copy:
+    src: puma.rb
+    dest: /var/www/hyrax/hyrax-root/config/puma.rb
+    owner: hyrax
+    group: hyrax
+    mode: a=r
+
+- name: Copy ability.rb config file
+  copy:
+   src: ability.rb
+   dest: /var/www/hyrax/hyrax-root/app/models/ability.rb
+   owner: hyrax
+   group: hyrax
+   mode: a=r
+
+- name: Copy fedora.yml configuration
+  copy:
+    src: fedora.yml
+    dest: /var/www/hyrax/hyrax-root/config/fedora.yml
+    owner: hyrax
+    group: hyrax
+    mode: a=r
+
+- name: Copy blacklight.yml to solr.yml
+  copy:
+    remote_src: yes
+    src: /var/www/hyrax/hyrax-root/config/blacklight.yml
+    dest: /var/www/hyrax/hyrax-root/config/solr.yml
+
+- name: Copy hyrax production config file
+  copy:
+    src: production.rb
+    dest: /var/www/hyrax/hyrax-root/config/environments/production.rb
+    owner: hyrax
+    group: hyrax
+    mode: a=r
+
+- name: Remove unneeded database migration
+  shell: rm /var/www/hyrax/hyrax-root/db/migrate/*_add_devise_to_users.rb
+  args:
+    warn: False
+  register: rm_migration_cmd
+  changed_when: rm_migration_cmd.rc == 0
+  failed_when: False
+
+- name: Run DB migrate
+  command: bundle exec rails db:migrate
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
+
+- name: Create default collection types
+  command: bundle exec rails hyrax:default_collection_types:create
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
+
+- name: Run the assets precompiler
+  command: bundle exec rails assets:precompile
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+
+- name: Create solr core
+  command: /opt/solr/bin/solr create_core -c blacklight-core -d /var/www/hyrax/hyrax-root/solr/config/
+  args:
+    creates: /var/solr/data/blacklight-core/core.properties
+  become: yes
+  become_user: solr
+
+- name: Create default administrative set
+  command: bundle exec rails hyrax:default_admin_set:create
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
+
+- name: Run DB migrate
+  command: bundle exec rails db:migrate
+  args:
+    chdir: /var/www/hyrax/hyrax-root
+  become: yes
+  become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
+
+- name: Let puma user write to tmp directory
+  file:
+    path: /var/www/hyrax/hyrax-root/tmp
+    owner: hyrax
+    group: puma
+    mode: u=rwX,g=rwX,o=rX
+    recurse: yes
+
+- name: Copy fixity check script
+  template:
+    src: hyrax_fixity_check.sh
+    dest: /etc/cron.weekly/hyrax_fixity_check.sh
+    owner: root
+    group: root
+    mode: u=rx,g=,o=
+
+- name: Copy environment file
+  template:
+    src: hyrax
+    dest: /etc/sysconfig/hyrax
+    owner: root
+    group: root
+    mode: u=r,g=,o=
+
+- name: Copy sidekiq service file
+  copy:
+    src: sidekiq.service
+    dest: /etc/systemd/system/sidekiq.service
+    owner: root
+    group: root
+    mode: a=r
+
+- name: Copy puma service file
+  copy:
+    src: puma.service
+    dest: /etc/systemd/system/puma.service
+    owner: root
+    group: root
+    mode: a=r
+
+- name: Reload systemd daemons
+  shell: systemctl daemon-reload
+  changed_when: False
+
+- name: Restart and enable sidekiq
+  service:
+    name: sidekiq
+    state: restarted
+    enabled: yes
+
+- name: Restart and enable puma
+  service:
+    name: puma
+    state: restarted
+    enabled: yes
+
+- name: Run restorecon on public files
+  command: restorecon -R /var/www/hyrax/hyrax-root/public
+  changed_when: False
+  when: ansible_distribution == "CentOS"
+
+- name: Copy the hyrax nginx conf
+  template:
+    src: hyrax.conf
+    dest: /etc/nginx/conf.d/hyrax.conf
+    mode: a=r
+    owner: root
+    group: root
+  notify: restart nginx
