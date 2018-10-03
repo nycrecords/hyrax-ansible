@@ -689,7 +689,7 @@
   command: make
   args:
     chdir: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}"
-    creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/libass.la"
+    creates: "{{ ffmpeg_source_dir }}/libass-{{ libass_version }}/libass/libass.la"
   environment:
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   register: libass_make
@@ -766,7 +766,7 @@
         lame_make.changed or
         opus_make.changed or
         libogg_make.changed or
-        vorbis_make.changed or
+        libvorbis_make.changed or
         aom_make.changed or
         libvpx_make.changed or
         libass_make.changed or
@@ -783,7 +783,7 @@
 # Final install
 
 - name: Add ffmpeg bin directory to path for all users
-  template: 
+  template:
     src: add_ffmpeg_to_path.sh
     dest: /etc/profile.d/add_ffmpeg_to_path.sh
     force: yes
