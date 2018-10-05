@@ -58,7 +58,7 @@
 
 - name: Make fits.sh executable
   file:
-    path: "/opt/fits/fits-{{ fits_version }}/fits.sh"
+    path: "/opt/fits-{{ fits_version }}/fits.sh"
     mode: u=rx,g=rx,o=rx
 
 - name: Create the hyrax user
