@@ -2,7 +2,7 @@
 # Configure Hyrax
 
 - name: Install ImageMagick
-  packge:
+  package:
     name: "{{ imagemagick_package }}"
     state: present
 
