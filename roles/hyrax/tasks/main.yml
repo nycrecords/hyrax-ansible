@@ -86,9 +86,9 @@
     mode: u=rwX,g=rwX,o=rX
 
 - name: Gem install rails
-  command: "gem install rails --version={{ rails_version }}"
+  shell: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- gem install rails --version={{ rails_version }}"
   args:
-    creates: /usr/local/bin/rails
+    creates: "/opt/rubies/ruby-{{ ruby_version }}/bin/rails"
 
 - name: Create the Hyrax project
   shell: rails new hyrax-root --skip-bundle
