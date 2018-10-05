@@ -16,6 +16,11 @@
     name: "{{ postgresql_devel_package }}"
     state: present
 
+- name: Install sqlite devel package
+  package:
+    name: "{{ sqlite_devel_package }}"
+    state: present
+
 - name: Download FITS
   get_url:
     url: "https://projects.iq.harvard.edu/files/fits/files/fits-{{ fits_version }}.zip"

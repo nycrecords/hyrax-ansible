@@ -7,6 +7,7 @@ postgresql_devel_package: postgresql-all
 postgresql_server_package: postgresql
 python_psycopg2_package: python-psycopg2
 redis_package: redis-server
+sqlite_devel_package: libsqlite3-dev
 tomcat_admin_package: tomcat8-admin
 tomcat_fedora4_conf_path: /usr/share/tomcat8/bin/setenv.sh
 tomcat_fedora4_war_path: /var/lib/tomcat8/webapps/fcrepo.war
