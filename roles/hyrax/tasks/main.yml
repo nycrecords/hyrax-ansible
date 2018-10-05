@@ -67,7 +67,6 @@
     system: yes
     home: /var/www/hyrax
     createhome: no
-    shell: /sbin/nologin
 
 - name: Create the puma user
   user:
