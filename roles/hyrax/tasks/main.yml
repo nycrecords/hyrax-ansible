@@ -383,6 +383,22 @@
     state: restarted
     enabled: yes
 
+- name: Install policycoreutils-python [CentOS]
+  package:
+    name: policycoreutils-python
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: setsebool -P httpd_can_network_connect 1 [CentOS]
+  command: setsebool -P httpd_can_network_connect 1
+  changed_when: False
+  when: ansible_distribution == "CentOS"
+
+- name: setsebool httpd_can_network_connect 1 [CentOS]
+  command: setsebool httpd_can_network_connect 1
+  changed_when: False
+  when: ansible_distribution == "CentOS"
+
 - name: Run restorecon on public files
   command: restorecon -R /var/www/hyrax/hyrax-root/public
   changed_when: False
