@@ -1,7 +1,7 @@
 ---
 # Download and compile FFmpeg
 
-- name: Install packages for ffmpeg building [CentOS]
+- name: Install packages for building ffmpeg [CentOS]
   package:
     name: "{{ item }}"
     state: present
@@ -23,7 +23,7 @@
     - zlib-devel
   when: ansible_distribution == "CentOS"
 
-- name: Install packages for ffmpeg building [Debian/Ubuntu]
+- name: Install packages for building ffmpeg [Debian/Ubuntu]
   package:
     name: "{{ item }}"
     state: present
