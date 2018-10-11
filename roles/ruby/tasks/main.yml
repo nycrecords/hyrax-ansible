@@ -37,6 +37,13 @@
 
 - name: Install ruby
   command: /usr/local/bin/ruby-install ruby --system {{ ruby_version }} --sha1 {{ ruby_tarbz2_sha1_checksum }}
-  #args:
-  #  creates: /opt/rubies/ruby-{{ ruby_version }}/bin/ruby
+  args:
+    creates: /usr/local/bin/ruby
 
+- name: Add ruby installation directory to sudo path
+  copy:
+    src: addusrlocalbintopath
+    dest: /etc/sudoers.d/addusrlocalbintopath
+    owner: root
+    group: root
+    mode: "u=r,g=r,o=r"
