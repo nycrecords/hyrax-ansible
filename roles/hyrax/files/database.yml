@@ -21,7 +21,7 @@ test:
   database: db/test.sqlite3
 
 production:
-  host: localhost
+  host: 127.0.0.1
   adapter: postgresql
   encoding: utf8
   database: hyrax
