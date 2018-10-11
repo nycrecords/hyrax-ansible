@@ -90,12 +90,12 @@
     mode: u=rwX,g=rwX,o=rX
 
 - name: Gem install rails
-  shell: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- gem install rails --version={{ rails_version }}"
-  args:
-    creates: "/opt/rubies/ruby-{{ ruby_version }}/bin/rails"
+  shell: "gem install rails --version={{ rails_version }}"
+  #args:
+  #  creates: "/opt/rubies/ruby-{{ ruby_version }}/bin/rails"
 
 - name: Create the Hyrax project
-  shell: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- rails new hyrax-root --skip-bundle"
+  shell: rails new hyrax-root --skip-bundle
   args:
     chdir: /var/www/hyrax
     creates: /var/www/hyrax/hyrax-root/Gemfile
@@ -105,7 +105,7 @@
     RAILS_ENV: production
 
 - name: Use local path for bundle
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle config --local path vendor/bundle"
+  command: bundle config --local path vendor/bundle
   args:
    chdir: /var/www/hyrax/hyrax-root
    creates: /var/www/hyrax/hyrax-root/.bundle/config
@@ -113,7 +113,7 @@
   become_user: hyrax
 
 - name: Add Hyrax to Gemfile
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle add hyrax --version={{ hyrax_version }}"
+  command: "bundle add hyrax --version={{ hyrax_version }}"
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -121,7 +121,7 @@
   changed_when: False
 
 - name: Add pg to Gemfile
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle add pg --version='~> 1.0'"
+  command: bundle add pg --version="~> 1.0"
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -129,7 +129,7 @@
   changed_when: False
 
 - name: Add sidekiq to Gemfile
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle add sidekiq --version='~> 5.1'"
+  command: bundle add sidekiq --version="~> 5.1"
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -137,7 +137,7 @@
   changed_when: False
 
 - name: Add hydra-role-management to Gemfile
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle add hydra-role-management --version='~> 1.0'"
+  command: bundle add hydra-role-management --version="~> 1.0"
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -193,21 +193,21 @@
     mode: u=r,g=r,o=
 
 - name: Run rails generate roles
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails generate roles"
+  command: bundle exec rails generate roles
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
   become_user: hyrax
 
 - name: Run rails generate hyrax:install
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails generate hyrax:install -f"
+  command: bundle exec rails generate hyrax:install -f
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
   become_user: hyrax
 
 - name: Run rails generate hyrax:riiif
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails generate hyrax:riiif"
+  command: bundle exec rails generate hyrax:riiif
   args:
     chdir: /var/www/hyrax/hyrax-root
     creates: /var/www/hyrax/hyrax-root/config/initializers/riiif.rb
@@ -270,7 +270,7 @@
   failed_when: False
 
 - name: Run DB migrate
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails db:migrate"
+  command: bundle exec rails db:migrate
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -281,7 +281,7 @@
     RAILS_ENV: production
 
 - name: Create default collection types
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails hyrax:default_collection_types:create"
+  command: bundle exec rails hyrax:default_collection_types:create
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -292,7 +292,7 @@
     RAILS_ENV: production
 
 - name: Run the assets precompiler
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails assets:precompile"
+  command: bundle exec rails assets:precompile
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -306,7 +306,7 @@
   become_user: solr
 
 - name: Create default administrative set
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails hyrax:default_admin_set:create"
+  command: bundle exec rails hyrax:default_admin_set:create
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -317,7 +317,7 @@
     RAILS_ENV: production
 
 - name: Run DB migrate
-  command: "/usr/local/bin/chruby-exec ruby-{{ ruby_version }} -- bundle exec rails db:migrate"
+  command: bundle exec rails db:migrate
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes

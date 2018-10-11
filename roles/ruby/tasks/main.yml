@@ -36,37 +36,7 @@
     creates: /usr/local/bin/ruby-install
 
 - name: Install ruby
-  command: /usr/local/bin/ruby-install ruby {{ ruby_version }} --sha1 {{ ruby_tarbz2_sha1_checksum }}
-  args:
-    creates: /opt/rubies/ruby-{{ ruby_version }}/bin/ruby
+  command: /usr/local/bin/ruby-install ruby --system {{ ruby_version }} --sha1 {{ ruby_tarbz2_sha1_checksum }}
+  #args:
+  #  creates: /opt/rubies/ruby-{{ ruby_version }}/bin/ruby
 
-- name: Download chruby tarball
-  get_url:
-    url: https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
-    dest: /tmp/chruby-0.3.9.tar.gz
-    owner: root
-    group: root
-    mode: u=r,g=r,o=
-    checksum: sha1:64365226210f82b58092ed01a3fb57d379b99c80
-
-- name: Unarchive chruby into temp directory
-  unarchive:
-    remote_src: yes
-    src: /tmp/chruby-0.3.9.tar.gz
-    dest: /tmp
-    creates: /tmp/chruby-0.3.9
-
-- name: Install chruby
-  command: make install
-  args:
-    chdir: /tmp/chruby-0.3.9
-    creates: /usr/local/bin/chruby-exec
-
-- name: Add chruby globally and set default ruby
-  template:
-    src: chruby.sh
-    dest: /etc/profile.d/chruby.sh
-    force: yes
-    owner: root
-    group: root
-    mode: u=rx,g=rx,o=r
