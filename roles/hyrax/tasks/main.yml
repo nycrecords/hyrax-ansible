@@ -344,7 +344,7 @@
     mode: u=rx,g=,o=
 
 - name: Copy sidekiq service file
-  copy:
+  template:
     src: sidekiq.service
     dest: /etc/systemd/system/sidekiq.service
     owner: root
@@ -352,7 +352,7 @@
     mode: a=r
 
 - name: Copy puma service file
-  copy:
+  template:
     src: puma.service
     dest: /etc/systemd/system/puma.service
     owner: root
