@@ -1,4 +1,0 @@
-SECRET_KEY_BASE={{ hyrax_secret_key_base }}
-HYRAX_POSTGRESQL_PASSWORD={{ hyrax_postgresqldatabase_user_password }}
-WEB_CONCURRENCY=4
-RAILS_ENV=production

@@ -343,14 +343,6 @@
     group: root
     mode: u=rx,g=,o=
 
-- name: Copy environment file
-  template:
-    src: hyrax
-    dest: /etc/sysconfig/hyrax
-    owner: root
-    group: root
-    mode: u=r,g=,o=
-
 - name: Copy sidekiq service file
   copy:
     src: sidekiq.service
