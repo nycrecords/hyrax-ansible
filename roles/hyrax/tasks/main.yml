@@ -44,6 +44,7 @@
     dest: "/opt/fits-{{ fits_version }}"
     src: "/opt/fits-{{ fits_version }}.zip"
     creates: "/opt/fits-{{ fits_version }}/README.md"
+  register: fits_unarchive
 
 - name: Change FITS files ownership and perms
   file:
@@ -52,6 +53,7 @@
     group: root
     recurse: yes
     mode: u=rwX,g=rX,o=rX
+  when: fits_unarchive.changed
 
 - name: Make symbolic link for FITS
   file:
