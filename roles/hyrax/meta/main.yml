@@ -4,7 +4,7 @@
 dependencies:
   - { role: common }
   - { role: fedora4 }
-  - { role: ffmpeg }
+#  - { role: ffmpeg }
   - { role: nginx }
   - { role: nodejs }
   - { role: postgresql }
