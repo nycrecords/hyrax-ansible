@@ -224,7 +224,7 @@
   become: yes
   become_user: hyrax
 
-- name: Insure log file is created and writeable
+- name: Ensure log file is created and writeable
   file:
     path: /var/www/hyrax/hyrax-root/log/production.log
     state: touch
