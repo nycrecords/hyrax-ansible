@@ -22,7 +22,7 @@ Hyrax.config do |config|
   # config.rendering_predicate = ::RDF::DC.hasFormat
 
   # Email recipient of messages sent via the contact form
-  config.contact_email = "digital@library.carleton.ca"
+  config.contact_email = "{{ hyrax_contact_form_email }}"
 
   # Text prefacing the subject entered in the contact form
   # config.subject_prefix = "Contact form:"
@@ -64,7 +64,7 @@ Hyrax.config do |config|
   # config.persistent_hostpath = 'http://localhost/files/'
 
   # If you have ffmpeg installed and want to transcode audio and video set to true
-  # config.enable_ffmpeg = false
+  config.enable_ffmpeg = true
 
   # Hyrax uses NOIDs for files and collections instead of Fedora UUIDs
   # where NOID = 10-character string and UUID = 32-character string w/ hyphens
@@ -74,16 +74,16 @@ Hyrax.config do |config|
   # config.noid_template = ".reeddeeddk"
 
   # Use the database-backed minter class
-  # config.noid_minter_class = Noid::Rails::Minter::Db
+  config.noid_minter_class = Noid::Rails::Minter::Db
 
   # Store identifier minter's state in a file for later replayability
-  config.minter_statefile = '/var/www/hyrax/minter-state/minter-state'
+  # config.minter_statefile = '/var/www/hyrax/minter-state/minter-state'
 
   # Prefix for Redis keys
   # config.redis_namespace = "hyrax"
 
   # Path to the file characterization tool
-  config.fits_path = "/opt/fits/fits-1.3.0/fits.sh"
+  config.fits_path = "/opt/fits/fits.sh"
 
   # Path to the file derivatives creation tool
   config.libreoffice_path = "soffice"
@@ -104,7 +104,7 @@ Hyrax.config do |config|
 
   # Location autocomplete uses geonames to search for named regions
   # Username for connecting to geonames
-  config.geonames_username = 'carletonlibrary'
+  config.geonames_username = "{{ hyrax_geonames_username }}"
 
   # Should the acceptance of the licence agreement be active (checkbox), or
   # implied when the save button is pressed? Set to true for active
@@ -154,10 +154,10 @@ Hyrax.config do |config|
   # end
 
   # Returns a URL that indicates your IIIF image server compliance level
-  # config.iiif_image_compliance_level_uri = 'http://iiif.io/api/image/2/level2.json'
+  config.iiif_image_compliance_level_uri = 'http://iiif.io/api/image/2/level2.json'
 
   # Returns a IIIF image size default
-  # config.iiif_image_size_default = '600,'
+  config.iiif_image_size_default = '600,'
 
   # Fields to display in the IIIF metadata section; default is the required fields
   # config.iiif_metadata_fields = Hyrax::Forms::WorkForm.required_fields

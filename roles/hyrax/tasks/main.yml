@@ -146,7 +146,7 @@
   become_user: hyrax
   changed_when: False
 
-- name: Run bundle install 
+- name: Run bundle install
   command: /usr/local/bin/bundle install
   args:
     chdir: /var/www/hyrax/hyrax-root
@@ -198,6 +198,14 @@
   copy:
     src: database.yml
     dest: /var/www/hyrax/hyrax-root/config/database.yml
+    owner: hyrax
+    group: puma
+    mode: u=r,g=r,o=
+
+- name: Copy hyrax.db initializer
+  template:
+    src: hyrax.rb
+    dest: /var/www/hyrax/hyrax-root/config/initializers/hyrax.rb
     owner: hyrax
     group: puma
     mode: u=r,g=r,o=
@@ -271,13 +279,13 @@
     group: hyrax
     mode: a=r
 
-- name: Remove unneeded database migration
-  shell: rm /var/www/hyrax/hyrax-root/db/migrate/*_add_devise_to_users.rb
-  args:
-    warn: False
-  register: rm_migration_cmd
-  changed_when: rm_migration_cmd.rc == 0
-  failed_when: False
+#- name: Remove unneeded database migration
+#  shell: rm /var/www/hyrax/hyrax-root/db/migrate/*_add_devise_to_users.rb
+#  args:
+#    warn: False
+#  register: rm_migration_cmd
+#  changed_when: rm_migration_cmd.rc == 0
+#  failed_when: False
 
 - name: Run DB migrate
   command: /usr/local/bin/bundle exec rails db:migrate

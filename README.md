@@ -8,6 +8,8 @@ The idea is similar to https://github.com/Islandora-Devops/claw-playbook
 
 All roles assume services (Nginx, Fedora 4, PostgreSQL) are installed on one machine and communicate using UNIX sockets or the loopback interface. For large deployments, you'll want to edit these roles so that services are deployed on different machines and that communication between them is encrypted.
 
+This playbook does not set up mailing configuration. Some environments will use a local mail transfer agent and some will use an external SMTP server. More information can be found in the Hyrax management guide: https://github.com/samvera/hyrax/wiki/Hyrax-Management-Guide#mailers.
+
 This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Vagrantfile is available at https://github.com/cu-library/hyrax-ansible-testvagrants.
 
 `install_hyrax_on_localhost.yml` is a test playbook which runs the provided roles against localhost.
@@ -58,6 +60,8 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`fits_checksum` | Verify the fits-`{{ fits_version }}`.zip file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`fits_version` | The version of FITS to download. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
+|`hyrax_contact_form_email`| Email recipient of messages sent via the contact form. |
+|`hyrax_geonames_username`| The username to use when connecting to the Geonames service. |
 |`hyrax_postgresqldatabase_user_password` | The password used by hyrax to connect to Postgresql. Secure |
 |`hyrax_secret_key_base` | The secret used by Rails for sessions etc. Secure |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
@@ -101,7 +105,6 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`x265_version` | The version of x265 to download. Used to build FFmpeg. |
 |`yasm_checksum` | Verify the yasm-`{{ yasm_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
 |`yasm_version` | The version of Yasm to download. Used to build FFmpeg. |
-
 
 **Per-Distro**: Different value for different OSs. The test playbook uses
 
