@@ -202,14 +202,6 @@
     group: puma
     mode: u=r,g=r,o=
 
-- name: Copy hyrax.db initializer
-  template:
-    src: hyrax.rb
-    dest: /var/www/hyrax/hyrax-root/config/initializers/hyrax.rb
-    owner: hyrax
-    group: puma
-    mode: u=r,g=r,o=
-
 - name: Run rails generate hyrax:install
   command: /usr/local/bin/bundle exec rails generate hyrax:install -f
   args:
@@ -278,6 +270,14 @@
     owner: hyrax
     group: hyrax
     mode: a=r
+
+- name: Copy hyrax.db initializer
+  template:
+    src: hyrax.rb
+    dest: /var/www/hyrax/hyrax-root/config/initializers/hyrax.rb
+    owner: hyrax
+    group: puma
+    mode: u=r,g=r,o=
 
 - name: Run DB migrate
   command: /usr/local/bin/bundle exec rails db:migrate
