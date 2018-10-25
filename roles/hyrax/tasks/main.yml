@@ -233,7 +233,7 @@
     mode: u=rw,g=rw,o=
   changed_when: False
 
-- name: Copy puma.rb configuration
+- name: Copy puma.rb configuration file
   copy:
     src: puma.rb
     dest: /var/www/hyrax/hyrax-root/config/puma.rb
@@ -241,7 +241,7 @@
     group: hyrax
     mode: a=r
 
-- name: Copy ability.rb config file
+- name: Copy ability.rb configuration file
   copy:
    src: ability.rb
    dest: /var/www/hyrax/hyrax-root/app/models/ability.rb
@@ -249,7 +249,7 @@
    group: hyrax
    mode: a=r
 
-- name: Copy fedora.yml configuration
+- name: Copy fedora.yml configuration file
   copy:
     src: fedora.yml
     dest: /var/www/hyrax/hyrax-root/config/fedora.yml
@@ -263,7 +263,7 @@
     src: /var/www/hyrax/hyrax-root/config/blacklight.yml
     dest: /var/www/hyrax/hyrax-root/config/solr.yml
 
-- name: Copy hyrax production config file
+- name: Copy hyrax production configuration file
   copy:
     src: production.rb
     dest: /var/www/hyrax/hyrax-root/config/environments/production.rb
@@ -271,7 +271,7 @@
     group: hyrax
     mode: a=r
 
-- name: Copy hyrax.db initializer
+- name: Copy hyrax.db initializer configuration file
   template:
     src: hyrax.rb
     dest: /var/www/hyrax/hyrax-root/config/initializers/hyrax.rb
@@ -279,7 +279,7 @@
     group: puma
     mode: u=r,g=r,o=
 
-- name: Run DB migrate
+- name: Run db migrate
   command: /usr/local/bin/bundle exec rails db:migrate
   args:
     chdir: /var/www/hyrax/hyrax-root
@@ -326,7 +326,7 @@
     HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
     RAILS_ENV: production
 
-- name: Run DB migrate
+- name: Run db migrate
   command: /usr/local/bin/bundle exec rails db:migrate
   args:
     chdir: /var/www/hyrax/hyrax-root
