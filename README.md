@@ -1,4 +1,4 @@
-STATUS: PRE-ALPHA
+STATUS: ALPHA
 
 # hyrax-ansible
 Ansible playbook for configuring a Hyrax IR.
