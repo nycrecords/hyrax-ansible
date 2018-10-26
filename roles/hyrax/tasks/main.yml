@@ -326,6 +326,14 @@
     HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
     RAILS_ENV: production
 
+- name: Remove unneeded database migration
+  shell: rm /var/www/hyrax/hyrax-root/db/migrate/*_add_devise_to_users.rb
+  args:
+    warn: False
+  register: rm_migration_cmd
+  changed_when: rm_migration_cmd.rc == 0
+  failed_when: False
+
 - name: Run db migrate
   command: /usr/local/bin/bundle exec rails db:migrate
   args:
