@@ -297,21 +297,8 @@
   changed_when: rm_migration_cmd.rc == 0
   failed_when: False
 
-# Update database if needed
-
 - name: Run db migrate
   command: /usr/local/bin/bundle exec rails db:migrate
-  args:
-    chdir: /var/www/hyrax/hyrax-root
-  become: yes
-  become_user: hyrax
-  environment:
-    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
-    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
-    RAILS_ENV: production
-
-- name: Create default collection types
-  command: /usr/local/bin/bundle exec rails hyrax:default_collection_types:create
   args:
     chdir: /var/www/hyrax/hyrax-root
   become: yes
@@ -334,28 +321,6 @@
     creates: /var/solr/data/blacklight-core/core.properties
   become: yes
   become_user: solr
-
-- name: Create default administrative set
-  command: /usr/local/bin/bundle exec rails hyrax:default_admin_set:create
-  args:
-    chdir: /var/www/hyrax/hyrax-root
-  become: yes
-  become_user: hyrax
-  environment:
-    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
-    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
-    RAILS_ENV: production
-
-- name: Run db migrate
-  command: /usr/local/bin/bundle exec rails db:migrate
-  args:
-    chdir: /var/www/hyrax/hyrax-root
-  become: yes
-  become_user: hyrax
-  environment:
-    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
-    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
-    RAILS_ENV: production
 
 - name: Let puma user write to tmp directory
   file:
