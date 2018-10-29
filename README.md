@@ -8,7 +8,7 @@ The idea is similar to https://github.com/Islandora-Devops/claw-playbook
 
 All roles assume services (Nginx, Fedora 4, PostgreSQL) are installed on one machine and communicate using UNIX sockets or the loopback interface. For large deployments, you'll want to edit these roles so that services are deployed on different machines and that communication between them is encrypted.
 
-This playbook does not set up mailing configuration. Some environments will use a local mail transfer agent and some will use an external SMTP server. More information can be found in the Hyrax management guide: https://github.com/samvera/hyrax/wiki/Hyrax-Management-Guide#mailers.
+The `hyrax` role assumes that an external SMTP server will be used. Some environments might want to use use a local mail transfer agent. To do so, the `production.rb` template will need to be changed. More information can be found in the Hyrax management guide: https://github.com/samvera/hyrax/wiki/Hyrax-Management-Guide#mailers.
 
 This playbook is being tested against CentOS 7, Debian 9, and Ubuntu 18.04. A Vagrantfile is available at https://github.com/cu-library/hyrax-ansible-testvagrants.
 
@@ -61,9 +61,12 @@ These roles should install Hyrax so that it has good performance (max 500ms for 
 |`fits_version` | The version of FITS to download. |
 |`hyrax_backups_directory` | The location where backup files will be created. |
 |`hyrax_contact_form_email`| Email recipient of messages sent via the contact form. |
+|`hyrax_from_email_address`| Emails sent from Hyrax will have this as the 'from' address. |
 |`hyrax_geonames_username`| The username to use when connecting to the Geonames service. |
 |`hyrax_postgresqldatabase_user_password` | The password used by hyrax to connect to Postgresql. Secure |
 |`hyrax_secret_key_base` | The secret used by Rails for sessions etc. Secure |
+|`hyrax_smtp_port`| The `hyrax_smtp_server`'s SMTP service is accessible at this port |
+|`hyrax_smtp_server`| Emails will be sent by STMP using this server. |
 |`imagemagick_package` | The name used by the `package` module when installing ImageMagick. Per-Distro |
 |`java_openjdk_package` | The name used by the `package` module when installing the Java JDK. Per-Distro |
 |`lame_checksum` | Verify the lame-`{{ lame_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` |
@@ -146,7 +149,7 @@ FFmpeg is built with:
 * libogg: 1.3.3 (Set using `libogg_version` variable.)
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
-* cmake: 3.12.2 (Set using `cmake_version` variable.)
+* cmake: 3.12.3 (Set using `cmake_version` variable.)
 * libvpx: 1.7.9 (Set using `libvpx_version` variable.)
 * libass: 0.14.0 (Set using `libass_version` variable.)
 

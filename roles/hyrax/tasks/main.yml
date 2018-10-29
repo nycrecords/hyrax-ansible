@@ -274,7 +274,7 @@
     dest: /var/www/hyrax/hyrax-root/config/solr.yml
 
 - name: Copy hyrax production configuration file
-  copy:
+  template:
     src: production.rb
     dest: /var/www/hyrax/hyrax-root/config/environments/production.rb
     owner: hyrax

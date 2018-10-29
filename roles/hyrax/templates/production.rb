@@ -92,13 +92,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    address: 'smtp-server.carleton.ca',
-    port: 25    
+    address: '{{ hyrax_smtp_server }}',
+    port: {{ hyrax_smtp_port }}
   }
-  
+
   config.action_mailer.default_options = {
-    from: 'no-reply@library.carleton.ca'
+    from: '{{ hyrax_from_email_address }}'
   }
-  
+
 end
 
