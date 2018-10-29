@@ -1,6 +1,8 @@
 ---
 # Configure Hyrax
 
+# Install required packages
+
 - name: Install ImageMagick
   package:
     name: "{{ imagemagick_package }}"
@@ -20,6 +22,8 @@
   package:
     name: "{{ sqlite_devel_package }}"
     state: present
+
+# FITS
 
 - name: Download FITS
   get_url:
@@ -67,6 +71,8 @@
   file:
     path: "/opt/fits-{{ fits_version }}/fits.sh"
     mode: u=rx,g=rx,o=rx
+
+# Hyrax groundwork
 
 - name: Create the hyrax user
   user:
@@ -202,6 +208,8 @@
     group: puma
     mode: u=r,g=r,o=
 
+# Run rails commands to install Hyrax
+
 - name: Run rails generate hyrax:install
   command: /usr/local/bin/bundle exec rails generate hyrax:install -f
   args:
@@ -223,6 +231,8 @@
     creates: /var/www/hyrax/hyrax-root/config/initializers/riiif.rb
   become: yes
   become_user: hyrax
+
+# Filesystem changes
 
 - name: Ensure log file is created and writeable
   file:
@@ -286,6 +296,8 @@
   register: rm_migration_cmd
   changed_when: rm_migration_cmd.rc == 0
   failed_when: False
+
+# Update database if needed
 
 - name: Run db migrate
   command: /usr/local/bin/bundle exec rails db:migrate
@@ -353,13 +365,7 @@
     mode: u=rwX,g=rwX,o=rX
     recurse: yes
 
-- name: Copy fixity check script
-  template:
-    src: hyrax_fixity_check.sh
-    dest: /etc/cron.weekly/hyrax_fixity_check.sh
-    owner: root
-    group: root
-    mode: u=rx,g=,o=
+# Install and activate services
 
 - name: Copy sidekiq service file
   template:
@@ -393,6 +399,8 @@
     state: restarted
     enabled: yes
 
+# SELinux tweaking
+
 - name: Install policycoreutils-python [CentOS]
   package:
     name: policycoreutils-python
@@ -414,6 +422,8 @@
   changed_when: False
   when: ansible_distribution == "CentOS"
 
+# Make the new Hyrax instance available using Nginx.
+
 - name: Copy the hyrax nginx conf
   template:
     src: hyrax.conf
@@ -422,3 +432,101 @@
     owner: root
     group: root
   notify: restart nginx
+
+# Backups and fixity check
+
+- name: Ensure the hyrax log directory exists.
+  file:
+    path: /var/log/hyrax
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=
+
+- name: Copy fixity check script
+  template:
+    src: hyrax_fixity_check.sh
+    dest: /etc/cron.weekly/hyrax_fixity_check.sh
+    owner: root
+    group: root
+    mode: u=rx,g=,o=
+
+- name: Ensure the backups directory exists.
+  file:
+    path: "{{ hyrax_backups_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Ensure the current backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory}}/current"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=rX
+
+- name: Ensure the fcrepo backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory }}/current/fcrepo"
+    state: directory
+    owner: root
+    group: "{{ tomcat_user }}"
+    mode: u=rwX,g=rwX,o=
+
+- name: Ensure the postgres backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory }}/current/postgres"
+    state: directory
+    owner: root
+    group: postgres
+    mode: u=rwX,g=rwX,o=
+
+- name: Ensure the redis backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory }}/current/redis"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,go=
+
+- name: Ensure the hyrax backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory }}/current/hyrax"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,go=
+
+- name: Ensure the daily backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory}}/daily"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,go=
+
+- name: Ensure the weekly backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory}}/weekly"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,go=
+
+- name: Ensure the monthly backup directory exists.
+  file:
+    path: "{{ hyrax_backups_directory}}/monthly"
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwX,go=
+
+- name: Copy backup script to cron.daily
+  template:
+    src: hyrax_daily_backup.sh
+    dest: /etc/cron.daily/hyrax_daily_backup.sh
+    owner: root
+    group: root
+    mode: u=rx,go=
