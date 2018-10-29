@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # Fcrepo
-(echo -n "$(date --rfc-3339=seconds) - fcrepo - " && curl --silent -X POST -d "{{ hyrax_backups_directory }}/current/fcrepo" "localhost:8080/fcrepo/rest/fcr:restore") >> /var/log/hyrax/backup.log 2>&1
+(echo -n "$(date --rfc-3339=seconds) - fcrepo - " && curl --silent -X POST -d "{{ hyrax_backups_directory }}/current/fcrepo" "localhost:8080/fcrepo/rest/fcr:backup") >> /var/log/hyrax/backup.log 2>&1
 (echo -n "$(date --rfc-3339=seconds) - fcrepo - size:" &&  du -hs "{{ hyrax_backups_directory }}/current/fcrepo" | cut -f 1) >> /var/log/hyrax/backup.log 2>&1
 
 # PostgreSQL
