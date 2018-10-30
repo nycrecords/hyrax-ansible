@@ -495,3 +495,19 @@
     owner: root
     group: root
     mode: u=rx,go=
+
+- name: Copy weekly backup script to cron.weekly
+  template:
+    src: hyrax_copy_weekly_backup.sh
+    dest: /etc/cron.weekly/hyrax_copy_weekly_backup.sh
+    owner: root
+    group: root
+    mode: u=rx,go=
+
+- name: Copy monthly backup script to cron.monthly
+  template:
+    src: hyrax_copy_monthly_backup.sh
+    dest: /etc/cron.monthly/hyrax_copy_monthly_backup.sh
+    owner: root
+    group: root
+    mode: u=rx,go=
