@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+# Delete older backups
+(echo -n "$(date --rfc-3339=seconds) - deleting older daily backups - " && find "{{ hyrax_backups_directory }}/daily" -mindepth 1 -maxdepth 1 -mtime +7 -name '*.tar.gz' -type f -delete -print | grep --color=never 'tar.gz' || echo "none found") >> /var/log/hyrax/backup.log 2>&1
+
 # Fcrepo
 (echo -n "$(date --rfc-3339=seconds) - creating fcrepo backup - " && curl --silent -X POST -d "{{ hyrax_backups_directory }}/current/fcrepo" "localhost:8080/fcrepo/rest/fcr:backup") >> /var/log/hyrax/backup.log 2>&1
 (echo -n " size: " &&  du -hs "{{ hyrax_backups_directory }}/current/fcrepo" | cut -f 1) >> /var/log/hyrax/backup.log 2>&1
@@ -28,6 +31,3 @@ datestamp=$(date --rfc-3339=date)
 (echo -n "$(date --rfc-3339=seconds) - deleting temporary postgres data - " && rm "{{ hyrax_backups_directory }}/current/postgres/backup.sql" && echo " done") >> /var/log/hyrax/backup.log 2>&1
 (echo -n "$(date --rfc-3339=seconds) - deleting temporary redis data - " && rm "{{ hyrax_backups_directory }}/current/redis/dump.rdb" && echo " done") >> /var/log/hyrax/backup.log 2>&1
 (echo -n "$(date --rfc-3339=seconds) - deleting temporary hyrax data - " && rm "{{ hyrax_backups_directory }}/current/hyrax/hyrax-root.tar" && echo " done") >> /var/log/hyrax/backup.log 2>&1
-
-# Delete older backups
-(echo -n "$(date --rfc-3339=seconds) - deleting older daily backups - " && find "{{ hyrax_backups_directory }}/daily" -mindepth 1 -maxdepth 1 -mtime +7 -name '*.tar.gz' -type f -delete -print | grep --color=never 'tar.gz' || echo "none found") >> /var/log/hyrax/backup.log 2>&1
