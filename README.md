@@ -46,7 +46,7 @@ It is up to local system administrators to copy backup data to a NAS or SAN, tap
 
 INCOMPLETE
 
-Where possible, it should be easy to keep a production server up-to-date. This means these roles should utilize well-known package repositories and package management tools when possible. Roles should be as idempotent and 'low impact' as possible, to encourage system administrators to run them regularly. Local modifications to community code should be minimal.
+Where possible, it should be easy to keep a production server up-to-date. This means these roles should utilize well-known package repositories and package management tools when possible. Roles should be as idempotent and 'low impact' as possible, to encourage system administrators to run them regularly. Local modifications to community code should be minimal. These roles should not overwrite local changes and customizations. These roles do not create admin users, work types, administrative sets or load workflows.
 
 ## Performance
 
