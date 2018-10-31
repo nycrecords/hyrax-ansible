@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 # What's the oldest file in the weekly backups directory?
+# Neat trick from https://stackoverflow.com/questions/22727107/how-to-find-the-last-field-using-cut
 oldest=$(ls -lAt "{{ hyrax_backups_directory }}/weekly" | tail -n 1 | rev | cut -f 1 -d ' ' | rev)
 
 # Move the oldest file to the monthly directory.
