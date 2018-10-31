@@ -24,4 +24,4 @@ datestamp=$(date --rfc-3339=date)
 (echo -n "$(date --rfc-3339=seconds) - add timestamp - " && mv "{{ hyrax_backups_directory }}/daily/hyrax-backup.tar.gz" "{{ hyrax_backups_directory }}/daily/$datestamp-hyrax-backup-md5-$checksum.tar.gz" && echo "$datestamp-hyrax-backup-md5-$checksum.tar.gz") >> /var/log/hyrax/backup.log 2>&1
 
 # Delete older backups
-(echo -n "$(date --rfc-3339=seconds) - delete older daily backups - " && find "{{ hyrax_backups_directory }}/daily" -mindepth 1 -maxdepth 1 -mtime +7 -name '*.tar.gz' -type f -delete -print) >> /var/log/hyrax/backup.log 2>&1
+(echo -n "$(date --rfc-3339=seconds) - delete older daily backups - " && find "{{ hyrax_backups_directory }}/daily" -mindepth 1 -maxdepth 1 -mtime +7 -name '*.tar.gz' -type f -delete -print | grep --color=never 'tar.gz' || echo "none found") >> /var/log/hyrax/backup.log 2>&1
