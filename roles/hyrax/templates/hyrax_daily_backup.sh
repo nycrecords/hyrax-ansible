@@ -8,7 +8,7 @@
 (echo -n " size: " &&  du -hs "{{ hyrax_backups_directory }}/current/fcrepo" | cut -f 1) >> /var/log/hyrax/backup.log 2>&1
 
 # PostgreSQL
-(echo -n "$(date --rfc-3339=seconds) - creating postgres backup- " && su - postgres -c "pg_dumpall --file={{ hyrax_backups_directory }}/current/postgres/backup.sql") >> /var/log/hyrax/backup.log 2>&1
+(echo -n "$(date --rfc-3339=seconds) - creating postgres backup - " && su - postgres -c "pg_dumpall --file={{ hyrax_backups_directory }}/current/postgres/backup.sql") >> /var/log/hyrax/backup.log 2>&1
 (echo -n " size: " &&  du -hs "{{ hyrax_backups_directory }}/current/postgres" | cut -f 1) >> /var/log/hyrax/backup.log 2>&1
 
 # Redis
@@ -21,7 +21,7 @@
 
 # All together, now!
 (echo -n "$(date --rfc-3339=seconds) - archiving backups together - " && tar -czf "{{ hyrax_backups_directory }}/daily/hyrax-backup.tar.gz" -C "{{ hyrax_backups_directory }}/current" hyrax redis postgres fcrepo) >> /var/log/hyrax/backup.log 2>&1
-(echo -n " size: " &&  du -hs "{{ hyrax_backups_directory }}/daily/" | cut -f 1) >> /var/log/hyrax/backup.log 2>&1
+(echo -n " size: " &&  du -hs "{{ hyrax_backups_directory }}/daily/hyrax-backup.tar.gz" | cut -f 1) >> /var/log/hyrax/backup.log 2>&1
 checksum=$(md5sum {{ hyrax_backups_directory }}/daily/hyrax-backup.tar.gz | cut -d ' ' -f 1)
 datestamp=$(date --rfc-3339=date)
 (echo -n "$(date --rfc-3339=seconds) - adding timestamp - " && mv "{{ hyrax_backups_directory }}/daily/hyrax-backup.tar.gz" "{{ hyrax_backups_directory }}/daily/$datestamp-hyrax-backup-md5-$checksum.tar.gz" && echo "$datestamp-hyrax-backup-md5-$checksum.tar.gz") >> /var/log/hyrax/backup.log 2>&1
