@@ -8,7 +8,17 @@ The idea is similar to https://github.com/Islandora-Devops/claw-playbook
 
 All roles assume services (Nginx, Fedora 4, PostgreSQL) are installed on one machine and communicate using UNIX sockets or the loopback interface. For large deployments, you'll want to edit these roles so that services are deployed on different machines and that communication between them is encrypted.
 
-These roles do not create the default collection types, the default administrative set and the default load workflows. These roles also do not create admin users or any work types.
+These roles do not create the default collection types, the default administrative set and the default load workflows. See #17. Run these commands after running the playbook:
+
+```sh
+sudo su hyrax
+cd /var/www/hyrax/hyrax-root/
+/usr/local/bin/bundle exec rails hyrax:default_collection_types:create
+/usr/local/bin/bundle exec rails hyrax:default_admin_set:create
+/usr/local/bin/bundle exec rails hyrax:workflow:load
+```
+
+These roles also do not create admin users or any work types. See https://github.com/samvera/hyrax#generate-a-work-type and https://github.com/samvera/hyrax/wiki/Making-Admin-Users-in-Hyrax.
 
 The `hyrax` role assumes that an external SMTP server will be used. Some environments might want to use use a local mail transfer agent. To do so, the `production.rb` template will need to be changed. More information can be found in the Hyrax management guide: https://github.com/samvera/hyrax/wiki/Hyrax-Management-Guide#mailers.
 
