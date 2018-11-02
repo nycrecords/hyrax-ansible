@@ -517,10 +517,10 @@
     name: logrotate
     state: present
 
-- name: Copy logrotate script to /var/logrotate.d
+- name: Copy logrotate script to /etc/logrotate.d
   template:
-    src: hyraxlogrotate.conf
-    dest: /var/logrotate.d/hyraxlogrotate.conf
+    src: hyraxlogrotate
+    dest: /etc/logrotate.d/hyrax
     owner: root
     group: root
     mode: u=rw,g=r,o=r
