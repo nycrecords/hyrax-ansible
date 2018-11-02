@@ -8,7 +8,7 @@ The idea is similar to https://github.com/Islandora-Devops/claw-playbook
 
 All roles assume services (Nginx, Fedora 4, PostgreSQL) are installed on one machine and communicate using UNIX sockets or the loopback interface. For large deployments, you'll want to edit these roles so that services are deployed on different machines and that communication between them is encrypted.
 
-These roles do not create the default collection types, the default administrative set and the default load workflows. See #17. Run these commands after running the playbook:
+These roles do not create the default collection types, the default administrative set and the default load workflows. See [#17](/../../issues/17). Run these commands after running the playbook:
 
 ```sh
 sudo su hyrax
