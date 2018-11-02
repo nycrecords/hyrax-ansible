@@ -511,3 +511,16 @@
     owner: root
     group: root
     mode: u=rx,go=
+
+- name: Ensure logrotate is installed
+  package:
+    name: logrotate
+    state: present
+
+- name: Copy logrotate script to /var/logrotate.d
+  template:
+    src: hyraxlogrotate.conf
+    dest: /var/logrotate.d/hyraxlogrotate.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
