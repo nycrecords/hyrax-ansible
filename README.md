@@ -13,6 +13,7 @@ These roles do not create the default collection types, the default administrati
 ```sh
 sudo su hyrax
 cd /var/www/hyrax/hyrax-root/
+export RAILS_ENV="production"
 /usr/local/bin/bundle exec rails hyrax:default_collection_types:create
 /usr/local/bin/bundle exec rails hyrax:default_admin_set:create
 /usr/local/bin/bundle exec rails hyrax:workflow:load
