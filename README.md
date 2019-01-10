@@ -168,7 +168,7 @@ FFmpeg is built with:
 * x265: 2.8 (Set using `x265_version` variable.)
 * fdk-aac: 2.0.0 (Set using `fdk_aac_version` variable.)
 * lame: 3.100 (Set using `lame_version` variable.)
-* opus: 1.2.1 (Set using `opus_version` variable.)
+* opus: 1.3 (Set using `opus_version` variable.)
 * libogg: 1.3.3 (Set using `libogg_version` variable.)
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
