@@ -8,7 +8,7 @@ fdk_aac_version: "2.0.0"
 fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
 fedora4_postgresqldatabase_user_password: insecure_password
 fedora4_version: "4.7.5"
-ffmpeg_checksum: sha1:6e6b19e26269c129b67d8097240970d800665ecb
+ffmpeg_checksum: sha1:dbbecc574c0a57687271165a618353d4ddbd8cfa
 ffmpeg_compile_dir: /opt/ffmpeg # No trailing slash!
 ffmpeg_version: "4.1"
 fits_checksum: sha1:24ebec8157dda63bf60bd3009a6e8961b8f35b05
