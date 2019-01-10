@@ -39,9 +39,9 @@ opus_version: "1.2.1"
 rails_version: "5.1.6"
 ruby_tarbz2_sha1_checksum: 251fdb5ac10783b036fe923aa7986be582062361
 ruby_version: "2.5.1"
-solr_checksum: sha1:029a9f7670b6cb8a31afd3ce000d4b163347c6aa
+solr_checksum: sha512:d11545c5ac782116b53622130634adfca2d9f85271a6d99c6ae34b1d41e9625fbf8134572ce3f2b7d55b749b34adc05b303cb2d4bb6e3dca73296726dbb21b02
 solr_mirror: https://mirror.csclub.uwaterloo.ca/apache # No trailing slash!
-solr_version: "7.5.0"
+solr_version: "7.6.0"
 tomcat_user_password: insecure_password
 x264_checksum: sha1:137e3a4a76b08e553a95f3a0411f30346fc955da
 x264_version: 20180924-2245-stable
