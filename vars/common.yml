@@ -8,9 +8,9 @@ fdk_aac_version: "0.1.6"
 fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
 fedora4_postgresqldatabase_user_password: insecure_password
 fedora4_version: "4.7.5"
-ffmpeg_checksum: sha1:7b9deb74b4fcc665c5187dcd057b678e754b43d2
+ffmpeg_checksum: sha1:6e6b19e26269c129b67d8097240970d800665ecb
 ffmpeg_compile_dir: /opt/ffmpeg # No trailing slash!
-ffmpeg_version: "4.0.2"
+ffmpeg_version: "4.1"
 fits_checksum: sha1:9c1b020afdd2e9a65a62128fa5ec6a6f86f77de9
 fits_version: "1.3.0"
 hyrax_backups_directory: /var/backups # No trailing slash!

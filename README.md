@@ -156,7 +156,7 @@ However, some software is installed at a specific version:
 * Solr v7.6.0 (Set using `solr_version` variable.)
 * Node.js v10.x
 * Ruby 2.5.1 (Set using `ruby_version` variable.)
-* FFmpeg 4.0.2 (Set using `ffmpeg_version` variable.)
+* FFmpeg 4.1 (Set using `ffmpeg_version` variable.)
 * Rails 5.1.6 (Set using `rails_version` variable.)
 * Hyrax 2.3.3 (Set using `hyrax_version` variable.)
 
