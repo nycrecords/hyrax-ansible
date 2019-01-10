@@ -3,8 +3,8 @@
 aom_version: "1.0.0"
 cmake_checksum: sha256:0210f500c71af0ee7e8c42da76954298144d5f72f725ea381ae5db7b766b000e
 cmake_version: "3.12.3"
-fdk_aac_checksum: sha1:cc40945953781447f36616714741cec4ebb1f253
-fdk_aac_version: "0.1.6"
+fdk_aac_checksum: sha1:a98a3f2b0658683c51739f6362f496e3d7d2c073
+fdk_aac_version: "2.0.0"
 fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
 fedora4_postgresqldatabase_user_password: insecure_password
 fedora4_version: "4.7.5"
