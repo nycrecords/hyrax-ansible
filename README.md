@@ -65,6 +65,40 @@ INCOMPLETE
 
 These roles should install Hyrax so that it has good performance (max 500ms for most requests) on a "medium sized" server (4 core, 4GB RAM) when being used for typical workloads (documents and images, some multimedia, less than 10,000 digital objects). Community recommended software versions and configuration should be used.
 
+## Software versions
+
+Some software in the provided roles is installed using yum or apt from the default distribution repositories. The software version will depend on the distribution and release. For example, version 7 or 8 of Tomcat might be installed. For Java, OpenJDK version 8 is used.
+
+Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
+
+Node.js latest version 10.x is installed using the NodeSource repositories.
+
+Some software is installed at a specific version:
+
+* Fedora Repository v4.7.5 (Set using `fedora4_version` variable.)
+* Solr v7.6.0 (Set using `solr_version` variable.)
+* Ruby 2.5.3 (Set using `ruby_version` variable.)
+* FFmpeg 4.1 (Set using `ffmpeg_version` variable.)
+* Rails 5.1.6 (Set using `rails_version` variable.)
+* Hyrax 2.4.1 (Set using `hyrax_version` variable.)
+* FITS 1.4.0 (Set using `fits_version` variable.)
+
+FFmpeg is built with:
+
+* cmake: 3.12.3 (Set using `cmake_version` variable.)
+* NASM 2.14.02 (Set using `nasm_version` variable.)
+* Yasm 1.3.0 (Set using `yasm_version` variable.)
+* x264: 20190109-2245-stable (Set using `x264_version` variable.)
+* x265: 2.8 (Set using `x265_version` variable.)
+* fdk-aac: 2.0.0 (Set using `fdk_aac_version` variable.)
+* lame: 3.100 (Set using `lame_version` variable.)
+* opus: 1.3 (Set using `opus_version` variable.)
+* libogg: 1.3.3 (Set using `libogg_version` variable.)
+* libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
+* aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
+* libvpx: 1.7.0 (Set using `libvpx_version` variable.)
+* libass: 0.14.0 (Set using `libass_version` variable.)
+
 ## Variables
 
 |Variable|Notes|
@@ -143,40 +177,3 @@ vars_files:
 and per-distribution variable files to provide different variables for different distributions.
 
 **Secure**: Variables which should be different per-host and stored securely using Ansible Vaults or a tool like Hashicorp Vault. The test playbook insecurely puts these variables in `vars/common.yml`.
-
-## Software versions
-
-Most software in the provided roles is installed using yum or apt from the default distribution repositories.
-The software version will depend on the distribution and release. For example, version 7 or 8 of Tomcat might be installed.
-
-However, some software is installed at a specific version:
-
-* Java v1.8 (OpenJDK)
-* Fedora Repository v4.7.5 (Set using `fedora4_version` variable.)
-* Solr v7.6.0 (Set using `solr_version` variable.)
-* Node.js v10.x
-* Ruby 2.5.1 (Set using `ruby_version` variable.)
-* FFmpeg 4.1 (Set using `ffmpeg_version` variable.)
-* Rails 5.1.6 (Set using `rails_version` variable.)
-* Hyrax 2.4.1 (Set using `hyrax_version` variable.)
-* FITS 1.4.0 (Set using `fits_version` variable.)
-
-FFmpeg is built with:
-
-* cmake: 3.12.3 (Set using `cmake_version` variable.)
-* NASM 2.14.02 (Set using `nasm_version` variable.)
-* Yasm 1.3.0 (Set using `yasm_version` variable.)
-* x264: 20190109-2245-stable (Set using `x264_version` variable.)
-* x265: 2.8 (Set using `x265_version` variable.)
-* fdk-aac: 2.0.0 (Set using `fdk_aac_version` variable.)
-* lame: 3.100 (Set using `lame_version` variable.)
-* opus: 1.3 (Set using `opus_version` variable.)
-* libogg: 1.3.3 (Set using `libogg_version` variable.)
-* libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
-* aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
-* libvpx: 1.7.0 (Set using `libvpx_version` variable.)
-* libass: 0.14.0 (Set using `libass_version` variable.)
-
-Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
-Node.js is installed using the NodeSource repositories.
-
