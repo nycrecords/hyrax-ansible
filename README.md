@@ -162,7 +162,7 @@ However, some software is installed at a specific version:
 
 FFmpeg is built with:
 
-* NASM 2.13.03 (Set using `nasm_version` variable.)
+* NASM 2.14.02 (Set using `nasm_version` variable.)
 * Yasm 1.3.0 (Set using `yasm_version` variable.)
 * x264: 20180924-2245-stable (Set using `x264_version` variable.)
 * x265: 2.8 (Set using `x265_version` variable.)
