@@ -162,6 +162,7 @@ However, some software is installed at a specific version:
 
 FFmpeg is built with:
 
+* cmake: 3.12.3 (Set using `cmake_version` variable.)
 * NASM 2.14.02 (Set using `nasm_version` variable.)
 * Yasm 1.3.0 (Set using `yasm_version` variable.)
 * x264: 20190109-2245-stable (Set using `x264_version` variable.)
@@ -172,7 +173,6 @@ FFmpeg is built with:
 * libogg: 1.3.3 (Set using `libogg_version` variable.)
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
-* cmake: 3.12.3 (Set using `cmake_version` variable.)
 * libvpx: 1.7.9 (Set using `libvpx_version` variable.)
 * libass: 0.14.0 (Set using `libass_version` variable.)
 
