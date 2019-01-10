@@ -11,8 +11,8 @@ fedora4_version: "4.7.5"
 ffmpeg_checksum: sha1:6e6b19e26269c129b67d8097240970d800665ecb
 ffmpeg_compile_dir: /opt/ffmpeg # No trailing slash!
 ffmpeg_version: "4.1"
-fits_checksum: sha1:9c1b020afdd2e9a65a62128fa5ec6a6f86f77de9
-fits_version: "1.3.0"
+fits_checksum: sha1:24ebec8157dda63bf60bd3009a6e8961b8f35b05
+fits_version: "1.4.0"
 hyrax_backups_directory: /var/backups # No trailing slash!
 hyrax_contact_form_email: "test@example.com"
 hyrax_from_email_address: "no_reply@example.com"
