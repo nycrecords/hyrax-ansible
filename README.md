@@ -165,7 +165,7 @@ FFmpeg is built with:
 * NASM 2.14.02 (Set using `nasm_version` variable.)
 * Yasm 1.3.0 (Set using `yasm_version` variable.)
 * x264: 20190109-2245-stable (Set using `x264_version` variable.)
-* x265: 2.8 (Set using `x265_version` variable.)
+* x265: 2.9 (Set using `x265_version` variable.)
 * fdk-aac: 0.1.6 (Set using `fdk_aac_version` variable.)
 * lame: 3.100 (Set using `lame_version` variable.)
 * opus: 1.2.1 (Set using `opus_version` variable.)
