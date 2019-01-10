@@ -173,7 +173,7 @@ FFmpeg is built with:
 * libogg: 1.3.3 (Set using `libogg_version` variable.)
 * libvorbis: 1.3.6 (Set using `libvorbis_version` variable.)
 * aom: 1.0.0 (Set using `aom_version` variable.) The tarballs from https://aomedia.googlesource.com/aom/ are generated when requested for a particular tag. They are not stable releases, and as such do not have stable checksums. A checksum is not provided.
-* libvpx: 1.7.9 (Set using `libvpx_version` variable.)
+* libvpx: 1.7.0 (Set using `libvpx_version` variable.)
 * libass: 0.14.0 (Set using `libass_version` variable.)
 
 Nginx is installed using that project's pre-built packages for the stable version, and not the default distribution repositories.
