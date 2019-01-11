@@ -604,6 +604,26 @@
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   when: aom_make.changed
 
+- name: Move libaom.a file to lib for aom
+  copy:
+    src: "{{ ffmpeg_build_dir }}/lib64/libaom.a"
+    dest: "{{ ffmpeg_build_dir }}/lib/libaom.a"
+    owner: root
+    group: root
+    mode: preserve
+    remote_src: yes
+  when: aom_make.changed
+
+- name: Move aom.pc file to lib/pkgconfig for aom
+  copy:
+    src: "{{ ffmpeg_build_dir }}/lib64/pkgconfig/aom.pc"
+    dest: "{{ ffmpeg_build_dir }}/lib/pkgconfig/aom.pc"
+    owner: root
+    group: root
+    mode: preserve
+    remote_src: yes
+  when: aom_make.changed
+
 # libvpx
 
 - name: Download libvpx source
