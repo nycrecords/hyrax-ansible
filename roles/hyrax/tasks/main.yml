@@ -49,19 +49,17 @@
     mode: u=rwX,g=rwX,o=rX
 
 - name: Gem install rails
-  shell: "/usr/local/bin/gem install rails --version={{ rails_version }}"
+  command: "/usr/local/bin/gem install rails --version={{ rails_version }}"
   args:
     creates: "/usr/local/bin/rails"
 
 - name: Create the Hyrax project
-  shell: /usr/local/bin/rails new hyrax-root --skip-bundle
+  command: /usr/local/bin/rails new hyrax-root --skip-bundle
   args:
     chdir: /var/www/hyrax
     creates: /var/www/hyrax/hyrax-root/Gemfile
   become: yes
   become_user: hyrax
-  environment:
-    RAILS_ENV: production
 
 - name: Use local path for bundle
   command: /usr/local/bin/bundle config --local path vendor/bundle
@@ -300,7 +298,7 @@
     mode: a=r
 
 - name: Reload systemd daemons
-  shell: systemctl daemon-reload
+  command: systemctl daemon-reload
   changed_when: False
 
 - name: Restart and enable sidekiq
