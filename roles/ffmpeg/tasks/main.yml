@@ -608,9 +608,6 @@
   copy:
     src: "{{ ffmpeg_build_dir }}/lib64/libaom.a"
     dest: "{{ ffmpeg_build_dir }}/lib/libaom.a"
-    owner: root
-    group: root
-    mode: preserve
     remote_src: yes
   when: aom_make.changed
 
@@ -618,9 +615,6 @@
   copy:
     src: "{{ ffmpeg_build_dir }}/lib64/pkgconfig/aom.pc"
     dest: "{{ ffmpeg_build_dir }}/lib/pkgconfig/aom.pc"
-    owner: root
-    group: root
-    mode: preserve
     remote_src: yes
   when: aom_make.changed
 
