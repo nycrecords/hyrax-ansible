@@ -9,6 +9,7 @@
     - autoconf
     - automake
     - bzip2
+    - bzip2-devel
     - cmake
     - fontconfig-devel
     - freetype-devel
@@ -33,6 +34,7 @@
     - build-essential
     - cmake
     - git-core
+    - libbz2-dev
     - libfontconfig1-dev
     - libfreetype6-dev
     - libfribidi-dev
