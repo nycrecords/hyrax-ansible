@@ -1,6 +1,6 @@
 ---
 # Common variables for all hosts
-aom_version: "1.0.0"
+aom_version: "a1615ed01a112432825f231a1fa47295cff127b4"
 cmake_checksum: sha256:6370de82999baafc2dbbf0eda23007d93f78d0c3afda8434a646518915ca0846
 cmake_version: "3.13.2"
 fdk_aac_checksum: sha1:a98a3f2b0658683c51739f6362f496e3d7d2c073

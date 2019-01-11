@@ -543,7 +543,7 @@
 
 - name: Download aom source
   get_url:
-    url: "https://aomedia.googlesource.com/aom/+archive/v{{ aom_version }}.tar.gz"
+    url: "https://aomedia.googlesource.com/aom/+archive/{{ aom_version }}.tar.gz"
     dest: "{{ ffmpeg_source_dir }}/aom_{{ aom_version }}.tar.gz"
     owner: root
     group: root
