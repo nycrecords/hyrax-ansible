@@ -11,3 +11,4 @@ dependencies:
   - { role: redis }
   - { role: ruby }
   - { role: solr }
+  - { role: fits }

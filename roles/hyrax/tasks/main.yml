@@ -23,55 +23,6 @@
     name: "{{ sqlite_devel_package }}"
     state: present
 
-# FITS
-
-- name: Download FITS
-  get_url:
-    url: "https://projects.iq.harvard.edu/files/fits/files/fits-{{ fits_version }}.zip"
-    dest: "/opt/fits-{{ fits_version }}.zip"
-    owner: root
-    group: root
-    mode: u=r,g=r,o=
-    checksum: "{{ fits_checksum }}"
-
-- name: Create FITS directory
-  file:
-    path: "/opt/fits-{{ fits_version }}"
-    state: directory
-    owner: root
-    group: root
-    mode: u=rwX,g=rX,o=rX
-
-- name: Unarchive FITS zip
-  unarchive:
-    remote_src: yes
-    dest: "/opt/fits-{{ fits_version }}"
-    src: "/opt/fits-{{ fits_version }}.zip"
-    creates: "/opt/fits-{{ fits_version }}/README.md"
-  register: fits_unarchive
-
-- name: Change FITS files ownership and perms
-  file:
-    path: "/opt/fits-{{ fits_version }}"
-    owner: root
-    group: root
-    recurse: yes
-    mode: u=rwX,g=rX,o=rX
-  when: fits_unarchive.changed
-
-- name: Make symbolic link for FITS
-  file:
-    src: "/opt/fits-{{ fits_version }}"
-    dest: /opt/fits
-    state: link
-    owner: root
-    group: root
-
-- name: Make fits.sh executable
-  file:
-    path: "/opt/fits-{{ fits_version }}/fits.sh"
-    mode: u=rx,g=rx,o=rx
-
 # Hyrax groundwork
 
 - name: Create the hyrax user
