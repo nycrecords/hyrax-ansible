@@ -750,7 +750,6 @@
       --pkg-config-flags="--static"
       --extra-cflags="-I{{ ffmpeg_build_dir }}/include"
       --extra-ldflags="-L{{ ffmpeg_build_dir }}/lib"
-      --extra-ldflags="-L{{ ffmpeg_build_dir }}/lib64"
       --extra-libs="-lpthread -lm"
       --bindir="{{ ffmpeg_bin_dir }}"
       --disable-shared
