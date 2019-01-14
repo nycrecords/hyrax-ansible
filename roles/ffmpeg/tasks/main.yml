@@ -607,7 +607,8 @@
   when: aom_make.changed
 
 - name: Does a copy of libaom.a exist in lib64 directory?
-  stat: "{{ ffmpeg_build_dir }}/lib64/libaom.a"
+  stat:
+    path: "{{ ffmpeg_build_dir }}/lib64/libaom.a"
   register: stat_libaom_lib64
 
 - name: Move libaom.a file to lib for aom
@@ -618,7 +619,8 @@
   when: stat_libaom_lib64.stat.exists
 
 - name: Does a copy of aom.pc exist in lib64/pkgconfig directory?
-  stat: "{{ ffmpeg_build_dir }}/lib64/pkgconfig/aom.pc"
+  stat:
+    path: "{{ ffmpeg_build_dir }}/lib64/pkgconfig/aom.pc"
   register: stat_aom_pkgconfig
 
 - name: Move aom.pc file to lib/pkgconfig for aom
