@@ -606,19 +606,27 @@
     PATH: "{{ ffmpeg_bin_dir }}:{{ ansible_env.PATH }}"
   when: aom_make.changed
 
+- name: Does a copy of libaom.a exist in lib64 directory?
+  stat: "{{ ffmpeg_build_dir }}/lib64/libaom.a"
+  register: stat_libaom_lib64
+
 - name: Move libaom.a file to lib for aom
   copy:
     src: "{{ ffmpeg_build_dir }}/lib64/libaom.a"
     dest: "{{ ffmpeg_build_dir }}/lib/libaom.a"
     remote_src: yes
-  when: aom_make.changed
+  when: stat_libaom_lib64.stat.exists
+
+- name: Does a copy of aom.pc exist in lib64/pkgconfig directory?
+  stat: "{{ ffmpeg_build_dir }}/lib64/pkgconfig/aom.pc"
+  register: stat_aom_pkgconfig
 
 - name: Move aom.pc file to lib/pkgconfig for aom
   copy:
     src: "{{ ffmpeg_build_dir }}/lib64/pkgconfig/aom.pc"
     dest: "{{ ffmpeg_build_dir }}/lib/pkgconfig/aom.pc"
     remote_src: yes
-  when: aom_make.changed
+  when: stat_aom_pkgconfig.stat.exists
 
 # libvpx
 
