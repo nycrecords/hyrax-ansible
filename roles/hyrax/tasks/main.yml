@@ -165,6 +165,10 @@
     chdir: /var/www/hyrax/hyrax-root
   become: yes
   become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
 
 - name: Run rails generate roles
   command: /usr/local/bin/bundle exec rails generate roles
@@ -172,6 +176,10 @@
     chdir: /var/www/hyrax/hyrax-root
   become: yes
   become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
 
 - name: Run rails generate hyrax:riiif
   command: /usr/local/bin/bundle exec rails generate hyrax:riiif
@@ -180,6 +188,10 @@
     creates: /var/www/hyrax/hyrax-root/config/initializers/riiif.rb
   become: yes
   become_user: hyrax
+  environment:
+    SECRET_KEY_BASE: "{{ hyrax_secret_key_base }}"
+    HYRAX_POSTGRESQL_PASSWORD: "{{ hyrax_postgresqldatabase_user_password }}"
+    RAILS_ENV: production
 
 # Filesystem changes
 
