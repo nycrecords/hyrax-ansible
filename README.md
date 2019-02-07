@@ -80,7 +80,7 @@ Some software is installed at a specific version:
 * Ruby 2.5.3 (Set using `ruby_version` variable.)
 * FFmpeg 4.1 (Set using `ffmpeg_version` variable.)
 * Rails 5.1.6 (Set using `rails_version` variable.)
-* Hyrax 2.4.1 (Set using `hyrax_version` variable.)
+* Hyrax 2.4.0 (Set using `hyrax_version` variable.)
 * FITS 1.4.0 (Set using `fits_version` variable.)
 
 FFmpeg is built with:
