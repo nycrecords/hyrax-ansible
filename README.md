@@ -43,7 +43,7 @@ NEEDS TESTING, FEEDBACK WELCOME
 
 The `hyrax` role has three backup scripts. They are copied to the /etc/cron.daily, /etc/cron.weekly, and /etc/cron.monthly directories, so the exact time they run is dependent on the distribution and system configuration.
 
-Daily, Fedora 4 repository data (using the `fcr:backup` REST endpoint), PostgreSQL data (using `pg_dumpall`), the Redis `/var/lib/redis/dump.rdb` file and the Hyrax root directory are copied, tar'd together, and compressed. The resulting backup file has a datastamp and a MD5 checksum added to the filename. The daily backups reside in the `hyrax_backups_directory`/daily directory. As well as performing the backup, the daily backup script deletes any files in the daily directory that are older than 7 days old.
+Daily, Fedora 4 repository data (using the `fcr:backup` REST endpoint), PostgreSQL data (using `pg_dumpall`), the Redis `/var/lib/redis/dump.rdb` file and the Hyrax root directory are copied, tar'd together, and compressed. The resulting backup file has a datestamp and a MD5 checksum added to the filename. The daily backups reside in the `hyrax_backups_directory`/daily directory. As well as performing the backup, the daily backup script deletes any files in the daily directory that are older than 7 days old.
 
 Weekly, a script moves the oldest daily backup to the `hyrax_backups_directory`/weekly directory. The weekly script also deletes files in the weekly directory that are older than 31 days old.
 
