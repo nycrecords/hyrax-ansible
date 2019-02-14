@@ -121,6 +121,7 @@
     db: hyrax
     name: hyrax
     password: "{{ hyrax_postgresqldatabase_user_password }}"
+    encrypted: yes
     priv: ALL
     state: present
   become: yes

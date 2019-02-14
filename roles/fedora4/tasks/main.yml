@@ -29,6 +29,7 @@
     db: fcrepo
     name: fcrepo
     password: "{{ fedora4_postgresqldatabase_user_password }}"
+    encrypted: yes
     priv: ALL
     state: present
   become: yes
