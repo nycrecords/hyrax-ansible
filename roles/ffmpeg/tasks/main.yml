@@ -356,7 +356,7 @@
 
 - name: Download lame source
   get_url:
-    url: "https://sourceforge.net/projects/lame/files/lame/{{ lame_version }}/lame-{{ lame_version }}.tar.gz"
+    url: "https://sourceforge.net/projects/lame/files/lame/{{ lame_version }}/lame-{{ lame_version }}.tar.gz/download"
     dest: "{{ ffmpeg_source_dir }}/lame-{{ lame_version }}.tar.gz"
     owner: root
     group: root
