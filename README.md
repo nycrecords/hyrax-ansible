@@ -157,6 +157,7 @@ FFmpeg is built with:
 |`libvorbis_version` | The version of libvorbis  to download. Used to build FFmpeg. | `1.3.6` |
 |`libvpx_checksum` | Verify the libvpx-`1.8.0`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` | `sha1:0a5ff6d36e592b404fae4435adc76a68e3d96afe` |
 |`libvpx_version` | The version of libvpx to download. Used to build FFmpeg. | `1.8.0` |
+|`make_jobs` | Sets an environment variable MAKEFLAGS to '-j X' in the test playbook. | `2` |
 |`nasm_checksum` | Verify the nasm-`2.14.02`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` | `sha1:fe098ee4dc9c4c983696c4948e64b23e4098b92b` |
 |`nasm_version` | The version of NASM to download. Used to build FFmpeg. | `2.14.02` |
 |`opus_checksum` | Verify the opus-`1.3`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` | `sha1:63088df89c6d868bfb160a1eff1797cb5fe42fee` |

@@ -10,3 +10,5 @@
     - "vars/{{ ansible_distribution }}.yml"
   roles:
     - hyrax
+  environment:
+    MAKEFLAGS: '-j {{ make_jobs }}'
