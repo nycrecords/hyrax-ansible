@@ -377,7 +377,7 @@
     mode: u=rw,g=r,o=r
 
 - name: Configure initial collection types and workflows
-  command: "/usr/local/bin/bundle exec rails hyrax:default_collection_types:create hyrax:default_admin_set:create hyrax:workflow:load"
+  shell: "/usr/local/bin/bundle exec rails hyrax:default_collection_types:create hyrax:default_admin_set:create hyrax:workflow:load"
   args:
     chdir: "{{ ansistrano_deploy_to }}/current"
   become: yes
