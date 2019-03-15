@@ -83,7 +83,7 @@ Node.js latest version 10.x is installed using the NodeSource repositories.
 Some software is installed at a specific version:
 
 * Fedora Repository 4.7.5 (Set using `fedora4_version` variable.)
-* Solr 7.7.0 (Set using `solr_version` variable.)
+* Solr 7.7.1 (Set using `solr_version` variable.)
 * Ruby 2.5.3 (Set using `ruby_version` variable.)
 * FFmpeg 4.1.1 (Set using `ffmpeg_version` variable.)
 * Rails 5.1.6 (Set using `rails_version` variable.)
@@ -171,9 +171,9 @@ FFmpeg is built with:
 |`ruby_tarbz2_sha1_checksum` | Verify the ruby-`2.5.3`.tar.bz2 file, used by `ruby-install`. Format: `<checksum>` | `d47ede7dab79de25fcc274dfcad0f92f389a4313` |
 |`ruby_version` | The version of Ruby to download and install. | `2.5.3` |
 |`sidekiq_threads` | Tune the number of sidekiq threads that will be started. | `10` |
-|`solr_checksum` | Verify the solr-`7.7.0`.tgz file, used by `get_url` module. Format: `<algorithm>:<checksum>` | `sha512:7c4cafaf6911b33f460f81a9c9eb06b6ceb1ee7d4921fb441f5a408556a427efd269ea3a2d5215f56fb8679f4593307d04b71ee2a3fa601d53169ab216660f92` |
+|`solr_checksum` | Verify the solr-`7.7.1`.tgz file, used by `get_url` module. Format: `<algorithm>:<checksum>` | `sha512:9b2f85ce46ab4a8601e0f3d0f6bfa1268d885cc54886a589354dc24434134e294a6714daf2514e362f8a6c1f5fb268c12fb2f86aae7b7a03321419b9f99b4567` |
 |`solr_mirror` | The mirror to use when downloading Solr. | `https://mirror.csclub.uwaterloo.ca/apache` |
-|`solr_version` | The version of Solr to download. | `7.7.0` |
+|`solr_version` | The version of Solr to download. | `7.7.1` |
 |`tomcat_admin_package` | **Per-Distro** The name used by the `package` module when installing the tomcat manager webapps. ||
 |`tomcat_fedora4_conf_path` | **Per-Distro** The path for the configuration file which sets JAVA_OPTS for Fedora4. ||
 |`tomcat_fedora4_war_path` | **Per-Distro** The path at which the fedora4 war file will be copied. ||
