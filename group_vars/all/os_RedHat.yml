@@ -1,18 +1,18 @@
 ---
-# Variables for RedHat.
+# Variables for RedHat
 imagemagick_package: ImageMagick
 java_openjdk_package: java-1.8.0-openjdk
-postgresql_contrib_package: postgresql-contrib
-postgresql_devel_package: postgresql-devel
-postgresql_server_package: postgresql-server
+postgresql_contrib_package: rh-postgresql95-postgresql-contrib
+postgresql_devel_package: rh-postgresql95-postgresql-devel
+postgresql_server_package: rh-postgresql95-postgresql-server
 python_psycopg2_package: python-psycopg2
-redis_package: redis
+redis_package: rh-redis32
 sqlite_devel_package: sqlite-devel
-tomcat_admin_package: tomcat-admin-webapps
+tomcat_admin_package: tomcat6-admin-webapps
 tomcat_fedora4_conf_path: /etc/tomcat/conf.d/fedora4.conf
 tomcat_fedora4_war_path: /usr/share/tomcat/webapps/fcrepo.war
 tomcat_group: tomcat
-tomcat_package: tomcat
+tomcat_package: tomcat6
 tomcat_service_name: tomcat
 tomcat_user: tomcat
 tomcat_users_conf_path: /etc/tomcat/tomcat-users.xml

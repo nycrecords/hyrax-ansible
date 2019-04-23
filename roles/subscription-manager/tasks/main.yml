@@ -1,0 +1,27 @@
+---
+
+- name: 'Check mandatory variables are defined'
+  assert:
+    that:
+      - rhsn.username is defined
+      - rhsn.password is defined
+
+- name: Attach to a RedHat Subscription
+  redhat_subscription: 
+    state: present
+    username: "{{ rhsn.username | mandatory }}"
+    password: "{{ rhsn.password | mandatory }}"
+    auto_attach: true
+    force_register: true
+    server_proxy_hostname: "{{ proxy.hostname }}"
+    server_proxy_port: "{{ proxy.port }}"
+
+- name: Enable Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server
+  rhsm_repository:
+    name: rhel-server-rhscl-7-rpms
+    state: present
+
+- name: Enable Red Hat Enterprise Linux 7 Server - Optional (RPMs)
+  rhsm_repository:
+    name: rhel-7-server-optional-rpms
+    state: present

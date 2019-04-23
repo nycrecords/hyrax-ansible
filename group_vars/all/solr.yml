@@ -1,0 +1,4 @@
+---
+solr_checksum: sha512:9b2f85ce46ab4a8601e0f3d0f6bfa1268d885cc54886a589354dc24434134e294a6714daf2514e362f8a6c1f5fb268c12fb2f86aae7b7a03321419b9f99b4567
+solr_mirror: https://mirror.csclub.uwaterloo.ca/apache # No trailing slash!
+solr_version: "7.7.1"

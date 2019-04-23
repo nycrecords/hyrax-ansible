@@ -1,0 +1,4 @@
+---
+fedora4_version: "4.7.5"
+fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
+tomcat_user_password: insecure_password

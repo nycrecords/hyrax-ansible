@@ -126,7 +126,7 @@ FFmpeg is built with:
 |`fdk_aac_checksum` | Verify the fdk-aac-`{{ fdk_aac_version }}`.tar.gz file, used by `get_url`. Format: `<algorithm>:<checksum>` | `{{ fdk_aac_checksum }}` |
 |`fdk_aac_version` | The version of fdk-aac to download. Used to build FFmpeg. | `{{ fdk_aac_version }}` |
 |`fedora4_checksum` | Verify the fcrepo-webapp-`{{ fedora4_version }}`.war file, used by `get_url` module. Format: `<algorithm>:<checksum>` | `{{ fedora4_checksum }}` |
-|`fedora4_postgresqldatabase_user_password` | **Secure.** The password used by fedora4 to connect to Postgresql. | `{{ fedora4_postgresqldatabase_user_password }}` |
+|`fedora4_postgresql_database_user_password` | **Secure.** The password used by fedora4 to connect to Postgresql. | `{{ fedora4_postgresql_database_user_password }}` |
 |`fedora4_version` | The version of Fedora 4 to download. | `{{ fedora4_version }}` |
 |`ffmpeg_checksum` | Verify the ffmpeg-`{{ ffmpeg_version }}`.tar.bz2 file, used by `get_url`. Format: `<algorithm>:<checksum>` | `{{ ffmpeg_checksum }}` |
 |`ffmpeg_compile_dir` | The directory where ffmpeg sources will be downloaded, unarchived, and compiled. | `{{ ffmpeg_compile_dir }}` |

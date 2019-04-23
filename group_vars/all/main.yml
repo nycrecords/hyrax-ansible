@@ -1,0 +1,10 @@
+---
+# Common variables for all hosts
+
+## Proxy Configuration
+proxy: 
+  address:
+  port: 
+
+## Test Playbook
+make_jobs: 2

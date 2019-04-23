@@ -1,0 +1,23 @@
+---
+hyrax_backups_directory: /var/backups # No trailing slash!
+hyrax_from_email_address: test@example.com
+hyrax_postgresqldatabase_user_password: insecure_password
+hyrax_secret_key_base: insecure_key_base
+hyrax_smtp_address: "smtp.example.com"
+hyrax_smtp_authentication: false
+hyrax_smtp_domain: "example.com"
+hyrax_smtp_enable_starttls_auto: false
+hyrax_smtp_openssl_verify_mode: false
+hyrax_smtp_password: insecure_password
+hyrax_smtp_port: 25
+hyrax_smtp_ssl: false
+hyrax_smtp_tls: false
+hyrax_smtp_user_name: change_this_username
+hyrax_version: "2.4.1"
+sidekiq_threads: 10
+
+
+## Rails
+rails_version: "5.1.6"
+bundler_version: "1.17.3"
+puma_web_concurency: 4
