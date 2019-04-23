@@ -3,6 +3,12 @@
 
 dependencies:
   - { role: subscription-manager }
+  - { role: security-updates }
+  - { role: hostname }
+  - { role: rsyslog }
+  - { role: users }
+  - { role: development-tools }
+  - { role: proxy-config }
   - { role: common }
   - { role: fedora4 }
   - { role: ffmpeg }
