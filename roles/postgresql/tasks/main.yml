@@ -11,14 +11,37 @@
     name: "{{ postgresql_contrib_package }}"
     state: present
 
-- name: Run initdb
+- name: Run initdb (CentOS)
   command: /bin/postgresql-setup initdb
   args:
     creates: /var/lib/pgsql/initdb.log
   when: ansible_distribution == "CentOS"
 
+- name: Ensure /etc/profile.d/postgres.sh exists
+  file:
+    path: /etc/profile.d/postgres.sh
+    owner: root
+    group: root
+    mode: 0644
+    state: touch
+  become: true
+  when: ansible_distribution == "RedHat"
+
+- name: Update /etc/profile.d/postgres.sh
+  blockinfile:
+    dest: /etc/profile.d/postgres.sh
+    block: "source /opt/rh/{{ postgresql_server_package }}/enable"
+    insertafter: EOF
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - PostgreSQL Software Collections"
+  become: true
+  when: ansible_distribution == "RedHat"
+  
+- name: Run initdb (RedHat)
+  command: source /etc/profile.d/postgres.sh && postgresql-setup --initdb
+  when: ansible_distribution == "RedHat"
+
 - name: Start the PostgreSQL service
   service:
-    name: "postgresql"
+    name: "{{ postgresql_service_name }}"
     enabled: true
     state: started
