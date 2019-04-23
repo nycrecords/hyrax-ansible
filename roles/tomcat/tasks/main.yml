@@ -1,0 +1,61 @@
+---
+
+- name: Install Tomcat servlet container
+  package:
+    name: "{{ tomcat_package }}"
+    state: present
+
+- name: Install the Tomcat host manager and admin applications
+  package:
+    name: "{{ tomcat_admin_package }}"
+    state: present
+
+- name: Set setsebool nis_enabled on
+  command: /usr/sbin/setsebool -P nis_enabled on
+  changed_when: false
+  when: ansible_distribution == "CentOS"
+
+- name: Set setsebool tomcat_can_network_connect_db on
+  command: /usr/sbin/setsebool -P tomcat_can_network_connect_db on
+  changed_when: false
+  when: ansible_distribution == "CentOS"
+
+- name: Overwrite the Tomcat users file
+  template:
+    src: tomcat-users.xml
+    dest: "{{ tomcat_users_conf_path }}"
+    owner: root
+    group: "{{ tomcat_group }}"
+    mode: u=r,g=r,o=
+  notify: restart tomcat
+
+- name: Make Fedora 4 data directory
+  file:
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    state: directory
+    path: /var/fedora4/data
+
+- name: Create the Fedora 4 tomcat conf file which sets JAVA_OPTS
+  template:
+    src: fedora4.conf
+    dest: "{{ tomcat_fedora4_conf_path }}"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: u=rx,g=,o=
+  notify: restart tomcat
+
+- name: Download the Fedora 4 warfile
+  get_url:
+    url: "https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-{{ fedora4_version }}/fcrepo-webapp-{{ fedora4_version }}.war"
+    dest: "{{ tomcat_fedora4_war_path }}"
+    owner: root
+    group: "{{ tomcat_group }}"
+    mode: u=r,g=r,o=r
+    checksum: "{{ fedora4_checksum }}"
+
+- name: Start and enable the Tomcat service
+  service:
+    name: "{{ tomcat_service_name }}"
+    state: started
+    enabled: yes

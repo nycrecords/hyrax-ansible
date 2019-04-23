@@ -1,0 +1,11 @@
+---
+tomcat_admin_package: tomcat-admin-webapps
+tomcat_fedora4_conf_path: /etc/tomcat/conf.d/fedora4.conf
+tomcat_fedora4_war_path: /usr/share/tomcat/webapps/fcrepo.war
+tomcat_group: tomcat
+tomcat_package: tomcat
+tomcat_service_name: tomcat
+tomcat_user: tomcat
+tomcat_users_conf_path: /etc/tomcat/tomcat-users.xml
+fedora4_version: "4.7.5"
+fedora4_checksum: sha1:243df71ceef8dca9309f230f2abb31c195368c5c
